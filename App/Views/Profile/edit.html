@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block footer %}
+<script src="/js/hideShowPassword.min.js"></script>
+<script src="/js/app.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        /**
+         * Validate the form
+         */
+        $('#formProfile').validate({
+            rules: {
+                name: 'required',
+                email: {
+                    required: true,
+                    email: true,
+                    remote: {
+                        url: '/account/validate-email',
+                        data: {
+                            ignore_id: function () {
+                                return userId;
+                            }
+                        }
+                    }
+                },
+                password: {
+                    minlength: 6,
+                    validPassword: true
+                }
+            },
+            messages: {
+                name: "Proszę podać nazwę użytkownika",
+                email: {
+                    required: "Proszę podać email",
+                    email: "Podany email jest niepoprawny",
+                },
+                password: {
+                    minlength: "Hasło musi zawierać 6 znaków lub więcej",
+                    validPassword: "Hasło musi zawierać przynajmniej jedną literę i jedną cyfrę"
+                },
+            },
+            errorPlacement: function (error, element) {
+                var name = $(element).attr("name");
+                error.appendTo($("#" + name + "_validate"));
+            },
+
+        });
+
+
+        /**
+         * Show password toggle button
+         */
+        $('#inputPassword').hideShowPassword({
+            show: false,
+            innerToggle: 'focus'
+        });
+    });
+</script>
+
+{% endblock %}
+
+{% block body %}
+
+<h1>Profile</h1>
+
+{% if user.errors is not empty %}
+<p>Errors:</p>
+<ul>
+    {% for error in user.errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<main>
+    <div class="container">
+        <div class="row  mt-5 pt-5">
+            <div class="col-8 offset-2 col-lg-6 offset-lg-3 mt-5">
+                <h1 class="text-center"> Edytuj dane użytkownika </h1>
+                <div class="form">
+
+                    <form method="post" id="formProfile" action="/profile/update">
+
+                        <div>
+                            <label for="inputName">Nazwa użytkownika</label>
+                            <input id="inputName" name="name" placeholder="Name" value="{{ user.name }}" required />
+                        </div>
+                        <div id="name_validate"></div>
+                        <div>
+                            <label for="inputEmail"> Email </label>
+                            <input id="inputEmail" name="email" placeholder="email address" value="{{ user.email }}"
+                                required type="email" />
+                        </div>
+                        <div id="email_validate"></div>
+                        <div>
+                            <label for="inputPassword"> Hasło </label>
+                            <input type="password" id="inputPassword" name="password" placeholder="Password"
+                                aria-describedby="helpBlock" />
+                            <span id="helpBlock"> Pozostaw puste, aby zachować aktualne hasło </span>
+                        </div>
+                        <div id="password_validate"></div>
+
+                        <!-- submit or reset -->
+                        <div class="pt-4 text-center">
+                            <button type="submit" class="btn btn-primary col-4"> Akceptuj </button>
+                            <a href="/profile/show"> <input type="reset" class="btn btn-danger col-4" value="Anuluj">
+                            </a>
+                        </div>
+                        <!-- 
+                        <button type="submit">Save</button>
+                        <a href="/profile/show">Cancel</a> -->
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

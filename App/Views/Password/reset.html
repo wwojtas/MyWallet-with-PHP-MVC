@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}Reset password{% endblock %}
+
+{% block footer %}
+<script src="/js/hideShowPassword.min.js"></script>
+<script src="/js/app.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        /**
+         * Validate the form
+         */
+        $('#formPassword').validate({
+            rules: {
+                password: {
+                    required: true,
+                    minlength: 6,
+                    validPassword: true
+                }
+            }
+        });
+
+
+        /**
+         * Show password toggle button
+         */
+        $('#inputPassword').hideShowPassword({
+            show: false,
+            innerToggle: 'focus'
+        });
+    });
+</script>
+
+{% endblock %}
+
+{% block body %}
+
+<h1>Reset password</h1>
+
+{% if user.errors is not empty %}
+<p>Errors:</p>
+<ul>
+    {% for error in user.errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<main>
+    <div class="container">
+        <div class="row  mt-5 pt-5">
+            <div class="col-8 offset-2 col-lg-6 offset-lg-3 mt-5">
+                <h1 class="text-center"> Zresetuj hasło </h1>
+                <div class="form">
+                    <form method="post" id="formPassword" action="/password/reset-password">
+                        <div class="row my-4">
+                            <input type="hidden" name="token" value="{{ token }}" />
+
+                            <label for="inputPassword" class="col-sm-4 col-form-label">
+                                <span class="bold"> Password </span>
+                            </label>
+
+                            <div class="col-sm-8 ">
+                                <input type="password" id="inputPassword" name="password" placeholder="Hasło"
+                                    required />
+                            </div>
+
+                            <div class="pt-4 text-center">
+                                <button type="submit" class="btn btn-primary col-4"> Resetuj hasło </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+
+{% endblock %}

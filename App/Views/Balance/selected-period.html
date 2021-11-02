@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Add income{% endblock %}
+
+
+{% block footer %}
+
+<script src="/js/rememberDate.js"> </script>
+
+{% endblock %}
+
+
+{% block body %}
+
+<main>
+    <div class="container">
+        <div class="row  mt-5 pt-5">
+            <div class="col-8 offset-2 col-lg-6 offset-lg-3 mt-5">
+                <h1 class="text-center"> Wybierz zakres dat </h1>
+                <div class="form">
+
+                    <form method="post" action="/balanceSheet/show/selected_period">
+
+                        <!-- start_date -->
+                        <div class="row my-4">
+                            <label for="start_date" class="col-sm-2 col-form-label"> <span class="bold">
+                                    Data początkowa:</span>
+                            </label>
+                            <div class="col-sm-8 offset-sm-2">
+                                <input type="date" name="start_date" class="form-control" id="start_date" value=""
+                                    required>
+                            </div>
+                        </div>
+
+                        <!-- end_date -->
+                        <div class="row my-4">
+                            <label for="end_date" class="col-sm-2 col-form-label"> <span class="bold">
+                                    Data końcowa:</span>
+                            </label>
+                            <div class="col-sm-8 offset-sm-2">
+                                <input type="date" name="end_date" class="form-control" id="end_date" value="" required>
+                            </div>
+                        </div>
+
+                        <!-- submit or reset -->
+                        <div class="pt-4 text-center">
+                            <button type="submit" class="btn btn-primary col-4"> Wyświetl bilans </button>
+                            <input type="reset" class="btn btn-danger col-4" value="Anuluj">
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+{% endblock %}

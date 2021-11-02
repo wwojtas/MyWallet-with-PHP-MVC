@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+
+{% if current_user %}
+
+<!-- header -->
+
+<header>
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner text-light text-center">
+            <div class="carousel-item carousel-img-one active">
+                <div
+                    class="carousel-text h-100 p-5 d-flex flex-column justify-content-end justify-content-md-center align-items-center">
+                    <div class="hero-shadow"></div>
+                    <p class="display-1"> Zarządzaj własnym budżetem i przychodami </p>
+                </div>
+            </div>
+            <div class="carousel-item carousel-img-two">
+                <div
+                    class="carousel-text h-100 p-5 d-flex flex-column justify-content-end justify-content-md-center align-items-center">
+                    <div class="hero-shadow"></div>
+                    <p class="display-1"> Trzymaj wydatki pod kontrolą </p>
+                </div>
+            </div>
+            <div class="carousel-item carousel-img-three">
+                <div
+                    class="carousel-text h-100 p-5 d-flex flex-column justify-content-end justify-content-md-center align-items-center">
+                    <div class="hero-shadow"></div>
+                    <p class="display-1"> Stać Cię na więcej </p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</header>
+
+<!-- main -->
+
+<main>
+    <section id="aboutus">
+        <div class="container py-5 about-boxes">
+            <div class="row text-center">
+                <div class="col-12">
+                    <div class="about-box m-3 p-4 p-lg-5 border ">
+                        <h3 class="text-dark "> Łatwośc zarządzania własnym portfelem </h3>
+                        <p class="about-icon text-dark "><i class="fas fa-check"></i></p>
+                        <p class="text-dark">Obecnie nie musimy już zapisywać wszelkich wydatków i/lub przychodów
+                            naszego portfela w notatniku albo w nieokreślonym zeszycie</p>
+                        <p class="text-dark"> Do dyspozycji mamy aplikację internetową MyWallet, która rejestrować
+                            będzie przepływ naszego pieniądza </p>
+                        <p class="text-dark"> Doskonale przydatna dla osób, które cenią sobie komfort użytkowania,
+                            wolność wyboru i nadzór nad swoim budżetem domowym </p>
+                        <p class="text-dark"> Szukasz najlepszego rozwiązania w zarządzaniu własnym budżetem </p>
+                        <p class="text-dark"> Szukasz sposobu na to, aby TWÓJ PIENIĄDZ był zawsze przy TOBIE </p>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="about-box m-3 p-4 p-lg-5 border bg-dark text-light">
+                        <h3> <span class="orange-color"> MyWallet </span> umożliwia </h3>
+                        <p class="about-icon"> <i class="far fa-grin"></i> </p>
+                        <p> Rejestrację i logowanie dzięki, któremu Masz pewność, że tylko Ty masz dostęp do konta
+                        </p>
+                        <p> Dodawanie przychodów i wydatków według określonych kategorii </p>
+                        <p> Przeglądanie bilansu salda z określonego okresu </p>
+                        <p> Usuwanie, edytowanie oraz dodawanie kategorii przychodów, wydatków oraz rodzaj metod
+                            płatności </p>
+                        <p> Personalizację aplikacji według własnych upodobań </p>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="about-box m-3 p-4 p-lg-5 border">
+                        <h3 class="text-dark"> Szukasz motywacji </h3>
+                        <p class="about-icon text-dark"> <i class="far fa-comment-dots"></i> </p>
+                        <div class="card mb-5">
+                            <div class="card-header">
+                                „Jesteśmy tym, co w swoim życiu powtarzamy. Doskonałość nie jest jednorazowym aktem,
+                                lecz nawykiem"
+                            </div>
+                            <div class="card-body">
+                                <blockquote class="blockquote mb-0">
+                                    <footer class="blockquote-footer"> Arystoteles </footer>
+                                </blockquote>
+                            </div>
+                        </div>
+                        <div class="card mb-5">
+                            <div class="card-header">
+                                „Nie oszczędzaj tego, co zostaje po wszystkich wydatkach, lecz wydawaj, co zostaje
+                                po odłożeniu oszczędności”
+                            </div>
+                            <div class="card-body">
+                                <blockquote class="blockquote mb-0">
+                                    <footer class="blockquote-footer"> Warren Buffet <cite title="Source Title"></cite>
+                                    </footer>
+                                </blockquote>
+                            </div>
+                        </div>
+                        <div class="card mb-5">
+                            <div class="card-header">
+                                „Łatwiej jest wydać 2 dolary, niż zaoszczędzić jednego”
+                            </div>
+                            <div class="card-body">
+                                <blockquote class="blockquote mb-0">
+                                    <footer class="blockquote-footer"> Woody Allen <cite title="Source Title"></cite>
+                                    </footer>
+                                </blockquote>
+                            </div>
+                        </div>
+                        <div class="card mb-5">
+                            <div class="card-header">
+                                „To możliwość spełniania marzeń sprawia, że życie jest tak fascynujące”
+                            </div>
+                            <div class="card-body">
+                                <blockquote class="blockquote mb-0">
+                                    <footer class="blockquote-footer"> Paolo Coelho <cite title="Source Title"></cite>
+                                    </footer>
+                                </blockquote>
+                            </div>
+                        </div>
+                        <div class="card mb-5">
+                            <div class="card-header">
+                                „Zastanów się nad tym, co byś zrobił, gdybyś miał dostateczną ilość wolnego czasu i
+                                pieniędzy. Będziesz zaskoczony tym, ile Twoich marzeń wymaga pieniędzy”
+                            </div>
+                            <div class="card-body">
+                                <blockquote class="blockquote mb-0">
+                                    <footer class="blockquote-footer"> Bodo Shaffer <cite title="Source Title">
+                                            Droga do finansowej wolności </cite></footer>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+
+{% else %}
+
+<!-- main -->
+
+<main>
+    <section id="aboutus">
+        <div class="container py-5 about-boxes">
+            <div class="row text-center">
+                <div class="col-12">
+                    <div class="about-box m-3 p-4 p-lg-5 border ">
+                        <h3 class="text-dark "> Łatwośc zarządzania własnym portfelem </h3>
+                        <p class="about-icon text-dark "><i class="fas fa-check"></i></p>
+                        <p class="text-dark">Obecnie nie musimy już zapisywać wszelkich wydatków i/lub przychodów
+                            naszego portfela w notatniku albo w nieokreślonym zeszycie</p>
+                        <p class="text-dark"> Do dyspozycji mamy aplikację internetową MyWallet, która rejestrować
+                            będzie przepływ naszego pieniądza </p>
+                        <p class="text-dark"> Doskonale przydatna dla osób, które cenią sobie komfort użytkowania,
+                            wolność wyboru i nadzór nad swoim budżetem domowym </p>
+                        <p class="text-dark"> Szukasz najlepszego rozwiązania w zarządzaniu własnym budżetem </p>
+                        <p class="text-dark"> Szukasz sposobu na to, aby TWÓJ PIENIĄDZ był zawsze przy TOBIE </p>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="about-box m-3 p-4 p-lg-5 border bg-dark text-light">
+                        <h3> <span class="orange-color"> MyWallet </span> umożliwia </h3>
+                        <p class="about-icon"> <i class="far fa-grin"></i> </p>
+                        <p> Rejestrację i logowanie dzięki, któremu Masz pewność, że tylko Ty masz dostęp do konta
+                        </p>
+                        <p> Dodawanie przychodów i wydatków według określonych kategorii </p>
+                        <p> Przeglądanie bilansu salda z określonego okresu </p>
+                        <p> Usuwanie, edytowanie oraz dodawanie kategorii przychodów, wydatków oraz rodzaj metod
+                            płatności </p>
+                        <p> Personalizację aplikacji według własnych upodobań </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</main>
+
+{% endif %}
+
+
+
+{% endblock %}

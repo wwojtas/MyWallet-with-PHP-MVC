@@ -1,0 +1,273 @@
+{% extends 'base.html' %}
+
+{% block title %} Balance {% endblock %}
+
+{% block body %}
+
+<!-- main -->
+<main>
+
+   <div class="container">
+      <div class="row pt-5 mt-5">
+         <div class="col-12 text-center pt-5 form-sheet">
+            <h1 class="view-sheet-h1"> Przeglądaj bilans przychodów i wydatków </h1>
+         </div>
+      </div>
+   </div>
+
+   <div class="container">
+      <div class="row col-12">
+         <div class="row row-cols-1 row-cols-sm-2 text-center m-auto">
+            <!-- first column -->
+            <div class="col">
+               <div id="displayIncomesSum">
+                  <div class="table-responsive">
+                     <table class="table table-primary table-bordered caption-top">
+                        <caption> <span class="bold"> Przychody </span> </caption>
+                        <thead class="table-dark">
+                           <tr>
+                              <th scope="col"> Suma przychodów </th>
+                              <th scope="col"> [PLN] </th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <th scope="row"> Łącznie </th>
+                              <td> {{ incomesSum }} </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+
+            <!-- second column -->
+
+            <div class="col">
+               <div id="displayIncomesSum">
+                  <div class="table-responsive">
+                     <table class="table table-primary table-bordered caption-top">
+                        <caption> <span class="bold"> Wydatki </span> </caption>
+                        <thead class="table-dark">
+                           <tr>
+                              <th scope="col"> Suma wydatków </th>
+                              <th scope="col"> [PLN] </th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <th scope="row"> Łącznie </th>
+                              <td> {{ expensesSum }} </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="row">
+         <div class="col-10 col-sm-8 col-lg-6 m-auto">
+            <div id="displayDifferences">
+               <div class="table-responsive">
+                  <table class="table table-warning table-bordered caption-top">
+                     <caption> <span class="bold"> RÓŻNICA </span> </caption>
+                     <thead class="table-dark">
+                        <tr>
+                           <th scope="col"> PRZYCHODY - WYDATKI </th>
+                           <th scope="col"> [PLN] </th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <th scope="row"> Łącznie </th>
+                           <td> {{ balanceSum }} </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <!-- zestawienie przychodów z wybranego okresu  -->
+
+   <div>
+      <div class="container">
+         <div class="row pt-2">
+            <div class="col-12 text-center pt-5 form-sheet">
+               <h2> Zestawienie przychodów z wybranego okresu </h2>
+            </div>
+         </div>
+      </div>
+
+      {% if incomesSum > 0 %}
+      <div class="container">
+         <div class="row col-12">
+            <div class="row row-cols-1 row-cols-sm-2 text-center m-auto">
+               <!-- first column about income -->
+               <div class="col-md-5">
+                  <div class="table-responsive">
+                     <table class="table table-primary table-striped table-bordered caption-top">
+                        <caption> <span class="bold"> Zestawienie przychodów </span> </caption>
+                        <thead class="table-dark ">
+                           <tr>
+                              <th scope="col"> Kategoria </th>
+                              <th scope="col"> Suma [PLN] </th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           {% for i in incomesData %}
+                           <tr>
+                              <th scope="row"> {{ i.name }} </th>
+                              <td> {{ i.amount }} </td>
+                           </tr>
+                           {% endfor %}
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+
+               <!-- second column about income -->
+               <div class="col-md-7">
+                  <div class="diagram ">
+                     <fieldset class="incomesField">
+                        <legend class="incomesLegend"> &shy; </legend>
+                        <div id="chartIncomesContainer" style="height: 420px; width: 100%; border: 1px solid black; ">
+                        </div>
+                     </fieldset>
+                  </div>
+               </div>
+
+            </div>
+         </div>
+      </div>
+
+      {% elseif incomesSum == 0 %}
+
+      <div class="container">
+         <div class="row pt-2">
+            <div class="col-12 text-center pt-5 form-sheet">
+               <h2> Brak przychodów w wybranym okresie</h2>
+               <h3> CZAS WZIĄŚĆ SIĘ DO ROBOTY !!! </h3>
+            </div>
+         </div>
+      </div>
+
+      {% endif %}
+
+
+   </div>
+
+   <!-- zestawienie wydatków z wybranego okresu  -->
+
+   <div>
+      <div class="container">
+         <div class="row pt-2">
+            <div class="col-12 text-center pt-5 form-sheet">
+               <h2> Zestawienie wydatków z wybranego okresu </h2>
+            </div>
+         </div>
+      </div>
+
+      {% if expensesSum > 0 %}
+      <div class="container">
+         <div class="row col-12">
+            <div class="row row-cols-1 row-cols-sm-2 text-center m-auto">
+               <!-- first column about expense -->
+               <div class="col-md-5">
+                  <div class="table-responsive">
+                     <table class="table table-primary table-striped table-bordered caption-top">
+                        <caption> <span class="bold"> Zestawienie wydatków </span> </caption>
+                        <thead class="table-dark ">
+                           <tr>
+                              <th scope="col"> Kategoria </th>
+                              <th scope="col"> Suma [PLN] </th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           {% for i in expensesData %}
+                           <tr>
+                              <th scope="row"> {{ i.name }} </th>
+                              <td> {{ i.amount }} </td>
+                           </tr>
+                           {% endfor %}
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+
+               <!-- second column about expense -->
+               <div class="col-12 col-md-7">
+                  <div class="diagram">
+                     <fieldset>
+                        <legend> &shy;</legend>
+                        <div id="chartExpensesContainer" style="height: 420px; width: 100%; border: 1px solid black; ">
+                        </div>
+                     </fieldset>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      {% elseif expensesSum == 0 %}
+
+      <div class="container">
+         <div class="row pt-2">
+            <div class="col-12 text-center pt-5 form-sheet">
+               <h2> Brak wydatków w wybranym okresie </h2>
+               <h3> HURRA !!! </h3>
+            </div>
+         </div>
+      </div>
+
+      {% endif %}
+
+
+   </div>
+
+   <div class="container mt-5">
+
+      {% if balanceSum > 0 %}
+      <div class="row col-12 pb-5 mb-5">
+         <p class="typeOfPayment bg-light text-center mt-3 w-50 offset-3 display-5"> GRATULACJE </p>
+         <p class="typeOfPayment bg-light text-center w-50 offset-3 display-5"> ŚWIETNIE ZARZĄDZASZ FINANSAMI
+         </p>
+      </div>
+      {% endif %}
+
+      {% if balanceSum == 0 %}
+      <div class="row pb-5 mb-5">
+         <p class=" bg-warning text-center mt-3 w-100 display-3"> Żyjesz na "0" </p>
+      </div>
+      {% endif %}
+
+      {% if balanceSum < 0 %}
+      <div class="row pb-5 mb-5">
+         <p class=" bg-warning text-center mt-3 w-100 display-3"> Uważaj - Wpadasz w długi </p>
+      </div>
+      {% endif %}
+
+   </div>
+
+</main>
+
+{% endblock %}
+
+{% block footer %}
+
+<!-- google chart -->
+<script>
+   let expensesData = "{{ expensesData|json_encode|e('js') }}";
+   let incomesData = "{{ incomesData|json_encode|e('js') }}";
+</script>
+
+
+
+<!-- google chart -->
+<script src="/js/googleChart.js"> </script>
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+
+{% endblock %}
