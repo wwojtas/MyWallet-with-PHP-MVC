@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} Balance {% endblock %}
+{% block title %} Balance {% endblock title %}
 
 {% block body %}
 
@@ -150,8 +150,9 @@
       <div class="container">
          <div class="row pt-2">
             <div class="col-12 text-center pt-5 form-sheet">
-               <h2> Brak przychodów w wybranym okresie</h2>
-               <h3> CZAS WZIĄŚĆ SIĘ DO ROBOTY !!! </h3>
+               <p class="typeOfPayment bg-light text-center w-50 offset-3 display-5"> Brak przychodów w wybranym okresie
+               </p>
+               <p class="typeOfPayment bg-light text-center w-50 offset-3 display-5"> CZAS WZIĄŚĆ SIĘ DO ROBOTY !!! </p>
             </div>
          </div>
       </div>
@@ -217,8 +218,9 @@
       <div class="container">
          <div class="row pt-2">
             <div class="col-12 text-center pt-5 form-sheet">
-               <h2> Brak wydatków w wybranym okresie </h2>
-               <h3> HURRA !!! </h3>
+               <p class="typeOfPayment bg-light text-center w-50 offset-3 display-5"> Brak wydatków w wybranym okresie
+               </p>
+               <p class="typeOfPayment bg-light text-center w-50 offset-3 display-5"> HURRA !!! </p>
             </div>
          </div>
       </div>
@@ -254,7 +256,7 @@
 
 </main>
 
-{% endblock %}
+{% endblock body %}
 
 {% block footer %}
 
@@ -270,4 +272,10 @@
 <script src="/js/googleChart.js"> </script>
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 
-{% endblock %}
+<!-- footer -->
+<footer class="bg-dark text-light footer fixed-bottom">
+   <p class="py-3  mb-0 text-center"> Wszelkie prawa zastrzeżone &copy; 2021 Copyright <i
+         class="fas fa-wallet orange-color px-3"></i><span class="orange-color">MyWallet</span> </p>
+</footer>
+
+{% endblock footer %}

@@ -5,16 +5,14 @@
 
 {% block footer %}
 
-
-
 <!-- remember Date -->
 <script src="/js/rememberDateExpense.js"></script>
 
-<!-- select2.org - choose expense category -->
+<!-- select2.org library - choose expense category -->
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-
+<!-- validate and select2 scripts -->
 <script>
     $(document).ready(function () {
 
@@ -44,7 +42,6 @@
                 error.appendTo($("#" + name + "_validate"));
             },
         });
-
 
         $("#expense_category").select2({
             ajax: {
@@ -112,102 +109,108 @@
     });
 </script>
 
-{% endblock %}
+<!-- footer -->
+<footer class="bg-dark text-light footer fixed-bottom">
+    <p class="py-3  mb-0 text-center"> Wszelkie prawa zastrzeżone &copy; 2021 Copyright <i
+            class="fas fa-wallet orange-color px-3"></i><span class="orange-color">MyWallet</span> </p>
+</footer>
+
+{% endblock footer %}
 
 
 {% block body %}
 
 <!-- main -->
 
-<main>
-    <div class="container pb-5 mb-4">
-        <div class="row  mt-5 pt-5">
-            <div class="col-8 offset-2 col-lg-6 offset-lg-3  mt-5">
-                <h1 class="text-center"> Dodaj wydatek </h1>
-                <div class="form">
+<body>
+    <main>
+        <div class="container pb-5 mb-4">
+            <div class="row  mt-5 pt-5">
+                <div class="col-8 offset-2 col-lg-6 offset-lg-3  mt-5">
+                    <h1 class="text-center"> Dodaj wydatek </h1>
+                    <div class="form">
 
-                    <!-- value -->
-                    <form method="post" action="/AddExpense/new" id="expenseForm">
+                        <!-- value -->
+                        <form method="post" action="/AddExpense/new" id="expenseForm">
 
-                        <div class="row my-4">
-                            <label for="amount" class="col-sm-2 col-form-label"> <span class="bold"> Wartość:</span>
-                            </label>
-                            <div class="col-sm-8 offset-sm-2 text-right">
-                                <input type="number" class="form-control" id="amount" name="amount" step="0.01"
-                                    min="0.01" value="" required>
+                            <div class="row my-4">
+                                <label for="amount" class="col-sm-2 col-form-label"> <span class="bold"> Wartość:</span>
+                                </label>
+                                <div class="col-sm-8 offset-sm-2 text-right">
+                                    <input type="number" class="form-control" id="amount" name="amount" step="0.01"
+                                        min="0.01" value="" required>
+                                </div>
                             </div>
-                        </div>
-                        <div id="amount_validate"></div>
+                            <div id="amount_validate"></div>
 
-                        <!-- date  -->
-                        <div class="row my-4">
-                            <label for="date_of_expense" class="col-sm-2 col-form-label"> <span class="bold"> Data:
-                                </span>
-                            </label>
-                            <div class="col-sm-8 offset-sm-2">
-                                <input type="date" class="form-control" id="date_of_expense" name="date_of_expense"
-                                    value="" required>
+                            <!-- date  -->
+                            <div class="row my-4">
+                                <label for="date_of_expense" class="col-sm-2 col-form-label"> <span class="bold"> Data:
+                                    </span>
+                                </label>
+                                <div class="col-sm-8 offset-sm-2">
+                                    <input type="date" class="form-control" id="date_of_expense" name="date_of_expense"
+                                        value="" required>
+                                </div>
                             </div>
-                        </div>
-                        <div id="date_of_expense_validate"></div>
+                            <div id="date_of_expense_validate"></div>
 
-                        <!-- method -->
+                            <!-- method -->
 
-                        <div class="row my-4">
-                            <label for="payment_method" class="col-sm-2 col-form-label"> <span class="bold">
-                                    Metoda:</span>
-                            </label>
-                            <div class="col-sm-8 offset-sm-2">
-                                <select name="payment_method" id="payment_method" required>
-                                    <option value="0" selected> Wybierz sposób płatności
-                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp </option>
-                                </select>
+                            <div class="row my-4">
+                                <label for="payment_method" class="col-sm-2 col-form-label"> <span class="bold">
+                                        Metoda:</span>
+                                </label>
+                                <div class="col-sm-8 offset-sm-2">
+                                    <select name="payment_method" id="payment_method" required>
+                                        <option value="0" selected> Wybierz sposób płatności
+                                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp </option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div id="payment_method_validate"></div>
+                            <div id="payment_method_validate"></div>
 
-                        <!-- category   -->
+                            <!-- category   -->
 
-                        <div class="row my-4">
-                            <label for="expense_category" class="col-sm-2 col-form-label"> <span class="bold">
-                                    Kategoria:</span>
-                            </label>
-                            <div class="col-sm-8 offset-sm-2">
-                                <select name="expense_category" id="expense_category" required>
-                                    <option value="0" selected> Wybierz kategorię wydatku
-                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp </option>
-                                </select>
+                            <div class="row my-4">
+                                <label for="expense_category" class="col-sm-2 col-form-label"> <span class="bold">
+                                        Kategoria:</span>
+                                </label>
+                                <div class="col-sm-8 offset-sm-2">
+                                    <select name="expense_category" id="expense_category" required>
+                                        <option value="0" selected> Wybierz kategorię wydatku
+                                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp </option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div id="expense_category_validate"></div>
+                            <div id="expense_category_validate"></div>
 
-                        <!-- comment -->
+                            <!-- comment -->
 
-                        <div class="row my-4">
-                            <label for="floatingTextarea" class="col-sm-2 col-form-label">
-                                <span class="bold"> Komentarz: </span>
-                            </label>
-                            <div class="col-sm-8 offset-sm-2">
-                                <textarea class="form-control" id="floatingTextarea" name="expense_comment"
-                                    maxlength="100"> </textarea>
+                            <div class="row my-4">
+                                <label for="floatingTextarea" class="col-sm-2 col-form-label">
+                                    <span class="bold"> Komentarz: </span>
+                                </label>
+                                <div class="col-sm-8 offset-sm-2">
+                                    <textarea class="form-control" id="floatingTextarea" name="expense_comment"
+                                        maxlength="100"> </textarea>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="pt-4 text-center">
-                            <button type="submit" class="btn btn-primary col-4"> Dodaj </button>
-                            <input type="reset" class="btn btn-danger col-4" value="Anuluj">
-                        </div>
+                            <div class="pt-4 text-center">
+                                <button type="submit" class="btn btn-primary col-4"> Dodaj </button>
+                                <input type="reset" class="btn btn-danger col-4" value="Anuluj">
+                            </div>
 
-                    </form>
+                        </form>
 
+                    </div>
                 </div>
-
-
             </div>
         </div>
-    </div>
 
-</main>
+    </main>
 
+</body>
 
-{% endblock %}
+{% endblock body %}

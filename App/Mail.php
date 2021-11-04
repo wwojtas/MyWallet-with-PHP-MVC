@@ -42,13 +42,13 @@ class Mail
             $mail->Username   = Config::SMTP_USERNAME;                  //SMTP username
             $mail->Password   = Config::SMTP_PASSWORD;                  //SMTP password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-            $mail->Port       = Config::EMAIL_PORT;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+            $mail->Port       = Config::EMAIL_PORT;                     //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
             //Recipients
             $mail->setFrom(Config::EMAIL_FROM, Config::EMAIL_FROM_NAME);
-         //   $mail->AddAddress(Config::EMAIL_RECIPIENT);
+            // $mail->AddAddress(Config::EMAIL_RECIPIENT);
             
-         $mail->AddAddress($to);
+            $mail->AddAddress($to);
 
             //Content
             $mail->isHTML(true);                                  //Set email format to HTML

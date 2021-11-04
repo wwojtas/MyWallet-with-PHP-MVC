@@ -168,22 +168,20 @@ span.bold {
 }
 
 
-
-
 @media (min-width: 1200px) {
     .carousel-item {
         height: 600px;
     }
 
     .carousel-img-one {
-        background-image: url("img/1-1920.jpg");
+        background-image: url("/img/1-1920.jpg");
     }
 
     .carousel-img-two {
-        background-image: url("img/2-1920.jpg");
+        background-image: url("/img/2-1920.jpg");
     }
 
     .carousel-img-three {
-        background-image: url("img/3-1920.jpg");
+        background-image: url("/img/3-1920.jpg");
     }
 }

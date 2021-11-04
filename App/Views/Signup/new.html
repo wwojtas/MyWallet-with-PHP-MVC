@@ -3,6 +3,7 @@
 {% block title %}Sign up{% endblock %}
 
 {% block footer %}
+
 <script src="/js/hidePassword.js"></script>
 
 <!-- recaptacha -->
@@ -11,72 +12,27 @@
 <!-- recaptcha script -->
 <script src="/js/recaptcha.js"></script>
 
-<script> 
-    $(document).ready(function () {
-        /**
-         * Validate the form
-         */
-        $('#formSignup').validate({
-            rules: {
-                name: 'required',
-                email: {
-                    required: true,
-                    email: true,
-                    remote: '/account/validate-email'
-                },
-                password: {
-                    required: true,
-                    minlength: 6,
-                    validPassword: true
-                }
-            },
-            messages: {
-                name: "Podaj login",
-                email: {
-                    required: "Podaj email",
-                    email: "Podany email jest niepoprawny",
-                    remote: "Podany email jest zajęty"
-                },
-                password: {
-                    required: "Podaj hasło",
-                    minlength: "Hasło musi zawierać co najmniej 6 znaków",
-                    validPassword: "Hasło musi zawierać przynajmniej jedną literę i jedną cyfrę"
-                }
-            },
-            errorPlacement: function (error, element) {
-                var name = $(element).attr("name");
-                error.appendTo($("#" + name + "_validate"));
-            }
+<!-- validate form Signup -->
+<script src="/js/validateFormSignup.js"></script>
 
-        });
 
-    });
-</script>
 
-{% endblock %}
+<!-- footer -->
+<footer class="bg-dark text-light footer fixed-bottom">
+    <p class="py-3  mb-0 text-center"> Wszelkie prawa zastrzeżone &copy; 2021 Copyright <i
+            class="fas fa-wallet orange-color px-3"></i><span class="orange-color">MyWallet</span> </p>
+</footer>
+
+{% endblock footer %}
 
 {% block body %}
 
-<h1>Sign up</h1>
-
-{% if user.errors is not empty %}
-
-<p>Errors:</p>
-<ul>
-    {% for error in user.errors %}
-    <li> {{ error }}</li>
-    {% endfor %}
-</ul>
-
-{% endif %}
-
 <!-- main -->
-
 <main>
     <div class="container">
         <div class="row pt-4">
             <div class="col-8 offset-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4 text-center mt-5">
-                <h1> Rejestracja </h1>
+                <h1 class="pt-4"> Rejestracja </h1>
 
                 {% if user.errors is not empty %}
                 <p>Errors:</p>
@@ -88,7 +44,7 @@
                 {% endif %}
 
                 <form action="/signup/create" method="post" id="formSignup" class="form"
-                    onsubmit="return submitUserForm();" autocomplete="off">
+                    onsubmit="return submitUserForm();">
 
                     <div class="input-group w-100 my-5">
                         <span class="input-group-text" id="basic-addon1">
@@ -173,4 +129,4 @@
     </div>
 </main>
 
-{% endblock %}
+{% endblock body %}
