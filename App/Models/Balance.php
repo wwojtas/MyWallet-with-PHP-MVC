@@ -41,22 +41,22 @@ class Balance extends \Core\Model
 			$end_date = $_SESSION['end_date'];
 		}
 
-		$sql = "SELECT icatu.name, incomes.amount 
+		$sql = "SELECT icatu.name, incomes.amount, incomes.date_of_income 
 				FROM users 
 				INNER JOIN incomes ON users.id = incomes.user_id 
 				INNER JOIN incomes_category_assigned_to_users AS icatu ON incomes.income_category_assigned_to_user_id = icatu.id 
-				WHERE users.id = :user_id AND incomes.date_of_income >= :start_date AND incomes.date_of_income <= :end_date
-				GROUP BY icatu.id";
+				WHERE users.id = :user_id AND incomes.date_of_income >= :startDate AND incomes.date_of_income <= :endDate
+				ORDER BY incomes.date_of_income DESC";
 
 		$db = static::getDB();
 		$stmt = $db->prepare($sql);
 
 		$stmt -> bindValue(':user_id', $user->id, PDO::PARAM_INT);
-        $stmt -> bindValue(':start_date', $start_date, PDO::PARAM_STR);
-        $stmt -> bindValue(':end_date', $end_date, PDO::PARAM_STR);
+		$stmt -> bindValue(':startDate', $start_date, PDO::PARAM_STR);
+		$stmt -> bindValue(':endDate', $end_date, PDO::PARAM_STR);
 		$stmt->execute();
 
-		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $stmt->fetchAll();
 	}
 
 
@@ -81,21 +81,21 @@ class Balance extends \Core\Model
 			$end_date = $_SESSION['end_date'];
 		}
 
-		$sql = 	"SELECT ecatu.name, expenses.amount 
+		$sql = 	"SELECT ecatu.name, expenses.amount, expenses.date_of_expense 
 				FROM users 
 				INNER JOIN expenses ON users.id = expenses.user_id 
 				INNER JOIN expenses_category_assigned_to_users AS ecatu ON expenses.expense_category_assigned_to_user_id = ecatu.id 
-				WHERE users.id = :user_id AND expenses.date_of_expense >= :start_date AND  expenses.date_of_expense <= :end_date
-				GROUP BY ecatu.id";
+				WHERE users.id = :user_id AND expenses.date_of_expense >= :startDate AND  expenses.date_of_expense <= :endDate
+				ORDER BY expenses.date_of_expense DESC";
 
 		$db = static::getDB();
 		$stmt = $db->prepare($sql);
 		$stmt -> bindValue(':user_id', $user->id, PDO::PARAM_INT);
-		$stmt -> bindValue(':start_date', $start_date, PDO::PARAM_STR);
-		$stmt -> bindValue(':end_date', $end_date, PDO::PARAM_STR);
+		$stmt -> bindValue(':startDate', $start_date, PDO::PARAM_STR);
+		$stmt -> bindValue(':endDate', $end_date, PDO::PARAM_STR);
 		$stmt->execute();
-
-		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	
+		return $stmt->fetchAll();
 	}
 
 }
