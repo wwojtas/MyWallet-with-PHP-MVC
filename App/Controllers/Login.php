@@ -42,7 +42,8 @@ class Login extends \Core\Controller
 
             Flash::addMessage('Logowanie pomyślne');
 
-            $this->redirect(Auth::getReturnToPage());
+            // $this->redirect(Auth::getReturnToPage());
+            $this->redirect('/home');
 
         } else {
 
