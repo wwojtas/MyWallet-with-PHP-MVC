@@ -35,17 +35,20 @@ class Mail
 
         try {
             //Server settings
+            $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
             $mail->isSMTP();                                            //Send using SMTP
             $mail->Host       = Config::SMTP_HOST;                      //Set the SMTP server to send through
             $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
             $mail->Username   = Config::SMTP_USERNAME;                  //SMTP username
             $mail->Password   = Config::SMTP_PASSWORD;                  //SMTP password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-            $mail->Port       = Config::EMAIL_PORT;                     //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+            $mail->Port       = Config::EMAIL_PORT;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
             //Recipients
             $mail->setFrom(Config::EMAIL_FROM, Config::EMAIL_FROM_NAME);
-            $mail->AddAddress($to);
+         //   $mail->AddAddress(Config::EMAIL_RECIPIENT);
+            
+         $mail->AddAddress($to);
 
             //Content
             $mail->isHTML(true);                                  //Set email format to HTML
@@ -59,6 +62,4 @@ class Mail
             echo "Nie udało się wysłać wiadomości. Błąd poczty: {$mail->ErrorInfo}";
         }
     }
-
-    
 }

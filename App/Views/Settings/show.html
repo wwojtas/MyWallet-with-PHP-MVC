@@ -1,0 +1,453 @@
+{% extends "base.html" %}
+
+{% block title %} Settings {% endblock %}
+
+
+{% block footer %}
+
+<script src="/js/settings.js"></script>
+
+<!-- footer -->
+<footer class="bg-dark text-light footer fixed-bottom">
+   <p class="py-3  mb-0 text-center"> Wszelkie prawa zastrzeżone &copy; 2021 Copyright <i
+         class="fas fa-wallet orange-color px-3"></i><span class="orange-color">MyWallet</span> </p>
+</footer>
+
+{% endblock footer %}
+
+{% block body %}
+
+<main>
+   <div class="container">
+      <div class="row  mt-5 pt-5">
+         <div class="col-8 offset-2 col-lg-6 offset-lg-3 mt-5">
+            <h1 class="text-center"> Ustawienia </h1>
+            <div class="form">
+
+               <div class="accordion accordion-flush" id="accordionFlushExample">
+
+                  <!-- Income category accordion item -->
+                  <!-- Income category accordion item -->
+
+                  <div class="accordion-item pb-2 shadow bg-light ">
+                     <h2 class="accordion-header " id="flush-headingOne">
+                        <button class="accordion-button collapsed dropdown-in-view clearfix" type="button"
+                           data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false"
+                           aria-controls="flush-collapseOne">
+                           <div> <span class="bold"> Kategorie przychodów</span> </div>
+                        </button>
+                     </h2>
+
+                     <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                        data-bs-parent="#accordionFlushExample">
+
+                        <div class="accordion-body my-0 p-1">
+
+                           {% for incomeCategory in incomeCategories %}
+
+                           <div class="d-flex justify-content-between align-items-center m-2">
+
+                              {% if incomeCategory.name != "Inne" %}
+
+                              <div class="me-auto bd-highlight m-2"> {{ incomeCategory.name }}
+                              </div>
+
+                              <div class="m-2 px-3">
+                                 <button type="button" class="btn btn-primary mx-2" data-bs-toggle="modal"
+                                    data-bs-target="#editIncomeModal">
+                                    <i class="far fa-edit m-2" title="Edytuj"></i>
+                                 </button>
+                                 <button type="button" class="btn btn-danger pr-5" data-bs-toggle="modal"
+                                    data-bs-target="#deleteIncomeModal">
+                                    <i class="fas fa-trash-alt m-2" title="Usuń"></i>
+                                 </button>
+                              </div>
+
+                              <!-- Edit  category income Modal  -->
+
+                              <div class="modal fade" id="editIncomeModal" tabindex="-1"
+                                 aria-labelledby="editIncomeModalLabel" aria-hidden="true">
+                                 <div class="modal-dialog">
+                                    <div class="modal-content">
+
+                                       <form action="/Profile/editCategoryIncome" method="post">
+
+                                          <div class="modal-header">
+                                             <h5 class="modal-title" id="editIncomeModalLabel"> <span
+                                                   class="dropdown-in-view bold">Edycja
+                                                   kategorii przychodu</span> </h5>
+                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                          </div>
+
+                                          <div class="modal-body text-start">
+
+                                             <label class="w-100 p-2" for="newIncomeName"> Podaj nową
+                                                nazwę kategorii przychodu </label>
+                                             <input class="w-100 px-2 incomeCategoryInput" name="newIncomeName"
+                                                id="newIncomeName" type="text" required>
+                                             <input type="hidden" name="editedIncomeId" value="{{ incomeCategory.id }}">
+
+                                          </div>
+
+                                          <div class="modal-footer">
+
+                                             <button type="button" class="btn btn-secondary dropdown-in-view"
+                                                data-bs-dismiss="modal">
+                                                Anuluj </button>
+                                             <button type="submit" class="btn btn-primary dropdown-in-view"> Zastosuj
+                                             </button>
+
+                                          </div>
+
+                                       </form>
+
+                                    </div>
+                                 </div>
+                              </div>
+
+                              <!-- Delete category income Modal  -->
+                              <div class="modal fade" id="deleteIncomeModal" tabindex="-1"
+                                 aria-labelledby="deleteIncomeModalLabel" aria-hidden="true">
+                                 <div class="modal-dialog">
+                                    <div class="modal-content">
+
+                                       <form action="/Profile/deleteCategoryIncome" method="post">
+
+                                          <div class="modal-header">
+
+                                             <h5 class="modal-title" id="deleteIncomeModalLabel"> <span
+                                                   class="bold dropdown-in-view ">
+                                                   Usuń kategorię </span> </h5>
+                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+
+                                          </div>
+
+                                          <div class="modal-body text-start">
+
+                                             <p class="w-100 p-2">Czy usunąć <span class="bold">
+                                                   {{ incomeCategory.name }} </span> ?</p>
+                                             <input type="hidden" name="deletedIncomeId"
+                                                value="{{ incomeCategory.id }}">
+
+                                          </div>
+
+                                          <div class="modal-footer">
+
+                                             <button type="button" class="btn btn-secondary dropdown-in-view"
+                                                data-bs-dismiss="modal">
+                                                Anuluj </button>
+                                             <button type="submit" class="btn btn-primary dropdown-in-view"> Usuń
+                                             </button>
+
+                                          </div>
+
+                                       </form>
+                                    </div>
+                                 </div>
+                              </div>
+
+                              {% endif %}
+
+                           </div>
+
+                           {% endfor %}
+
+                           {% for incomeCategory in incomeCategories %}
+
+                           <div class="d-flex justify-content-between collapse-body-item ">
+
+                              {% if incomeCategory.name == "Inne" %}
+
+                              <div class="m-2 mx-4 fs-5 "> <span class="dropdown-in-view"> {{ incomeCategory.name }}
+                                 </span>
+                              </div>
+
+                              {% endif %}
+
+                           </div>
+
+                           {% endfor %}
+
+                           <div class="d-flex justify-content-center ">
+                              <button type="button" class="btn btn-secondary m-3 w-50  dropdown-in-view"
+                                 data-bs-toggle="modal" data-bs-target="#addNewIncomeCategory">Dodaj nową
+                                 kategorię</button>
+                           </div>
+
+                           <!-- Modal Add Income Category -->
+                           <div class="modal fade" id="addNewIncomeCategory" data-bs-backdrop="static"
+                              data-bs-keyboard="false" tabindex="-1" aria-labelledby="addNewIncomeCategoryLabel"
+                              aria-hidden="true">
+                              <div class="modal-dialog">
+                                 <div class="modal-content">
+                                    <form action="/Profile/addNewIncomeCategory" method="post">
+                                       <div class="modal-header">
+                                          <h5 class="modal-title" id="addNewIncomeCategoryLabel"> <span class="bold">
+                                                Nowa kategoria </span> </h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                             aria-label="Close"></button>
+                                       </div>
+
+                                       <div class="modal-body text-start">
+
+                                          <label class="w-100 p-2" for="newIncomeCategory"> Podaj nazwę nowej
+                                             kategorii </label>
+                                          <input class="w-100 px-2 incomeCategoryInput" name="newIncomeCategory"
+                                             id="newIncomeCategory" type="text" required>
+
+                                       </div>
+
+                                       <div class="modal-footer m-2">
+                                          <button type="button" class="btn btn-secondary btn-lg"
+                                             data-bs-dismiss="modal">Anuluj</button>
+                                          <button type="submit" class="btn btn-primary">Dodaj</button>
+                                       </div>
+                                    </form>
+                                 </div>
+                              </div>
+                           </div>
+
+
+                        </div>
+                     </div>
+
+                  </div>
+
+                  <!-- Expense category accordion item -->
+                  <!-- Expense category accordion item -->
+
+                  <div class="accordion-item pb-2 shadow bg-light ">
+                     <h2 class="accordion-header " id="flush-headingTwo">
+                        <button class="accordion-button collapsed dropdown-in-view clearfix" type="button"
+                           data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false"
+                           aria-controls="flush-collapseTwo">
+                           <div> <span class="bold"> Kategorie wydatków </span> </div>
+                        </button>
+                     </h2>
+
+                     <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
+                        data-bs-parent="#accordionFlushExample">
+
+                        <div class="accordion-body my-0 p-1">
+
+                           {% for expenseCategory in expenseCategories %}
+
+                           <div class="d-flex justify-content-between align-items-center m-2">
+
+                              {% if expenseCategory.name != "Inny" %}
+
+                              <div class="me-auto bd-highlight m-2"> {{ expenseCategory.name }}
+                              </div>
+
+                              <div class="m-2 px-3">
+                                 <button type="button" class="btn btn-primary mx-2" data-bs-toggle="modal"
+                                    data-bs-target="#editExpenseModal">
+                                    <i class="far fa-edit m-2" title="Edytuj"></i>
+                                 </button>
+                                 <button type="button" class="btn btn-danger pr-5" data-bs-toggle="modal"
+                                    data-bs-target="#deleteExpenseModal">
+                                    <i class="fas fa-trash-alt m-2" title="Usuń"></i>
+                                 </button>
+                              </div>
+
+                              <!-- Edit  category expense Modal  -->
+
+                              <div class="modal fade" id="editExpenseModal" tabindex="-1"
+                                 aria-labelledby="editExpenseModalLabel" aria-hidden="true">
+                                 <div class="modal-dialog">
+                                    <div class="modal-content">
+
+                                       <form action="/Profile/editCategoryExpense" method="post">
+
+                                          <div class="modal-header">
+                                             <h5 class="modal-title" id="editExpenseModalLabel"> <span
+                                                   class="dropdown-in-view bold"> Edycja
+                                                   kategorii wydatku </span> </h5>
+                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                          </div>
+
+                                          <div class="modal-body text-start">
+
+                                             <label class="w-100 p-2" for="newExpenseName"> Podaj nową
+                                                nazwę kategorii wydatku  </label>
+                                             <input class="w-100 px-2 expenseCategoryInput" name="newExpenseName"
+                                                id="newExpenseName" type="text">
+                                             <input type="hidden" name="editedExpenseId"
+                                                value="{{ expenseCategory.id }}">
+
+                                             <!-- limit checkbox  -->
+                                             <label class="w-100"><input type="checkbox" id="limitCheckBox"
+                                                   onclick="showHideInput()"> &nbsp;
+                                                Ustaw limit</label>
+
+                                             <input type="number" class="w-100" name="limitValue" id="limitInputValue"
+                                                min="1.0" step="1.0" value="{{ expenseCategory.expense_limit }}"
+                                                style="display: none;">
+
+                                          </div>
+
+                                          <div class="modal-footer">
+
+                                             <button type="button" class="btn btn-secondary dropdown-in-view"
+                                                data-bs-dismiss="modal">
+                                                Anuluj </button>
+                                             <button type="submit" class="btn btn-primary dropdown-in-view"> Zastosuj
+                                             </button>
+
+                                          </div>
+
+                                       </form>
+
+                                    </div>
+                                 </div>
+                              </div>
+
+                              <!-- Delete category income Modal  -->
+                              <div class="modal fade" id="deleteExpenseModal" tabindex="-1"
+                                 aria-labelledby="deleteExpenseModalLabel" aria-hidden="true">
+                                 <div class="modal-dialog">
+                                    <div class="modal-content">
+
+                                       <form action="/Profile/deleteCategoryExpense" method="post">
+
+                                          <div class="modal-header">
+
+                                             <h5 class="modal-title" id="deleteExpenseModalLabel"> <span
+                                                   class="bold dropdown-in-view ">
+                                                   Usuń kategorię </span> </h5>
+                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+
+                                          </div>
+
+                                          <div class="modal-body text-start">
+
+                                             <p class="w-100 p-2">Czy usunąć <span class="bold">
+                                                   {{ expenseCategory.name }} </span> ?</p>
+                                             <input type="hidden" name="deletedExpenseId"
+                                                value="{{ expenseCategory.id }}">
+
+                                          </div>
+
+                                          <div class="modal-footer">
+
+                                             <button type="button" class="btn btn-secondary dropdown-in-view"
+                                                data-bs-dismiss="modal">
+                                                Anuluj </button>
+                                             <button type="submit" class="btn btn-primary dropdown-in-view"> Usuń
+                                             </button>
+
+                                          </div>
+
+                                       </form>
+                                    </div>
+                                 </div>
+                              </div>
+
+                              {% endif %}
+
+                           </div>
+
+                           {% endfor %}
+
+                           {% for expenseCategory in expenseCategories %}
+
+                           <div class="d-flex justify-content-between collapse-body-item ">
+
+                              {% if expenseCategory.name == "Inny" %}
+
+                              <div class="m-2 mx-4 fs-5 "> <span class="dropdown-in-view"> {{ expenseCategory.name }}
+                                 </span>
+                              </div>
+
+                              {% endif %}
+
+                           </div>
+
+                           {% endfor %}
+
+                           <div class="d-flex justify-content-center ">
+                              <button type="button" class="btn btn-secondary m-3 w-50  dropdown-in-view"
+                                 data-bs-toggle="modal" data-bs-target="#addNewExpenseCategory"> Dodaj nową
+                                 kategorię </button>
+                           </div>
+
+                           <!-- Modal Add Income Category -->
+                           <div class="modal fade" id="addNewExpenseCategory" data-bs-backdrop="static"
+                              data-bs-keyboard="false" tabindex="-1" aria-labelledby="addNewExpenseCategoryLabel"
+                              aria-hidden="true">
+                              <div class="modal-dialog">
+                                 <div class="modal-content">
+                                    <form action="/Profile/addNewExpenseCategory" method="post">
+                                       <div class="modal-header">
+                                          <h5 class="modal-title" id="addNewExpenseCategoryLabel"> Nowa kategoria </h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                             aria-label="Close"></button>
+                                       </div>
+
+                                       <div class="modal-body text-start">
+
+                                          <label class="w-100 p-2" for="newExpenseCategory"> Podaj nazwę nowej
+                                             kategorii </label>
+                                          <input class="w-100 px-2 expenseCategoryInput" name="newExpenseCategory"
+                                             id="newExpenseCategory" type="text" required>
+                                          <p class="errorMessageBox"> </p>
+
+                                       </div>
+
+                                       <div class="modal-footer m-2">
+                                          <button type="button" class="btn btn-secondary btn-lg"
+                                             data-bs-dismiss="modal">Anuluj</button>
+                                          <button type="submit" class="btn btn-primary">Dodaj</button>
+                                       </div>
+                                    </form>
+                                 </div>
+                              </div>
+                           </div>
+
+
+                        </div>
+                     </div>
+
+                  </div>
+
+
+
+
+
+                  <div class="accordion-item pt-2 shadow ">
+                     <h2 class="accordion-header" id="flush-headingTwo">
+                        <button class="accordion-button collapsed dropdown-in-view" type="button"
+                           data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false"
+                           aria-controls="flush-collapseTwo">
+                           Kategorie wydatków
+                        </button>
+                     </h2>
+                     <div id="flush-collapseTwo" class="accordion-collapse collapse dropdown-in-view"
+                        aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+
+                           Kategorie wydatków
+                        </div>
+                     </div>
+                  </div>
+
+
+
+
+               </div>
+
+
+            </div>
+         </div>
+      </div>
+   </div>
+</main>
+
+
+
+
+{% endblock %}

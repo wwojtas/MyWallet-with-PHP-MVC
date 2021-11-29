@@ -103,8 +103,61 @@ class Income extends \Core\Model
   public static function getCategoryIncomeName()
   {
     $user = Auth::getUser();
-    $sql = "SELECT * FROM incomes_category_assigned_to_users WHERE user_id = '$user->id' ORDER BY name";
+    $sql = "SELECT * FROM incomes_category_assigned_to_users WHERE user_id = '$user->id'";
     return  $fetchData = static::getUsersSelect($sql);
   }
+
+
+  public static function checkCategoryIncomeName($newIncomeName)
+  {
+      $incomeCategories = static::getCategoryIncomeName();
+      foreach($incomeCategories as $row)
+      {
+        if($newIncomeName == $row['name']) return false;
+        else return true;
+      }
+  }
+
+
+  public static function editIncome($newIncomeName, $editedIncomeId)
+  {
+    $sql = 'UPDATE incomes_category_assigned_to_users
+            SET name = :name
+            WHERE id = :editedIncomeId';
+
+    $db = static::getDB();
+    $stmt = $db->prepare($sql);
+    
+    $stmt->bindValue(':editedIncomeId', $editedIncomeId, PDO::PARAM_INT);
+    $stmt->bindValue(':name', $newIncomeName, PDO::PARAM_STR);
+    return $stmt->execute();
+  }
+
+
+  public static function deleteIncomeCategory($deletedIncomeId)
+  {
+    $sql = 'DELETE 
+            FROM incomes_category_assigned_to_users 
+            WHERE id = :removeIncomeId';
+
+    $db = static::getDB();
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':removeIncomeId', $deletedIncomeId, PDO::PARAM_INT);
+    return $stmt->execute();
+  } 
+
+  public static function putNewIncomeCategoryIntoBase($newIncomeCategory)
+  {
+      $user = Auth::getUser();
+      $sql = 'INSERT INTO incomes_category_assigned_to_users (user_id, name)
+              VALUES (:user_id, :newIncomeCategory)';
+
+      $db = static::getDB();
+      $stmt = $db->prepare($sql);
+      $stmt->bindValue(':user_id', $user->id, PDO::PARAM_INT);
+      $stmt->bindValue(':newIncomeCategory', $newIncomeCategory, PDO::PARAM_STR);
+      return $stmt->execute();
+  }
+
 
 }

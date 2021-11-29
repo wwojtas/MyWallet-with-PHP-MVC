@@ -43,6 +43,8 @@ $router->add('addIncome', ['controller' => 'AddIncome', 'action' => 'execute']);
 $router->add('addExpense', ['controller' => 'AddExpense', 'action' => 'execute']);
 $router->add('balanceSheet/show/{period:.+}', ['controller' => 'BalanceSheet', 'action' => 'show']);
 
+$router->add('profile', ['controller' => 'Profile', 'action' => 'showSettings']);
+
 $router->add('{controller}/{action}');
 
 
