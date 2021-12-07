@@ -131,7 +131,7 @@ class Expense extends \Core\Model
   public static function getPaymentMethodName()
   {
     $user = Auth::getUser();
-    $sql = "SELECT * FROM payment_methods_assigned_to_users WHERE user_id = '$user->id' ORDER BY name";
+    $sql = "SELECT * FROM payment_methods_assigned_to_users WHERE user_id = '$user->id'";
     return  $fetchData = static::getDataSelect($sql);
   }
 
@@ -146,33 +146,61 @@ class Expense extends \Core\Model
       }
   }
 
-  public static function editExpense($newExpenseName, $editedExpenseId, $limitValue)
+  public static function editExpense($newExpenseName, $editedExpenseId, $limitValue, $checkbox)
   {
-    if($newExpenseName == "")
+
+    if($newExpenseName == "" && $checkbox != 0)
     {
       $sql = 'UPDATE expenses_category_assigned_to_users
               SET expense_limit	= :expense_limit
               WHERE id = :editedExpenseId';
     }
-    
-    else if($limitValue == "")
+    else if($limitValue == "" && $checkbox == 0)
     {
       $sql = 'UPDATE expenses_category_assigned_to_users
-              SET name = :name, expense_limit	= NULL
+              SET name = :name
               WHERE id = :editedExpenseId';
     }
-   
-
-// co dalej 
-
-
-
+    else
+    {
+      $sql = 'UPDATE expenses_category_assigned_to_users
+              SET name = :name, expense_limit	= :expense_limit
+              WHERE id = :editedExpenseId';
+    }
+  
     $db = static::getDB();
     $stmt = $db->prepare($sql);
     
     $stmt->bindValue(':editedExpenseId', $editedExpenseId, PDO::PARAM_INT);
-    $stmt->bindValue(':name', $newExpenseName, PDO::PARAM_STR);
+    if($newExpenseName != "") $stmt->bindValue(':name', $newExpenseName, PDO::PARAM_STR);
     if($limitValue != "") $stmt->bindValue(':expense_limit', $limitValue, PDO::PARAM_INT);
+    return $stmt->execute();
+   
+  }
+
+
+  public static function deleteExpenseCategory($deletedExpenseId)
+  {
+    $sql = 'DELETE
+            FROM expenses_category_assigned_to_users
+            WHERE id = :removeExpenseId';
+
+    $db = static::getDB();
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':removeExpenseId', $deletedExpenseId, PDO::PARAM_INT);
+    return $stmt->execute();
+  }
+
+  public static function putNewExpenseCategoryIntoBase($newExpenseCategory)
+  {
+    $user = Auth::getUser();
+    $sql = 'INSERT INTO expenses_category_assigned_to_users(user_id, name)
+            VALUES (:user_id, :newExpenseCategory)';
+
+    $db = static::getDB();
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':user_id', $user->id, PDO::PARAM_INT);
+    $stmt->bindValue(':newExpenseCategory', $newExpenseCategory, PDO::PARAM_STR);
     return $stmt->execute();
   }
 

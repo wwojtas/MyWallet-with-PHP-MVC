@@ -80,15 +80,17 @@ class Profile extends Authenticated
       $user = Auth::getUser();
       $incomeCategories = Income::getCategoryIncomeName();
       $expenseCategories = Expense::getCategoryExpenseName();
-    //   $paymentMethods = Expense::getPaymentMethods();
+      $paymentMethods = Expense::getPaymentMethodName();
       
       View::renderTemplate('Settings/show.html', [
         'incomeCategories' =>  $incomeCategories,
         'expenseCategories' => $expenseCategories,
-        // 'paymentMethods' => $paymentMethods,
-        'user' => $user
+        'paymentMethods' => $paymentMethods,
+        'user' => $user,
+       
 
       ]);
+
     }
 
     public function editCategoryIncomeAction() 
@@ -112,7 +114,7 @@ class Profile extends Authenticated
     {
         $deletedIncomeId = $_POST['deletedIncomeId'];
         Income::deleteIncomeCategory($deletedIncomeId);
-        View::renderTemplate('Settings/successDeleteCategoryIncome.html');
+        View::renderTemplate('Settings/successDeleteCategory.html');
     }
 
     public function addNewIncomeCategory()
@@ -128,23 +130,57 @@ class Profile extends Authenticated
       $newExpenseName = strtolower($_POST['newExpenseName']);
       $newExpenseName = ucfirst($newExpenseName);
 
-      $editedIncomeId = $_POST['editedExpenseId'];
+      $editedExpenseId = $_POST['editedExpenseId'];
       $limitValue = $_POST['limitValue'];
+
+      if(isset($_POST['checkbox'])) 
+      {
+        $checkbox = $_POST['checkbox'];
+      }
+      else if (!isset($_POST['newExpenseName']) && !isset($_POST['checkbox']) && ( is_numeric(isset($_POST['limitValue'])))) 
+      {
+        View::renderTemplate('Settings/errorPage.html');
+        return;
+      } 
+      else 
+      {
+        View::renderTemplate('Settings/errorPage.html');
+        return;
+      }
 
       if(Expense::checkCategoryExpenseName($newExpenseName))
       {
-        Expense::editExpense($newExpenseName, $editedExpenseId, $limitValue);
+        if(isset($_POST['checkbox'])) Expense::editExpense($newExpenseName, $editedExpenseId, $limitValue, $checkbox);
+        else Expense::editExpense($newExpenseName, $editedExpenseId, $limitValue, $checkbox = 0);
         View::renderTemplate('Settings/successEditExpense.html');
       }
-      else
+      else if (!Expense::checkCategoryExpenseName($newExpenseName)) 
       {
         Flash::addMessage('Podana kategoria wydatku już istnieje. Podaj inną', Flash::WARNING);
         $this->redirect('/profile');
-      }
+      } 
+      else
+      {
+        Flash::addMessage('Nieprawidłowa edycja', Flash::WARNING);
+        $this->redirect('/profile');
+      } 
 
     }
 
+    public function deleteCategoryExpenseAction()
+    {
+      $deletedExpenseId = $_POST['deletedExpenseId'];
+      Expense::deleteExpenseCategory($deletedExpenseId);
+      View::renderTemplate('Settings/successDeleteCategory.html');
 
+    }
+
+    public function addNewExpenseCategoryAction()
+    {
+      $newExpenseCategory = $_POST['newExpenseCategory'];
+      Expense::putNewExpenseCategoryIntoBase($newExpenseCategory);
+      View::renderTemplate('Settings/successNewCategory.html');
+    }
 
 
 

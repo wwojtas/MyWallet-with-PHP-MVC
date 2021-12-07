@@ -157,7 +157,7 @@ button[type=submit] {
 /*   other    */
 /* ========== */
 
-span.bold {
+span .bold {
     font-weight: 700;
 }
 
@@ -165,6 +165,21 @@ span.bold {
     border-top: 1px solid rgb(14, 192, 29);
     border-bottom: 1px solid rgb(14, 192, 29);
 }
+
+/* modal start */
+
+/* div p .row-color {
+    background-color: rgb(2, 0, 36);
+    background-color: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(24, 9, 121, 1) 7%, rgba(0, 255, 106, 0.6786064767703957) 76%);
+}
+
+div>p>.row-color:hover {
+    background-color: rgb(2, 0, 36);
+    background-color: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(24, 9, 121, 1) 7%, rgba(0, 255, 106, 0.6786064767703957) 76%);
+} */
+
+
+/* modal end */
 
 
 @media (min-width: 1200px) {
