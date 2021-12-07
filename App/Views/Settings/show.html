@@ -32,7 +32,6 @@
 
 {% block body %}
 
-
 <div class="container">
    <div class="row  mt-5 pt-5">
       <div class="col-8 offset-2 col-lg-6 offset-lg-3 mt-5">
@@ -53,21 +52,19 @@
                      </button>
                   </h2>
 
-                  <div id="flush-collapseOne" class="accordion-collapse collapse bg-light"
-                     aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                  <div id="flush-collapseOne" class="accordion-collapse collapse " aria-labelledby="flush-headingOne"
+                     data-bs-parent="#accordionFlushExample">
 
                      <div class="accordion-body  p-1 ">
 
-                        {% for incomeCategory in incomeCategories %}
-
+                        {% for incomeCategory in incomeCategories|sort  %}
+                        {% if incomeCategory.name != "Inne" %}
 
                         <div
                            class="d-flex justify-content-between align-items-center m-3 shadow-lg border-bottom border-end border-1 border-secondary rounded-end rounded-3">
 
-                           {% if incomeCategory.name != "Inne" %}
-
                            <div class="me-auto p-2">
-                              {{ incomeCategory.name }} - {{ incomeCategory.id }}
+                              {{ incomeCategory.name }}
                            </div>
 
                            <div class="m-2 px-3">
@@ -100,7 +97,7 @@
 
                                        <div class="modal-body text-start">
                                           <label class="w-100 p-2" for="newIncomeName{{ loop.index }}"> Podaj nową
-                                             nazwę kategorii przychodu {{ incomeCategory.id }}
+                                             nazwę kategorii przychodu
                                           </label>
                                           <input class="w-100 px-2 incomeCategoryInput" name="newIncomeName"
                                              id="newIncomeName{{ loop.index }}" type="text" required>
@@ -158,28 +155,25 @@
                               </div>
                            </div>
 
-                           {% endif %}
-
                         </div>
+                        {% endif %}
 
                         {% endfor %}
 
                         {% for incomeCategory in incomeCategories %}
-
+                        {% if incomeCategory.name == "Inne" %}
                         <div
                            class="d-flex justify-content-between align-items-center m-3 shadow-lg border-bottom border-end border-1 border-secondary rounded-end rounded-3">
 
-                           {% if incomeCategory.name == "Inne"  %}
-
-                           <div class="me-auto p-2"> <span class="dropdown-in-view"> {{ incomeCategory.name }}
+                           <div class="me-auto p-2"> <span class="dropdown-in-view">
+                                 {{ incomeCategory.name }}
                               </span>
                            </div>
 
-                           {% endif %}
-
                         </div>
-
+                        {% endif %}
                         {% endfor %}
+
 
                         <div class="d-flex justify-content-center ">
                            <button type="button" class="btn btn-secondary m-3 w-50  dropdown-in-view"
@@ -219,7 +213,6 @@
                               </div>
                            </div>
                         </div>
-
                      </div>
                   </div>
 
@@ -229,7 +222,7 @@
                <!-- Expense category accordion item -->
                <!-- Expense category accordion item -->
 
-               <div class="accordion-item p-2 shadow bg-light ">
+               <div class="accordion-item p-2 shadow bg-warning ">
                   <h2 class="accordion-header " id="flush-headingTwo">
                      <button class="accordion-button collapsed dropdown-in-view " type="button"
                         data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false"
@@ -244,10 +237,10 @@
                      <div class="accordion-body my-0 p-1">
 
                         {% for expenseCategory in expenseCategories %}
+                        {% if expenseCategory.name != "Inny" %}
 
-                        <div class="d-flex justify-content-between align-items-center m-2 ">
-
-                           {% if expenseCategory.name != "Inny" %}
+                        <div
+                           class="d-flex justify-content-between align-items-center m-3 shadow-lg border-bottom border-end border-1 border-secondary rounded-end rounded-3">
 
                            <div class="m-0 p-0 text-start">
 
@@ -259,8 +252,6 @@
 
                               {% endif %}
                            </div>
-
-
 
                            <div class="m-2 px-3">
                               <button type="button" class="btn btn-primary mx-2" data-bs-toggle="modal"
@@ -307,17 +298,14 @@
                                           <input type="number" class="w-100 " name="limitValue"
                                              id="limitValue{{ loop.index }}" min="0" step="1.0" disabled>
 
-
                                        </div>
 
                                        <div class="modal-footer">
-
                                           <button type="button" class="btn btn-secondary dropdown-in-view"
                                              data-bs-dismiss="modal">
                                              Anuluj </button>
                                           <button type="submit" class="btn btn-primary dropdown-in-view"> Zastosuj
                                           </button>
-
                                        </div>
 
                                     </form>
@@ -369,19 +357,16 @@
                         {% endfor %}
 
                         {% for expenseCategory in expenseCategories %}
-
-                        <div class="d-flex justify-content-between collapse-body-item">
-
-                           {% if expenseCategory.name == "Inny" %}
+                        {% if expenseCategory.name == "Inny" %}
+                        <div
+                           class="d-flex justify-content-between align-items-center m-3 shadow-lg border-bottom border-end border-1 border-secondary rounded-end rounded-3">
 
                            <div class="m-2 fs-5 "> <span class="dropdown-in-view"> {{ expenseCategory.name }}
                               </span>
                            </div>
 
-                           {% endif %}
-
                         </div>
-
+                        {% endif %}
                         {% endfor %}
 
                         <div class="d-flex justify-content-center ">
@@ -424,20 +409,16 @@
                               </div>
                            </div>
                         </div>
-
-
                      </div>
                   </div>
 
                </div>
-
                <!-- END -- Expense category accordion item -->
 
-
                <!-- Payment method accordion item -->
                <!-- Payment method accordion item -->
 
-               <div class="accordion-item p-2 shadow bg-light ">
+               <div class="accordion-item p-2 shadow bg-warning ">
                   <h2 class="accordion-header " id="flush-headingThree">
                      <button class="accordion-button collapsed dropdown-in-view " type="button"
                         data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false"
@@ -452,11 +433,9 @@
                      <div class="accordion-body my-0 p-1">
 
                         {% for paymentMethod in paymentMethods %}
-
+                        {% if paymentMethod.name != "Inne" %}
                         <div
                            class="d-flex justify-content-between align-items-center m-3 shadow-lg border-bottom border-end border-1 border-secondary rounded-end rounded-3">
-
-                           {% if paymentMethod.name != "Inne" %}
 
                            <div class="me-auto bd-highlight m-2">
                               {{ paymentMethod.name }} - {{ paymentMethod.id }}
@@ -473,7 +452,7 @@
                               </button>
                            </div>
 
-                           <!-- Edit  category income Modal  -->
+                           <!-- Edit payment method Modal  -->
 
                            <div class="modal fade" id="editPaymentModal{{ loop.index }}" data-bs-keyboard="false"
                               tabindex="-1" aria-labelledby="editPaymentModal{{ loop.index }}Label" aria-hidden="true">
@@ -513,7 +492,7 @@
                               </div>
                            </div>
 
-                           <!-- Delete category income Modal  -->
+                           <!-- Delete payment method Modal  -->
 
                            <div class="modal fade" id="deletePaymentModal{{ loop.index }}" tabindex="-1"
                               aria-labelledby="deletePaymentModal{{ loop.index }}Label" aria-hidden="true">
@@ -549,27 +528,19 @@
                               </div>
                            </div>
 
-                           {% endif %}
-
                         </div>
-
+                        {% endif %}
                         {% endfor %}
 
                         {% for paymentMethod in paymentMethods %}
 
-
+                        {% if paymentMethod.name == "Inne" %}
                         <div class="d-flex justify-content-between collapse-body-item m-1">
-
-                           {% if paymentMethod.name == "Inne" %}
-
                            <div class="m-2"> <span class="dropdown-in-view"> {{ paymentMethod.name }}
                               </span>
                            </div>
-
-                           {% endif %}
-
                         </div>
-
+                        {% endif %}
                         {% endfor %}
 
                         <div class="d-flex justify-content-center ">
@@ -578,7 +549,8 @@
                               kategorię</button>
                         </div>
 
-                        <!-- Modal Add Income Category -->
+                        <!-- Modal Add payment method Category -->
+
                         <div class="modal fade" id="addNewPaymentCategory" data-bs-backdrop="static"
                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="addNewPaymentCategoryLabel"
                            aria-hidden="true">
