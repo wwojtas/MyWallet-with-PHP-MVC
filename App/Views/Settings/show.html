@@ -33,7 +33,7 @@
 {% block body %}
 
 <div class="container">
-   <div class="row  mt-5 pt-5">
+   <div class="row  m-5 pt-5">
       <div class="col-8 offset-2 col-lg-6 offset-lg-3 mt-5">
          <h1 class="text-center"> Ustawienia </h1>
          <div class="form">
@@ -47,14 +47,13 @@
                      <button class="accordion-button collapsed dropdown-in-view " type="button"
                         data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false"
                         aria-controls="flush-collapseOne">
-                        <div> <span class="bold"> Kategorie przychodów</span>
+                        <div> <span class="bold fw-bold"> Kategorie przychodów</span>
                         </div>
                      </button>
                   </h2>
 
                   <div id="flush-collapseOne" class="accordion-collapse collapse " aria-labelledby="flush-headingOne"
                      data-bs-parent="#accordionFlushExample">
-
                      <div class="accordion-body  p-1 ">
 
                         {% for incomeCategory in incomeCategories|sort  %}
@@ -99,7 +98,7 @@
                                           <label class="w-100 p-2" for="newIncomeName{{ loop.index }}"> Podaj nową
                                              nazwę kategorii przychodu
                                           </label>
-                                          <input class="w-100 px-2 incomeCategoryInput" name="newIncomeName"
+                                          <input class="w-100 px-2 " name="newIncomeName"
                                              id="newIncomeName{{ loop.index }}" type="text" required>
                                        </div>
 
@@ -199,8 +198,8 @@
                                     <div class="modal-body text-start">
                                        <label class="w-100 p-2" for="newIncomeCategory"> Podaj nazwę nowej
                                           kategorii </label>
-                                       <input class="w-100 px-2 incomeCategoryInput" name="newIncomeCategory"
-                                          id="newIncomeCategory" type="text" required>
+                                       <input class="w-100 px-2" name="newIncomeCategory" id="newIncomeCategory"
+                                          type="text" required>
                                     </div>
 
                                     <div class="modal-footer m-2">
@@ -591,14 +590,250 @@
                <!-- END -- Payment method accordion item -->
 
 
+               <!-- START  USER accordion item -->
+               <!-- START  USER accordion item -->
+
+               <div class="accordion-item p-2 shadow  bg-warning">
+                  <h2 class="accordion-header" id="flush-headingFour">
+                     <button class="accordion-button collapsed dropdown-in-view" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+                        <div> <span class="fw-bold"> Użytkownik </span> </div>
+                     </button>
+                  </h2>
+
+                  <div id="flush-collapseFour" class="accordion-collapse collapse " aria-labelledby="flush-headingFour"
+                     data-bs-parent="#accordionFlushExample">
+
+                     <div class="accordion-body  p-1">
+
+                        <div
+                           class="d-flex justify-content-between align-items-center m-3 shadow-lg border-bottom border-end border-1 border-secondary rounded-end rounded-3">
+
+                           <div class="me-auto p-2"> Imię: &nbsp; {{ user.name|capitalize }} </div>
+
+                           <div class="m-2 px-3">
+                              <button type="button" class="btn btn-primary mx-2" data-bs-toggle="modal"
+                                 data-bs-target="#editUserNameModal">
+                                 <i class="far fa-edit p-1 fs-4" title="Edytuj"></i>
+                              </button>
+                           </div>
+
+                           <!-- Edit  User Name Modal  -->
+
+                           <div class="modal fade" id="editUserNameModal" data-bs-keyboard="false" tabindex="-1"
+                              aria-labelledby="editUserNameModalLabel" aria-hidden="true">
+                              <div class="modal-dialog">
+                                 <div class="modal-content">
+
+                                    <form action="/Profile/editUserName" method="post">
+
+                                       <div class="modal-header">
+                                          <h5 class="modal-title" id="editUserNameModalLabel"> <span
+                                                class="dropdown-in-view bold"> Edycja
+                                                nazwy użytkownika </span> </h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                             aria-label="Close"></button>
+                                       </div>
+
+                                       <div class="modal-body text-start">
+                                          <label class="w-100 p-2" for="newUserName"> Podaj nową
+                                             nazwę użytkownika
+                                          </label>
+                                          <input class="w-100 px-2" name="newUserName" id="newUserName" type="text"
+                                             required>
+                                       </div>
+
+                                       <div class="modal-footer">
+
+                                          <button type="button" class="btn btn-secondary dropdown-in-view"
+                                             data-bs-dismiss="modal">
+                                             Anuluj </button>
+                                          <button type="submit" class="btn btn-primary dropdown-in-view"> Zastosuj
+                                          </button>
+                                       </div>
+
+                                    </form>
+
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+
+                        <div
+                           class="d-flex justify-content-between align-items-center m-3 shadow-lg border-bottom border-end border-1 border-secondary rounded-end rounded-3">
+
+                           <div class="me-auto p-2"> Email: &nbsp; {{ user.email }} </div>
+
+                           <div class="m-2 px-3">
+                              <button type="button" class="btn btn-primary mx-2 " data-bs-toggle="modal"
+                                 data-bs-target="#editUserEmailModal">
+                                 <i class="far fa-edit m-2" title="Edytuj"></i>
+                              </button>
+                           </div>
+
+                           <!-- Edit  User Name Modal  -->
+
+                           <div class="modal fade" id="editUserEmailModal" data-bs-keyboard="false" tabindex="-1"
+                              aria-labelledby="editUserEmailModalLabel" aria-hidden="true">
+                              <div class="modal-dialog">
+                                 <div class="modal-content">
+
+                                    <form action="/Profile/editUserEmail" method="post">
+
+                                       <div class="modal-header">
+                                          <h5 class="modal-title" id="editUserEmailModalLabel"> <span
+                                                class="dropdown-in-view bold"> Edycja
+                                                adresu email użytkownika </span> </h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                             aria-label="Close"></button>
+                                       </div>
+
+                                       <div class="modal-body text-start">
+                                          <label class="w-100 p-2" for="email"> Podaj nowy email
+                                          </label>
+                                          <input class="w-100 px-2" name="email" id="email" type="text" required>
+                                          <input type="hidden" name="name" value="{{ user.name }}">
+                                       </div>
+
+                                       <div class="modal-footer">
+
+                                          <button type="button" class="btn btn-secondary dropdown-in-view"
+                                             data-bs-dismiss="modal">
+                                             Anuluj </button>
+                                          <button type="submit" class="btn btn-primary dropdown-in-view"> Zastosuj
+                                          </button>
+                                       </div>
+
+                                    </form>
+
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+
+                     </div>
+
+                     <div class="d-flex  justify-content-center">
+
+                        <form action="/Password/requestReset" method="POST">
+                           <input type="hidden" name="email" value="{{ user.email }}">
+                           <button type="submit" class="btn btn-secondary m-3 w-100 dropdown-in-view"> Zmień hasło
+                           </button>
+                        </form>
+
+                     </div>
+
+                     <div class="d-flex justify-content-center ">
+
+                        <button type="submit" class="btn btn-secondary m-3 w-50  dropdown-in-view"
+                           data-bs-toggle="modal" data-bs-target="#deleteAllBalanceSheet"> Usuń wszystkie przychody i
+                           wydatki </button>
+
+                        <div class="modal fade" id="deleteAllBalanceSheet" data-bs-keyboard="false" tabindex="-1"
+                           aria-labelledby="deleteAllBalanceSheetLabel" aria-hidden="true">
+                           <div class="modal-dialog">
+                              <div class="modal-content">
+
+                                 <form action="/Profile/deleteAllBalanceSheet" method="post">
+
+                                    <div class="modal-header">
+
+                                       <h5 class="modal-title" id="deleteAllBalanceSheetLabel"> <span
+                                             class="dropdown-in-view bold"> Usuń wszystkie przychody i wydatki ze
+                                             swojego konta </span> </h5>
+                                       <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                          aria-label="Close"></button>
+
+                                    </div>
+
+                                    <div class="modal-body text-start">
+
+                                       <label class="w-100 p-2" for="deleteAllBalance"> Czy na pewno Chcesz usunąć
+                                          wszystkie przychody i wydatki z bazy?
+                                       </label>
+
+                                    </div>
+
+                                    <div class="modal-footer">
+                                       <input type="hidden" name="editedUserId" value="{{ user.id }}">
+                                       <button type="button" class="btn btn-secondary dropdown-in-view"
+                                          data-bs-dismiss="modal">
+                                          NIE </button>
+                                       <button type="submit" class="btn btn-danger dropdown-in-view"> TAK
+                                       </button>
+                                    </div>
+
+                                 </form>
+
+                              </div>
+                           </div>
+                        </div>
+
+                     </div>
+
+
+                     <div class="d-flex justify-content-center ">
+
+                        <button type="submit" class="btn btn-danger m-3 w-50  dropdown-in-view" data-bs-toggle="modal"
+                           data-bs-target="#deleteUserAccount"> Usuń moje konto </button>
+
+                        <div class="modal fade" id="deleteUserAccount" data-bs-keyboard="false" tabindex="-1"
+                           aria-labelledby="deleteUserAccountLabel" aria-hidden="true">
+                           <div class="modal-dialog">
+                              <div class="modal-content">
+
+                                 <form action="/Profile/removeUserAccount" method="post">
+
+                                    <div class="modal-header">
+
+                                       <h5 class="modal-title" id="deleteUserAccountLabel"> <span
+                                             class="dropdown-in-view bold"> Usuń konto użytkownika </span> </h5>
+                                       <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                          aria-label="Close"></button>
+
+                                    </div>
+
+                                    <div class="modal-body text-start">
+
+                                       <label class="w-100 p-2" for="deleteUserAccount"> Czy na pewno Chcesz usunąć
+                                          swoje konto?
+                                       </label>
+
+                                    </div>
+
+                                    <div class="modal-footer">
+                                       <input type="hidden" name="editedUserId" value="{{ user.id }}">
+
+                                       <button type="button" class="btn btn-secondary dropdown-in-view"
+                                          data-bs-dismiss="modal">
+                                          NIE </button>
+                                       <button type="submit" class="btn btn-danger dropdown-in-view"> TAK
+                                       </button>
+                                    </div>
+
+                                 </form>
+
+                              </div>
+                           </div>
+                        </div>
+
+                     </div>
+
+
+
+                  </div>
+
+               </div>
+
+               <!-- END  USER accordion item -->
+
+
+
             </div>
          </div>
       </div>
    </div>
 </div>
-
-
-
 
 
 {% endblock %}

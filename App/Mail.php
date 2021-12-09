@@ -35,7 +35,7 @@ class Mail
 
         try {
             //Server settings
-            $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+            // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
             $mail->isSMTP();                                            //Send using SMTP
             $mail->Host       = Config::SMTP_HOST;                      //Set the SMTP server to send through
             $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
@@ -48,7 +48,7 @@ class Mail
             $mail->setFrom(Config::EMAIL_FROM, Config::EMAIL_FROM_NAME);
          //   $mail->AddAddress(Config::EMAIL_RECIPIENT);
             
-         $mail->AddAddress($to);
+            $mail->AddAddress($to);
 
             //Content
             $mail->isHTML(true);                                  //Set email format to HTML

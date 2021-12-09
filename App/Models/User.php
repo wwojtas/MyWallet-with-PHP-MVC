@@ -107,11 +107,16 @@ class User extends \Core\Model
             }
         }
         // recaptcha
-        $captcha = $_POST['g-recaptcha-response'];
+        if(isset($_POST['g-recaptcha-response']))
+        {
+            $captcha = $_POST['g-recaptcha-response'];
+            if(!$captcha || empty($captcha)) {
+                $this->errors[] = 'Musisz udowodnić, że nie jesteś robotem!';
+            }
+        }
+        
 		
-		if(!$captcha || empty($captcha)) {
-			$this->errors[] = 'Musisz udowodnić, że nie jesteś robotem!';
-		}
+		
     }
 
     /**
@@ -289,7 +294,7 @@ class User extends \Core\Model
         $text = View::getTemplate('Password/reset_email.txt', ['url' => $url]);
         $html = View::getTemplate('Password/reset_email.html', ['url' => $url]);
 
-        Mail::send($this->email, 'Password reset', $text, $html);
+        Mail::send($this->email, 'Resetowanie hasła', $text, $html);
     }
 
     /**
@@ -376,7 +381,7 @@ class User extends \Core\Model
         $text = View::getTemplate('Signup/activation_email.txt', ['url' => $url]);
         $html = View::getTemplate('Signup/activation_email.html', ['url' => $url]);
 
-        Mail::send($this->email, 'Account activation', $text, $html);
+        Mail::send($this->email, 'Aktywacja konta', $text, $html);
     }
 
     /**
@@ -562,5 +567,55 @@ class User extends \Core\Model
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function editNameUser($newUserName, $editedUserId)
+    {
+        $sql = 'UPDATE users
+                SET name = :name
+                WHERE id = :editedId';
 
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':editedId', $editedUserId, PDO::PARAM_INT);
+        $stmt->bindValue(':name', $newUserName, PDO::PARAM_STR);
+
+        if($stmt->execute()) return $stmt->execute();
+        return false;
+    }
+
+    public function editEmailUser($user_id)
+    {
+        if(filter_var($this -> email, FILTER_VALIDATE_EMAIL) === false) {
+            $this -> errors[] = 'Niepoprawny adres e-mail!';
+        }
+
+        if(static::emailExists($this -> email, $user_id ?? null)) {
+            $this -> errors[] = 'E-mail jest już przypisany do innego konta!';
+        }
+
+        if(empty($this -> errors)) {
+            $token = new Token();
+            $hashed_token = $token -> getHash();
+            $this -> activation_token = $token -> getValue();
+
+            $sql = 'UPDATE users
+                    SET email = :email,
+                        activation_hash = :activation_hash,
+                        is_active = 0
+                    WHERE id = :user_id';
+
+            $db = static::getDB();
+            $stmt = $db -> prepare($sql);
+
+            $stmt -> bindValue(':user_id', $user_id, PDO::PARAM_INT);
+            $stmt -> bindValue(':email', $this -> email, PDO::PARAM_STR);
+            
+            $stmt -> bindValue(':activation_hash', $hashed_token, PDO::PARAM_STR);
+
+            return $stmt -> execute();
+        }
+        return false;
+        
+
+    }
 }

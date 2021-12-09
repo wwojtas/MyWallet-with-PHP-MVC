@@ -7,6 +7,7 @@ use \App\Auth;
 use \App\Flash;
 use \App\Models\Income;
 use \App\Models\Expense;
+use \App\Models\User;
 
 
 /**
@@ -87,7 +88,6 @@ class Profile extends Authenticated
         'expenseCategories' => $expenseCategories,
         'paymentMethods' => $paymentMethods,
         'user' => $user,
-       
 
       ]);
 
@@ -104,7 +104,9 @@ class Profile extends Authenticated
       {
         Income::editIncome($newIncomeName, $editedIncomeId);
         View::renderTemplate('Settings/successEditIncome.html');
-      } else {
+      }
+      else
+      {
         Flash::addMessage('Podana kategoria przychodu już istnieje. Podaj inną', Flash::WARNING);
         $this->redirect('/profile');
       }
@@ -178,9 +180,59 @@ class Profile extends Authenticated
     public function addNewExpenseCategoryAction()
     {
       $newExpenseCategory = $_POST['newExpenseCategory'];
+
       Expense::putNewExpenseCategoryIntoBase($newExpenseCategory);
       View::renderTemplate('Settings/successNewCategory.html');
     }
+
+    public function editUserNameAction()
+    {
+      $user = Auth::getUser();
+      $editedUserId =  $user->id;
+
+      if(isset($_POST['newUserName'])){
+
+        $newUserName = $_POST['newUserName'];
+
+        if(User::editNameUser($newUserName, $editedUserId)) 
+        {
+          View::renderTemplate('Settings/successNewUserName.html');
+        }
+      }
+      else
+      {
+        View::renderTemplate('Settings/errorPage.html');
+      }
+    }
+
+    public function editUserEmail()
+    {
+      $changeUserEmail = new User($_POST);
+
+      if($changeUserEmail->editEmailUser($_SESSION['user_id'])) 
+      {
+        $changeUserEmail->sendActivationEmail();
+        Auth::logout();
+        View::renderTemplate('Settings/successEditEmail.html');
+      } else {
+        View::renderTemplate('Settings/errorPage.html');
+      }
+      
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

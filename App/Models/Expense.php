@@ -115,6 +115,7 @@ class Expense extends \Core\Model
     $db = static::getDB();
     $stmt = $db->prepare($sql);
     $stmt->execute();
+    
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
@@ -132,6 +133,7 @@ class Expense extends \Core\Model
   {
     $user = Auth::getUser();
     $sql = "SELECT * FROM payment_methods_assigned_to_users WHERE user_id = '$user->id'";
+
     return  $fetchData = static::getDataSelect($sql);
   }
 
@@ -174,6 +176,7 @@ class Expense extends \Core\Model
     $stmt->bindValue(':editedExpenseId', $editedExpenseId, PDO::PARAM_INT);
     if($newExpenseName != "") $stmt->bindValue(':name', $newExpenseName, PDO::PARAM_STR);
     if($limitValue != "") $stmt->bindValue(':expense_limit', $limitValue, PDO::PARAM_INT);
+
     return $stmt->execute();
    
   }
@@ -188,6 +191,7 @@ class Expense extends \Core\Model
     $db = static::getDB();
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':removeExpenseId', $deletedExpenseId, PDO::PARAM_INT);
+
     return $stmt->execute();
   }
 
@@ -201,6 +205,7 @@ class Expense extends \Core\Model
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':user_id', $user->id, PDO::PARAM_INT);
     $stmt->bindValue(':newExpenseCategory', $newExpenseCategory, PDO::PARAM_STR);
+
     return $stmt->execute();
   }
 

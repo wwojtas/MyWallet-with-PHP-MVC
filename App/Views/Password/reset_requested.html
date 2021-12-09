@@ -1,11 +1,26 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block title %}Forgot password{% endblock %}
+{% block title %} Password reset {% endblock %}
+
 
 {% block body %}
 
-<h1>Poproś o zresetowanie hasła</h1>
 
-<p>Sprawdź pocztę</p>
+<main>
+  <section id="aboutus">
+    <div class="container py-5 about-boxes">
+      <div class="row text-center">
+        <div class="col-12">
+          <div class="about-box m-3 p-4 p-lg-5 border ">
+            <h3 class="text-dark "> Resetowanie hasła </h3>
+            <p class="about-icon text-dark "><i class="fas fa-check"></i></p>
+            <p class="text-dark"> Sprawdź skrzynkę email aby zresetować swoje hasło </a> </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
 
 {% endblock %}
