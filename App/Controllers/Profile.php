@@ -8,6 +8,7 @@ use \App\Flash;
 use \App\Models\Income;
 use \App\Models\Expense;
 use \App\Models\User;
+use \App\Models\RememberedLogin;
 
 
 /**
@@ -114,12 +115,19 @@ class Profile extends Authenticated
 
     public function deleteCategoryIncomeAction()
     {
-        $deletedIncomeId = $_POST['deletedIncomeId'];
-        Income::deleteIncomeCategory($deletedIncomeId);
-        View::renderTemplate('Settings/successDeleteCategory.html');
+      $deletedIncomeCategoryId = $_POST['deletedIncomeCategoryId'];
+      $deletedIncomeCategoryUserId = $_POST['deletedIncomeCategoryUserId'];
+
+      $otherIncomeCategoryId = Income::getOtherIncomeCategoryId($deletedIncomeCategoryUserId);
+      Income::changeAssignIncomeNumberInIncomes($deletedIncomeCategoryId, $otherIncomeCategoryId);
+      Income::deleteIncomeCategory($deletedIncomeCategoryId);
+
+      View::renderTemplate('Settings/successDeleteCategory.html');
     }
 
-    public function addNewIncomeCategory()
+
+
+    public function addNewIncomeCategoryAction()
     {
         $newIncomeCategory = $_POST['newIncomeCategory'];
         Income::putNewIncomeCategoryIntoBase($newIncomeCategory);
@@ -171,8 +179,14 @@ class Profile extends Authenticated
 
     public function deleteCategoryExpenseAction()
     {
-      $deletedExpenseId = $_POST['deletedExpenseId'];
-      Expense::deleteExpenseCategory($deletedExpenseId);
+      $deletedExpenseCategoryId = $_POST['deletedExpenseCategoryId'];
+      $deletedExpenseCategoryUserId = $_POST['deletedExpenseCategoryUserId'];
+
+      $otherExpenseCategoryId = Expense::getOtherExpenseCategoryId($deletedExpenseCategoryUserId);
+
+      Expense::changeAssignExpenseNumberInExpenses($deletedExpenseCategoryId, $otherExpenseCategoryId);
+
+      Expense::deleteExpenseCategory($deletedExpenseCategoryId);
       View::renderTemplate('Settings/successDeleteCategory.html');
 
     }
@@ -183,6 +197,58 @@ class Profile extends Authenticated
 
       Expense::putNewExpenseCategoryIntoBase($newExpenseCategory);
       View::renderTemplate('Settings/successNewCategory.html');
+    }
+
+    public function editCategoryPaymentAction() 
+    {
+      $newPaymentName = strtolower($_POST['newPaymentName']);
+      $newPaymentName = ucfirst($newPaymentName);
+
+      $editedPaymentId = $_POST['editedPaymentId'];
+
+      if(Expense::checkPaymentMethodName($newPaymentName))
+      {
+        Expense::editPaymentMethod($newPaymentName, $editedPaymentId);
+
+        View::renderTemplate('Settings/successEditPayment.html');
+      }
+      else
+      {
+        Flash::addMessage('Podana kategoria płatności już istnieje. Podaj inną', Flash::WARNING);
+        $this->redirect('/profile');
+      }
+    }
+
+    
+
+    public function deletePaymentCategoryAction()
+    {
+      $deletedPaymentId = $_POST['deletedPaymentId'];
+      $deletedPaymentUserId = $_POST['deletedPaymentUserId'];
+      
+      $otherPaymentCategoryId = Expense::getOtherPaymentCategoryId($deletedPaymentUserId);
+      Expense::changePaymentCategoryInExpenses($deletedPaymentId, $otherPaymentCategoryId);
+      Expense::deletePaymentCategoryInPaymentMethodsUsers($deletedPaymentId);
+
+      View::renderTemplate('Settings/successDeletePaymentCategory.html');
+
+    }
+
+
+
+
+
+
+
+
+
+    public function addNewPaymentCategoryAction()
+    {
+      $newPaymentCategory = $_POST['newPaymentCategory'];
+
+      Expense::putNewPaymentCategoryIntoBase($newPaymentCategory);
+      View::renderTemplate('Settings/successNewCategory.html');
+
     }
 
     public function editUserNameAction()
@@ -205,7 +271,7 @@ class Profile extends Authenticated
       }
     }
 
-    public function editUserEmail()
+    public function editUserEmailAction()
     {
       $changeUserEmail = new User($_POST);
 
@@ -217,12 +283,34 @@ class Profile extends Authenticated
       } else {
         View::renderTemplate('Settings/errorPage.html');
       }
-      
+
     }
 
+    public function deleteAllUserBalanceSheetAction()
+    {
+      $deletedUserId = $_POST['deletedUserId'];
+      if(Expense::deleteAllUserExpenses($deletedUserId) && Income::deleteAllUserIncomes($deletedUserId))
+      View::renderTemplate('Settings/successDeleteBalance.html');
+    }
 
+    public function removeUserAccountAction()
+    {
+      $deletedUserId = $_POST['deletedUserId'];
 
+      Expense::deleteAllUserExpenses($deletedUserId);
+      Expense::deleteAllUserExpensesCategory($deletedUserId);
+      Expense::deleteAllUserPaymentMethods($deletedUserId);
 
+      Income::deleteAllUserIncomes($deletedUserId);
+      Income::deleteAllUserIncomesCategory($deletedUserId);
+
+      RememberedLogin::deleteAllUserTokenHash($deletedUserId);
+
+      User::deleteUserAccountFromUsers($deletedUserId);
+
+      View::renderTemplate('Settings/removeUserAccount.html');
+      
+    }
 
 
 

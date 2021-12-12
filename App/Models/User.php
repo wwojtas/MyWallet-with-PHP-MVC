@@ -615,7 +615,23 @@ class User extends \Core\Model
             return $stmt -> execute();
         }
         return false;
-        
-
     }
+
+    public static function deleteUserAccountFromUsers($deletedUserId)
+  {
+    $sql = 'DELETE
+            FROM users
+            WHERE user_id = :deletedUserAccountId';
+    
+    $db = static::getDB();
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':deletedUserAccountId', $deletedUserId, PDO::PARAM_INT);
+
+    return $stmt->ececute();
+  }
+
+
+
+
+
 }

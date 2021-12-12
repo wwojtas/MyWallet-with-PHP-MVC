@@ -134,17 +134,52 @@ class Income extends \Core\Model
   }
 
 
-  public static function deleteIncomeCategory($deletedIncomeId)
+  public static function deleteIncomeCategory($deletedIncomeCategoryId)
   {
     $sql = 'DELETE 
             FROM incomes_category_assigned_to_users 
-            WHERE id = :removeIncomeId';
+            WHERE id = :removeIncomeCategoryId';
 
     $db = static::getDB();
     $stmt = $db->prepare($sql);
-    $stmt->bindValue(':removeIncomeId', $deletedIncomeId, PDO::PARAM_INT);
+    $stmt->bindValue(':removeIncomeCategoryId', $deletedIncomeCategoryId, PDO::PARAM_INT);
     return $stmt->execute();
-  } 
+  }
+
+  public static function getOtherIncomeCategoryId($deletedIncomeCategoryUserId)
+  {
+    $sql = 'SELECT id 
+            FROM incomes_category_assigned_to_users 
+            WHERE user_id = :chosenUserId
+            AND name = :name';
+
+    $db = static::getDB();
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':chosenUserId', $deletedIncomeCategoryUserId, PDO::PARAM_INT);
+    $stmt->bindValue(':name', 'Inne', PDO::PARAM_STR);
+
+    $stmt->execute();
+    $incomeCategoryId = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ( $incomeCategoryId as $oneIncome) return $oneIncome["id"];
+
+  }
+
+
+  public static function changeAssignIncomeNumberInIncomes($deletedIncomeCategoryId, $otherIncomeCategoryId)
+  {
+    $sql = 'UPDATE incomes
+            SET  income_category_assigned_to_user_id = :otherIncomeCategoryId
+            WHERE income_category_assigned_to_user_id = :deletedIncomeCategoryId';
+    
+    $db = static::getDB();
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':otherIncomeCategoryId', $otherIncomeCategoryId, PDO::PARAM_INT);
+    $stmt->bindValue(':deletedIncomeCategoryId', $deletedIncomeCategoryId, PDO::PARAM_INT);
+    
+    return $stmt->execute();
+
+  }
 
   public static function putNewIncomeCategoryIntoBase($newIncomeCategory)
   {
@@ -158,6 +193,40 @@ class Income extends \Core\Model
       $stmt->bindValue(':newIncomeCategory', $newIncomeCategory, PDO::PARAM_STR);
       return $stmt->execute();
   }
+
+
+  public static function deleteAllUserIncomes($deletedUserId)
+  {
+    $sql = 'DELETE
+            FROM incomes
+            WHERE user_id = :removingIncomeId';
+
+    $db = static::getDB();
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':removingIncomeId', $deletedUserId, PDO::PARAM_INT);
+
+    return $stmt->execute();
+
+  }
+
+
+  public static function deleteAllUserIncomesCategory($deletedUserId)
+  {
+    $sql = 'DELETE
+            FROM incomes_category_assigned_to_users
+            WHERE user_id = :removingIncomeId';
+
+    $db = static::getDB();
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':removingIncomeId', $deletedUserId, PDO::PARAM_INT);
+
+    return $stmt->execute();
+
+  }
+
+
+
+
 
 
 }

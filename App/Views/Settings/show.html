@@ -6,10 +6,11 @@
 
 <script>
    let expenseCategoriesAfterEncode = "{{ expenseCategories|json_encode|e('js') }}";
+
    $(document).ready(function () {
       let expenseCategories = JSON.parse(expenseCategoriesAfterEncode);
 
-      for (let i = 1; i < expenseCategories.length; i++) {
+      for (let i = 1; i < expenseCategories.length + 1; i++) {
 
          $('#limitCheckBox' + i).change(function () {
             if ($('#limitCheckBox' + i).prop('checked') == true) {
@@ -54,7 +55,8 @@
 
                   <div id="flush-collapseOne" class="accordion-collapse collapse " aria-labelledby="flush-headingOne"
                      data-bs-parent="#accordionFlushExample">
-                     <div class="accordion-body  p-1 ">
+
+                     <div class="accordion-body my-0 p-1 ">
 
                         {% for incomeCategory in incomeCategories|sort  %}
                         {% if incomeCategory.name != "Inne" %}
@@ -138,7 +140,9 @@
                                        <div class="modal-body text-start">
                                           <p class="w-100 p-2">Czy usunąć <span class="bold">
                                                 {{ incomeCategory.name }} </span> ?</p>
-                                          <input type="hidden" name="deletedIncomeId" value="{{ incomeCategory.id }}">
+                                          <input type="hidden" name="deletedIncomeCategoryId"
+                                             value="{{ incomeCategory.id }}">
+                                          <input type="hidden" name="deletedIncomeCategoryUserId" value="{{ user.id }}">
                                        </div>
 
                                        <div class="modal-footer">
@@ -236,7 +240,7 @@
                      <div class="accordion-body my-0 p-1">
 
                         {% for expenseCategory in expenseCategories %}
-                        {% if expenseCategory.name != "Inny" %}
+                        {% if expenseCategory.name != "Inne" %}
 
                         <div
                            class="d-flex justify-content-between align-items-center m-3 shadow-lg border-bottom border-end border-1 border-secondary rounded-end rounded-3">
@@ -332,7 +336,10 @@
                                        <div class="modal-body text-start">
                                           <p class="w-100 p-2">Czy usunąć
                                              {{ expenseCategory.name }} ?</p>
-                                          <input type="hidden" name="deletedExpenseId" value="{{ expenseCategory.id }}">
+                                          <input type="hidden" name="deletedExpenseCategoryId"
+                                             value="{{ expenseCategory.id }}">
+                                          <input type="hidden" name="deletedExpenseCategoryUserId"
+                                             value="{{ user.id }}">
 
                                        </div>
 
@@ -356,7 +363,7 @@
                         {% endfor %}
 
                         {% for expenseCategory in expenseCategories %}
-                        {% if expenseCategory.name == "Inny" %}
+                        {% if expenseCategory.name == "Inne" %}
                         <div
                            class="d-flex justify-content-between align-items-center m-3 shadow-lg border-bottom border-end border-1 border-secondary rounded-end rounded-3">
 
@@ -429,6 +436,7 @@
 
                   <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree"
                      data-bs-parent="#accordionFlushExample">
+
                      <div class="accordion-body my-0 p-1">
 
                         {% for paymentMethod in paymentMethods %}
@@ -437,7 +445,7 @@
                            class="d-flex justify-content-between align-items-center m-3 shadow-lg border-bottom border-end border-1 border-secondary rounded-end rounded-3">
 
                            <div class="me-auto bd-highlight m-2">
-                              {{ paymentMethod.name }} - {{ paymentMethod.id }}
+                              {{ paymentMethod.name }}
                            </div>
 
                            <div class="m-2 px-3">
@@ -470,7 +478,7 @@
 
                                        <div class="modal-body text-start">
                                           <label class="w-100 p-2" for="newPaymentName{{ loop.index }}"> Podaj nową
-                                             nazwę metody płatności {{ paymentMethod.id }}
+                                             nazwę metody płatności
                                           </label>
                                           <input class="w-100 px-2 paymentMethodInput" name="newPaymentName"
                                              id="newPaymentName{{ loop.index }}" type="text" required>
@@ -498,7 +506,7 @@
                               <div class="modal-dialog">
                                  <div class="modal-content">
 
-                                    <form action="/Profile/deleteCategoryPayment" method="post">
+                                    <form action="/Profile/deletePaymentCategory" method="post">
 
                                        <div class="modal-header">
                                           <h5 class="modal-title" id="deletePaymentModal{{ loop.index }}Label"> <span
@@ -512,6 +520,7 @@
                                           <p class="w-100 p-2">Czy usunąć <span class="bold">
                                                 {{ paymentMethod.name }} </span> ?</p>
                                           <input type="hidden" name="deletedPaymentId" value="{{ paymentMethod.id }}">
+                                          <input type="hidden" name="deletedPaymentUserId" value="{{ user.id }}">
                                        </div>
 
                                        <div class="modal-footer">
@@ -534,7 +543,8 @@
                         {% for paymentMethod in paymentMethods %}
 
                         {% if paymentMethod.name == "Inne" %}
-                        <div class="d-flex justify-content-between collapse-body-item m-1">
+                        <div
+                           class="d-flex justify-content-between align-items-center m-3 shadow-lg border-bottom border-end border-1 border-secondary rounded-end rounded-3">
                            <div class="m-2"> <span class="dropdown-in-view"> {{ paymentMethod.name }}
                               </span>
                            </div>
@@ -567,8 +577,8 @@
                                     <div class="modal-body text-start">
                                        <label class="w-100 p-2" for="newPaymentCategory"> Podaj nazwę nowej
                                           kategorii </label>
-                                       <input class="w-100 px-2 paymentMethodInput" name="newPaymentCategory"
-                                          id="newPaymentCategory" type="text" required>
+                                       <input class="w-100 px-2" name="newPaymentCategory" id="newPaymentCategory"
+                                          type="text" required>
                                     </div>
 
                                     <div class="modal-footer m-2">
@@ -606,6 +616,8 @@
 
                      <div class="accordion-body  p-1">
 
+                        <!-- Edit  User Name Modal  -->
+
                         <div
                            class="d-flex justify-content-between align-items-center m-3 shadow-lg border-bottom border-end border-1 border-secondary rounded-end rounded-3">
 
@@ -618,7 +630,7 @@
                               </button>
                            </div>
 
-                           <!-- Edit  User Name Modal  -->
+
 
                            <div class="modal fade" id="editUserNameModal" data-bs-keyboard="false" tabindex="-1"
                               aria-labelledby="editUserNameModalLabel" aria-hidden="true">
@@ -659,6 +671,8 @@
                            </div>
                         </div>
 
+                        <!-- Edit  User EMAIL Modal  -->
+
                         <div
                            class="d-flex justify-content-between align-items-center m-3 shadow-lg border-bottom border-end border-1 border-secondary rounded-end rounded-3">
 
@@ -671,7 +685,7 @@
                               </button>
                            </div>
 
-                           <!-- Edit  User Name Modal  -->
+
 
                            <div class="modal fade" id="editUserEmailModal" data-bs-keyboard="false" tabindex="-1"
                               aria-labelledby="editUserEmailModalLabel" aria-hidden="true">
@@ -713,34 +727,26 @@
 
                      </div>
 
-                     <div class="d-flex  justify-content-center">
-
-                        <form action="/Password/requestReset" method="POST">
-                           <input type="hidden" name="email" value="{{ user.email }}">
-                           <button type="submit" class="btn btn-secondary m-3 w-100 dropdown-in-view"> Zmień hasło
-                           </button>
-                        </form>
-
-                     </div>
+                     <!-- CHange PASSWORD -->
 
                      <div class="d-flex justify-content-center ">
 
                         <button type="submit" class="btn btn-secondary m-3 w-50  dropdown-in-view"
-                           data-bs-toggle="modal" data-bs-target="#deleteAllBalanceSheet"> Usuń wszystkie przychody i
-                           wydatki </button>
+                           data-bs-toggle="modal" data-bs-target="#changePassword"> Zmień hasło
+                        </button>
 
-                        <div class="modal fade" id="deleteAllBalanceSheet" data-bs-keyboard="false" tabindex="-1"
-                           aria-labelledby="deleteAllBalanceSheetLabel" aria-hidden="true">
+                        <div class="modal fade" id="changePassword" data-bs-keyboard="false" tabindex="-1"
+                           aria-labelledby="changePasswordLabel" aria-hidden="true">
                            <div class="modal-dialog">
                               <div class="modal-content">
 
-                                 <form action="/Profile/deleteAllBalanceSheet" method="post">
+                                 <form action="/Password/requestReset" method="POST">
 
                                     <div class="modal-header">
 
-                                       <h5 class="modal-title" id="deleteAllBalanceSheetLabel"> <span
-                                             class="dropdown-in-view bold"> Usuń wszystkie przychody i wydatki ze
-                                             swojego konta </span> </h5>
+                                       <h5 class="modal-title" id="changePasswordLabel"> <span
+                                             class="dropdown-in-view bold"> Zmień hasło </span>
+                                       </h5>
                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
                                           aria-label="Close"></button>
 
@@ -748,14 +754,68 @@
 
                                     <div class="modal-body text-start">
 
-                                       <label class="w-100 p-2" for="deleteAllBalance"> Czy na pewno Chcesz usunąć
-                                          wszystkie przychody i wydatki z bazy?
+                                       <label class="w-100 p-2" for="deleteAllBalance"> Akceptacja oznacza proces zmiany
+                                          hasła - kontynuować ?
                                        </label>
 
                                     </div>
 
                                     <div class="modal-footer">
-                                       <input type="hidden" name="editedUserId" value="{{ user.id }}">
+                                       <input type="hidden" name="email" value="{{ user.email }}">
+                                       <button type="button" class="btn btn-secondary dropdown-in-view"
+                                          data-bs-dismiss="modal">
+                                          NIE </button>
+                                       <button type="submit" class="btn btn-danger dropdown-in-view"> TAK
+                                       </button>
+                                    </div>
+
+                                 </form>
+
+                              </div>
+                           </div>
+                        </div>
+
+                     </div>
+
+                     <!-- REMOVE all expenses and incomes -->
+
+
+
+
+                     <div class="d-flex justify-content-center ">
+
+                        <button type="submit" class="btn btn-secondary m-3 w-50  dropdown-in-view"
+                           data-bs-toggle="modal" data-bs-target="#deleteAllBalanceSheet"> Usuń wszystkie przychody i
+                           wydatki
+                        </button>
+
+                        <div class="modal fade" id="deleteAllBalanceSheet" data-bs-keyboard="false" tabindex="-1"
+                           aria-labelledby="deleteAllBalanceSheetLabel" aria-hidden="true">
+                           <div class="modal-dialog">
+                              <div class="modal-content">
+
+                                 <form action="/Profile/deleteAllUserBalanceSheet" method="post">
+
+                                    <div class="modal-header">
+
+                                       <h5 class="modal-title" id="deleteAllBalanceSheetLabel"> <span
+                                             class="dropdown-in-view bold"> Usuń wszystkie przychody i wydatki </span>
+                                       </h5>
+                                       <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                          aria-label="Close"></button>
+
+                                    </div>
+
+                                    <div class="modal-body text-start">
+
+                                       <label class="w-100 p-2" for="deleteAllBalance"> Czy na pewno usunąć
+                                          wszystkie przychody i wydatki ?
+                                       </label>
+
+                                    </div>
+
+                                    <div class="modal-footer">
+                                       <input type="hidden" name="deletedUserId" value="{{ user.id }}">
                                        <button type="button" class="btn btn-secondary dropdown-in-view"
                                           data-bs-dismiss="modal">
                                           NIE </button>
@@ -794,16 +854,13 @@
                                     </div>
 
                                     <div class="modal-body text-start">
-
                                        <label class="w-100 p-2" for="deleteUserAccount"> Czy na pewno Chcesz usunąć
                                           swoje konto?
                                        </label>
-
                                     </div>
 
                                     <div class="modal-footer">
-                                       <input type="hidden" name="editedUserId" value="{{ user.id }}">
-
+                                       <input type="hidden" name="deletedUserId" value="{{ user.id }}">
                                        <button type="button" class="btn btn-secondary dropdown-in-view"
                                           data-bs-dismiss="modal">
                                           NIE </button>

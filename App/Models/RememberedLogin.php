@@ -75,4 +75,21 @@ class RememberedLogin extends \Core\Model
 
         $stmt->execute();
     }
+
+    public static function deleteAllUserTokenHash($deletedUserId)
+    {
+        $sql = 'DELETE
+                FROM remembered_logins
+                WHERE user_id = :removingUserIncomeId';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':removingUserIncomeId', $deletedUserId, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+
+
+    
 }
