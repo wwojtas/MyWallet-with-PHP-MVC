@@ -54,4 +54,15 @@ class BalanceSheet extends Authenticated
       return $sum;
    }
 
+   public function getSumExpenseCatagoryAction()
+   {
+
+      $sumExpenseCategory = Balance::getSumExpenseCatagory();
+
+      header('Content-Type: application/json');
+      echo json_encode($sumExpenseCategory);
+
+   }
+
+
 }

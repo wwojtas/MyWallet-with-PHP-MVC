@@ -8,6 +8,9 @@
 <!-- remember Date -->
 <script src="/js/rememberDateExpense.js"></script>
 
+<!-- expense limit -->
+<script src="/js/expenseLimit.js"></script>
+
 <!-- select2.org library - choose expense category -->
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -129,6 +132,37 @@
                 <div class="col-8 offset-2 col-lg-6 offset-lg-3  mt-5">
                     <h1 class="text-center"> Dodaj wydatek </h1>
                     <div class="form">
+
+
+                        <div class="w-100" id="limitTable">
+                            <div class="table-responsive ">
+
+                                <table
+                                    class="table table-primary table-striped table-bordered caption-top table-hover  text-center m-auto">
+                                    <caption> <span class="bold"> Informacja o limicie: </span> </caption>
+                                    <thead class="table-dark ">
+                                        <tr>
+                                            <th scope="col"> Limit </th>
+                                            <th scope="col"> Dotychczas wydano </th>
+                                            <th scope="col"> Różnica </th>
+                                            <th scope="col"> Ostatecznie </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr>
+                                            <th scope="row"> a </th>
+                                            <td> 1 </td>
+                                            <td> 2 </td>
+                                            <td> 3 </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                        </div>
+
 
                         <!-- value -->
                         <form method="post" action="/AddExpense/new" id="expenseForm">

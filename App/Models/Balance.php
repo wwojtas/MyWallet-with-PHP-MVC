@@ -98,4 +98,15 @@ class Balance extends \Core\Model
 		return $stmt->fetchAll();
 	}
 
+
+	public static function getSumExpenseCatagory()
+	{
+		$user = Auth::getUser();
+		$start_date = date("Y-m-01");
+		$end_date = date("Y-m-d");
+
+		$sql ='';
+
+	}
+
 }

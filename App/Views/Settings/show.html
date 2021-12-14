@@ -40,565 +40,6 @@
          <div class="form">
             <div class="accordion accordion-flush" id="accordionFlushExample">
 
-               <!-- Income category accordion item -->
-               <!-- Income category accordion item -->
-
-               <div class="accordion-item p-2 shadow  bg-warning">
-                  <h2 class="accordion-header " id="flush-headingOne">
-                     <button class="accordion-button collapsed dropdown-in-view " type="button"
-                        data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false"
-                        aria-controls="flush-collapseOne">
-                        <div> <span class="bold fw-bold"> Kategorie przychodów</span>
-                        </div>
-                     </button>
-                  </h2>
-
-                  <div id="flush-collapseOne" class="accordion-collapse collapse " aria-labelledby="flush-headingOne"
-                     data-bs-parent="#accordionFlushExample">
-
-                     <div class="accordion-body my-0 p-1 ">
-
-                        {% for incomeCategory in incomeCategories|sort  %}
-                        {% if incomeCategory.name != "Inne" %}
-
-                        <div
-                           class="d-flex justify-content-between align-items-center m-3 shadow-lg border-bottom border-end border-1 border-secondary rounded-end rounded-3">
-
-                           <div class="me-auto p-2">
-                              {{ incomeCategory.name }}
-                           </div>
-
-                           <div class="m-2 px-3">
-                              <button type="button" class="btn btn-primary mx-2 " id="income2" data-bs-toggle="modal"
-                                 data-bs-target="#editIncomeModal{{ loop.index }}">
-                                 <i class="far fa-edit m-2" title="Edytuj"></i>
-                              </button>
-                              <button type="button" class="btn btn-danger pr-5" data-bs-toggle="modal"
-                                 data-bs-target="#deleteIncomeModal{{ loop.index }}">
-                                 <i class="fas fa-trash-alt m-2" title="Usuń"></i>
-                              </button>
-                           </div>
-
-                           <!-- Edit  category income Modal  -->
-
-                           <div class="modal fade" id="editIncomeModal{{ loop.index }}" data-bs-keyboard="false"
-                              tabindex="-1" aria-labelledby="editIncomeModal{{ loop.index }}Label" aria-hidden="true">
-                              <div class="modal-dialog">
-                                 <div class="modal-content">
-
-                                    <form action="/Profile/editCategoryIncome" method="post">
-
-                                       <div class="modal-header">
-                                          <h5 class="modal-title" id="editIncomeModal{{ loop.index }}Label"> <span
-                                                class="dropdown-in-view bold">Edycja
-                                                kategorii przychodu </span> </h5>
-                                          <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                             aria-label="Close"></button>
-                                       </div>
-
-                                       <div class="modal-body text-start">
-                                          <label class="w-100 p-2" for="newIncomeName{{ loop.index }}"> Podaj nową
-                                             nazwę kategorii przychodu
-                                          </label>
-                                          <input class="w-100 px-2 " name="newIncomeName"
-                                             id="newIncomeName{{ loop.index }}" type="text" required>
-                                       </div>
-
-                                       <div class="modal-footer">
-                                          <input type="hidden" name="editedIncomeId" id="income3"
-                                             value="{{ incomeCategory.id }}">
-                                          <button type="button" class="btn btn-secondary dropdown-in-view"
-                                             data-bs-dismiss="modal">
-                                             Anuluj </button>
-                                          <button type="submit" class="btn btn-primary dropdown-in-view"> Zastosuj
-                                          </button>
-                                       </div>
-
-                                    </form>
-
-                                 </div>
-                              </div>
-                           </div>
-
-                           <!-- Delete category income Modal  -->
-
-                           <div class="modal fade" id="deleteIncomeModal{{ loop.index }}" tabindex="-1"
-                              aria-labelledby="deleteIncomeModal{{ loop.index }}Label" aria-hidden="true">
-                              <div class="modal-dialog">
-                                 <div class="modal-content">
-
-                                    <form action="/Profile/deleteCategoryIncome" method="post">
-
-                                       <div class="modal-header">
-                                          <h5 class="modal-title" id="deleteIncomeModal{{ loop.index }}Label"> <span
-                                                class="bold dropdown-in-view ">
-                                                Usuń kategorię </span> </h5>
-                                          <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                             aria-label="Close"></button>
-                                       </div>
-
-                                       <div class="modal-body text-start">
-                                          <p class="w-100 p-2">Czy usunąć <span class="bold">
-                                                {{ incomeCategory.name }} </span> ?</p>
-                                          <input type="hidden" name="deletedIncomeCategoryId"
-                                             value="{{ incomeCategory.id }}">
-                                          <input type="hidden" name="deletedIncomeCategoryUserId" value="{{ user.id }}">
-                                       </div>
-
-                                       <div class="modal-footer">
-                                          <button type="button" class="btn btn-secondary dropdown-in-view"
-                                             data-bs-dismiss="modal">
-                                             Anuluj </button>
-                                          <button type="submit" class="btn btn-primary dropdown-in-view"> Usuń
-                                          </button>
-                                       </div>
-
-                                    </form>
-                                 </div>
-                              </div>
-                           </div>
-
-                        </div>
-                        {% endif %}
-
-                        {% endfor %}
-
-                        {% for incomeCategory in incomeCategories %}
-                        {% if incomeCategory.name == "Inne" %}
-                        <div
-                           class="d-flex justify-content-between align-items-center m-3 shadow-lg border-bottom border-end border-1 border-secondary rounded-end rounded-3">
-
-                           <div class="me-auto p-2"> <span class="dropdown-in-view">
-                                 {{ incomeCategory.name }}
-                              </span>
-                           </div>
-
-                        </div>
-                        {% endif %}
-                        {% endfor %}
-
-
-                        <div class="d-flex justify-content-center ">
-                           <button type="button" class="btn btn-secondary m-3 w-50  dropdown-in-view"
-                              data-bs-toggle="modal" data-bs-target="#addNewIncomeCategory"> Dodaj nową
-                              kategorię</button>
-                        </div>
-
-                        <!-- Modal Add Income Category -->
-                        <div class="modal fade" id="addNewIncomeCategory" data-bs-backdrop="static"
-                           data-bs-keyboard="false" tabindex="-1" aria-labelledby="addNewIncomeCategoryLabel"
-                           aria-hidden="true">
-                           <div class="modal-dialog">
-                              <div class="modal-content">
-
-                                 <form action="/Profile/addNewIncomeCategory" method="post">
-                                    <div class="modal-header">
-                                       <h5 class="modal-title" id="addNewIncomeCategoryLabel"> <span class="bold">
-                                             Nowa kategoria </span> </h5>
-                                       <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                          aria-label="Close"></button>
-                                    </div>
-
-                                    <div class="modal-body text-start">
-                                       <label class="w-100 p-2" for="newIncomeCategory"> Podaj nazwę nowej
-                                          kategorii </label>
-                                       <input class="w-100 px-2" name="newIncomeCategory" id="newIncomeCategory"
-                                          type="text" required>
-                                    </div>
-
-                                    <div class="modal-footer m-2">
-                                       <button type="button" class="btn btn-secondary btn-lg"
-                                          data-bs-dismiss="modal">Anuluj</button>
-                                       <button type="submit" class="btn btn-primary">Dodaj</button>
-                                    </div>
-                                 </form>
-
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-
-               </div>
-               <!--END -- Income category accordion item -->
-
-               <!-- Expense category accordion item -->
-               <!-- Expense category accordion item -->
-
-               <div class="accordion-item p-2 shadow bg-warning ">
-                  <h2 class="accordion-header " id="flush-headingTwo">
-                     <button class="accordion-button collapsed dropdown-in-view " type="button"
-                        data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false"
-                        aria-controls="flush-collapseTwo">
-                        <div> <span class="bold"> Kategorie wydatków </span> </div>
-                     </button>
-                  </h2>
-
-                  <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
-                     data-bs-parent="#accordionFlushExample">
-
-                     <div class="accordion-body my-0 p-1">
-
-                        {% for expenseCategory in expenseCategories %}
-                        {% if expenseCategory.name != "Inne" %}
-
-                        <div
-                           class="d-flex justify-content-between align-items-center m-3 shadow-lg border-bottom border-end border-1 border-secondary rounded-end rounded-3">
-
-                           <div class="m-0 p-0 text-start">
-
-                              <div class="me-auto bd-highlight m-2"> {{ expenseCategory.name }} </div>
-
-                              {% if expenseCategory.expense_limit != 0 %}
-
-                              <div class="m-2 fs-4"> Limit: {{ expenseCategory.expense_limit }} </div>
-
-                              {% endif %}
-                           </div>
-
-                           <div class="m-2 px-3">
-                              <button type="button" class="btn btn-primary mx-2" data-bs-toggle="modal"
-                                 data-bs-target="#editExpenseModal{{ loop.index }}">
-                                 <i class="far fa-edit m-2" title="Edytuj"></i>
-                              </button>
-                              <button type="button" class="btn btn-danger pr-5" data-bs-toggle="modal"
-                                 data-bs-target="#deleteExpenseModal{{ loop.index }}">
-                                 <i class="fas fa-trash-alt m-2" title="Usuń"></i>
-                              </button>
-                           </div>
-
-                           <!-- Edit  category expense Modal  -->
-
-                           <div class="modal fade" id="editExpenseModal{{ loop.index }}" tabindex="-1"
-                              aria-labelledby="editExpenseModal{{ loop.index }}Label" aria-hidden="true">
-                              <div class="modal-dialog">
-                                 <div class="modal-content">
-
-                                    <form action="/Profile/editCategoryExpense" method="post">
-
-                                       <div class="modal-header">
-                                          <h5 class="modal-title" id="editExpenseModal{{ loop.index }}Label"> <span
-                                                class="dropdown-in-view bold"> Edycja
-                                                kategorii wydatku </span> </h5>
-                                          <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                             aria-label="Close"></button>
-                                       </div>
-
-                                       <div class="modal-body text-start">
-
-                                          <label class="w-100 p-2" for="newExpenseName{{ loop.index }}"> Podaj nową
-                                             nazwę kategorii wydatku </label>
-                                          <input class="w-100 px-2" name="newExpenseName"
-                                             id="newExpenseName{{ loop.index }}" type="text">
-                                          <input type="hidden" name="editedExpenseId" value="{{ expenseCategory.id }}">
-
-                                          <!-- limit checkbox  -->
-
-                                          <label class="w-100"><input type="checkbox" name="checkbox"
-                                                id="limitCheckBox{{ loop.index }}" for="limitValue{{ loop.index }}">
-                                             &nbsp;
-                                             Włącz miesięczny limit</label>
-                                          <input type="number" class="w-100 " name="limitValue"
-                                             id="limitValue{{ loop.index }}" min="0" step="1.0" disabled>
-
-                                       </div>
-
-                                       <div class="modal-footer">
-                                          <button type="button" class="btn btn-secondary dropdown-in-view"
-                                             data-bs-dismiss="modal">
-                                             Anuluj </button>
-                                          <button type="submit" class="btn btn-primary dropdown-in-view"> Zastosuj
-                                          </button>
-                                       </div>
-
-                                    </form>
-
-                                 </div>
-                              </div>
-                           </div>
-
-                           <!-- Delete category expense Modal  -->
-                           <div class="modal fade" id="deleteExpenseModal{{ loop.index }}" tabindex="-1"
-                              aria-labelledby="deleteExpenseModal{{ loop.index }}Label" aria-hidden="true">
-                              <div class="modal-dialog">
-                                 <div class="modal-content">
-
-                                    <form action="/Profile/deleteCategoryExpense" method="post">
-
-                                       <div class="modal-header">
-                                          <h5 class="modal-title" id="deleteExpenseModal{{ loop.index }}Label"> <span
-                                                class="bold dropdown-in-view ">
-                                                Usuń kategorię </span> </h5>
-                                          <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                             aria-label="Close"></button>
-                                       </div>
-
-                                       <div class="modal-body text-start">
-                                          <p class="w-100 p-2">Czy usunąć
-                                             {{ expenseCategory.name }} ?</p>
-                                          <input type="hidden" name="deletedExpenseCategoryId"
-                                             value="{{ expenseCategory.id }}">
-                                          <input type="hidden" name="deletedExpenseCategoryUserId"
-                                             value="{{ user.id }}">
-
-                                       </div>
-
-                                       <div class="modal-footer">
-                                          <button type="button" class="btn btn-secondary dropdown-in-view"
-                                             data-bs-dismiss="modal">
-                                             Anuluj </button>
-                                          <button type="submit" class="btn btn-primary dropdown-in-view"> Usuń
-                                          </button>
-                                       </div>
-
-                                    </form>
-                                 </div>
-                              </div>
-                           </div>
-
-                           {% endif %}
-
-                        </div>
-
-                        {% endfor %}
-
-                        {% for expenseCategory in expenseCategories %}
-                        {% if expenseCategory.name == "Inne" %}
-                        <div
-                           class="d-flex justify-content-between align-items-center m-3 shadow-lg border-bottom border-end border-1 border-secondary rounded-end rounded-3">
-
-                           <div class="m-2 fs-5 "> <span class="dropdown-in-view"> {{ expenseCategory.name }}
-                              </span>
-                           </div>
-
-                        </div>
-                        {% endif %}
-                        {% endfor %}
-
-                        <div class="d-flex justify-content-center ">
-                           <button type="button" class="btn btn-secondary m-3 w-50  dropdown-in-view"
-                              data-bs-toggle="modal" data-bs-target="#addNewExpenseCategory"> Dodaj nową
-                              kategorię </button>
-                        </div>
-
-                        <!-- Modal Add Expense Category -->
-                        <div class="modal fade" id="addNewExpenseCategory" data-bs-backdrop="static"
-                           data-bs-keyboard="false" tabindex="-1" aria-labelledby="addNewExpenseCategoryLabel"
-                           aria-hidden="true">
-                           <div class="modal-dialog">
-                              <div class="modal-content">
-                                 <form action="/Profile/addNewExpenseCategory" method="post">
-                                    <div class="modal-header">
-                                       <h5 class="modal-title" id="addNewExpenseCategoryLabel"> <span
-                                             class="bold dropdown-in-view ">
-                                             Nowa kategoria </span></h5>
-                                       <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                          aria-label="Close"></button>
-                                    </div>
-
-                                    <div class="modal-body text-start">
-
-                                       <label class="w-100 p-2" for="newExpenseCategory"> Podaj nazwę nowej
-                                          kategorii </label>
-                                       <input class="w-100 px-2" name="newExpenseCategory" id="newExpenseCategory"
-                                          type="text" required>
-                                       <p class="errorMessageBox"> </p>
-
-                                    </div>
-
-                                    <div class="modal-footer m-2">
-                                       <button type="button" class="btn btn-secondary btn-lg"
-                                          data-bs-dismiss="modal">Anuluj</button>
-                                       <button type="submit" class="btn btn-primary">Dodaj</button>
-                                    </div>
-                                 </form>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-
-               </div>
-               <!-- END -- Expense category accordion item -->
-
-               <!-- Payment method accordion item -->
-               <!-- Payment method accordion item -->
-
-               <div class="accordion-item p-2 shadow bg-warning ">
-                  <h2 class="accordion-header " id="flush-headingThree">
-                     <button class="accordion-button collapsed dropdown-in-view " type="button"
-                        data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false"
-                        aria-controls="flush-collapseThree">
-                        <div> <span class="bold"> Sposoby płatności </span>
-                        </div>
-                     </button>
-                  </h2>
-
-                  <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree"
-                     data-bs-parent="#accordionFlushExample">
-
-                     <div class="accordion-body my-0 p-1">
-
-                        {% for paymentMethod in paymentMethods %}
-                        {% if paymentMethod.name != "Inne" %}
-                        <div
-                           class="d-flex justify-content-between align-items-center m-3 shadow-lg border-bottom border-end border-1 border-secondary rounded-end rounded-3">
-
-                           <div class="me-auto bd-highlight m-2">
-                              {{ paymentMethod.name }}
-                           </div>
-
-                           <div class="m-2 px-3">
-                              <button type="button" class="btn btn-primary mx-2 " data-bs-toggle="modal"
-                                 data-bs-target="#editPaymentModal{{ loop.index }}">
-                                 <i class="far fa-edit m-2" title="Edytuj"></i>
-                              </button>
-                              <button type="button" class="btn btn-danger pr-5" data-bs-toggle="modal"
-                                 data-bs-target="#deletePaymentModal{{ loop.index }}">
-                                 <i class="fas fa-trash-alt m-2" title="Usuń"></i>
-                              </button>
-                           </div>
-
-                           <!-- Edit payment method Modal  -->
-
-                           <div class="modal fade" id="editPaymentModal{{ loop.index }}" data-bs-keyboard="false"
-                              tabindex="-1" aria-labelledby="editPaymentModal{{ loop.index }}Label" aria-hidden="true">
-                              <div class="modal-dialog">
-                                 <div class="modal-content">
-
-                                    <form action="/Profile/editCategoryPayment" method="post">
-
-                                       <div class="modal-header">
-                                          <h5 class="modal-title" id="editPaymentModal{{ loop.index }}Label"> <span
-                                                class="dropdown-in-view bold"> Edycja
-                                                sposobu płatności </span> </h5>
-                                          <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                             aria-label="Close"></button>
-                                       </div>
-
-                                       <div class="modal-body text-start">
-                                          <label class="w-100 p-2" for="newPaymentName{{ loop.index }}"> Podaj nową
-                                             nazwę metody płatności
-                                          </label>
-                                          <input class="w-100 px-2 paymentMethodInput" name="newPaymentName"
-                                             id="newPaymentName{{ loop.index }}" type="text" required>
-                                       </div>
-
-                                       <div class="modal-footer">
-                                          <input type="hidden" name="editedPaymentId" value="{{ paymentMethod.id }}">
-                                          <button type="button" class="btn btn-secondary dropdown-in-view"
-                                             data-bs-dismiss="modal">
-                                             Anuluj </button>
-                                          <button type="submit" class="btn btn-primary dropdown-in-view"> Zastosuj
-                                          </button>
-                                       </div>
-
-                                    </form>
-
-                                 </div>
-                              </div>
-                           </div>
-
-                           <!-- Delete payment method Modal  -->
-
-                           <div class="modal fade" id="deletePaymentModal{{ loop.index }}" tabindex="-1"
-                              aria-labelledby="deletePaymentModal{{ loop.index }}Label" aria-hidden="true">
-                              <div class="modal-dialog">
-                                 <div class="modal-content">
-
-                                    <form action="/Profile/deletePaymentCategory" method="post">
-
-                                       <div class="modal-header">
-                                          <h5 class="modal-title" id="deletePaymentModal{{ loop.index }}Label"> <span
-                                                class="bold dropdown-in-view ">
-                                                Usuń kategorię </span> </h5>
-                                          <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                             aria-label="Close"></button>
-                                       </div>
-
-                                       <div class="modal-body text-start">
-                                          <p class="w-100 p-2">Czy usunąć <span class="bold">
-                                                {{ paymentMethod.name }} </span> ?</p>
-                                          <input type="hidden" name="deletedPaymentId" value="{{ paymentMethod.id }}">
-                                          <input type="hidden" name="deletedPaymentUserId" value="{{ user.id }}">
-                                       </div>
-
-                                       <div class="modal-footer">
-                                          <button type="button" class="btn btn-secondary dropdown-in-view"
-                                             data-bs-dismiss="modal">
-                                             Anuluj </button>
-                                          <button type="submit" class="btn btn-primary dropdown-in-view"> Usuń
-                                          </button>
-                                       </div>
-
-                                    </form>
-                                 </div>
-                              </div>
-                           </div>
-
-                        </div>
-                        {% endif %}
-                        {% endfor %}
-
-                        {% for paymentMethod in paymentMethods %}
-
-                        {% if paymentMethod.name == "Inne" %}
-                        <div
-                           class="d-flex justify-content-between align-items-center m-3 shadow-lg border-bottom border-end border-1 border-secondary rounded-end rounded-3">
-                           <div class="m-2"> <span class="dropdown-in-view"> {{ paymentMethod.name }}
-                              </span>
-                           </div>
-                        </div>
-                        {% endif %}
-                        {% endfor %}
-
-                        <div class="d-flex justify-content-center ">
-                           <button type="button" class="btn btn-secondary m-3 w-50  dropdown-in-view"
-                              data-bs-toggle="modal" data-bs-target="#addNewPaymentCategory"> Dodaj nową
-                              kategorię</button>
-                        </div>
-
-                        <!-- Modal Add payment method Category -->
-
-                        <div class="modal fade" id="addNewPaymentCategory" data-bs-backdrop="static"
-                           data-bs-keyboard="false" tabindex="-1" aria-labelledby="addNewPaymentCategoryLabel"
-                           aria-hidden="true">
-                           <div class="modal-dialog">
-                              <div class="modal-content">
-
-                                 <form action="/Profile/addNewPaymentCategory" method="post">
-                                    <div class="modal-header">
-                                       <h5 class="modal-title" id="addNewPaymentCategoryLabel"> <span class="bold">
-                                             Nowa kategoria </span> </h5>
-                                       <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                          aria-label="Close"></button>
-                                    </div>
-
-                                    <div class="modal-body text-start">
-                                       <label class="w-100 p-2" for="newPaymentCategory"> Podaj nazwę nowej
-                                          kategorii </label>
-                                       <input class="w-100 px-2" name="newPaymentCategory" id="newPaymentCategory"
-                                          type="text" required>
-                                    </div>
-
-                                    <div class="modal-footer m-2">
-                                       <button type="button" class="btn btn-secondary btn-lg"
-                                          data-bs-dismiss="modal">Anuluj</button>
-                                       <button type="submit" class="btn btn-primary">Dodaj</button>
-                                    </div>
-                                 </form>
-
-                              </div>
-                           </div>
-                        </div>
-
-                     </div>
-                  </div>
-
-               </div>
-
-               <!-- END -- Payment method accordion item -->
-
 
                <!-- START  USER accordion item -->
                <!-- START  USER accordion item -->
@@ -883,6 +324,572 @@
                </div>
 
                <!-- END  USER accordion item -->
+
+
+               <!-- Payment method accordion item -->
+               <!-- Payment method accordion item -->
+
+               <div class="accordion-item p-2 shadow bg-warning ">
+                  <h2 class="accordion-header " id="flush-headingThree">
+                     <button class="accordion-button collapsed dropdown-in-view " type="button"
+                        data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false"
+                        aria-controls="flush-collapseThree">
+                        <div> <span class="bold"> Sposoby płatności </span>
+                        </div>
+                     </button>
+                  </h2>
+
+                  <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree"
+                     data-bs-parent="#accordionFlushExample">
+
+                     <div class="accordion-body my-0 p-1">
+
+                        {% for paymentMethod in paymentMethods %}
+                        {% if paymentMethod.name != "Inne" %}
+                        <div
+                           class="d-flex justify-content-between align-items-center m-3 shadow-lg border-bottom border-end border-1 border-secondary rounded-end rounded-3">
+
+                           <div class="me-auto bd-highlight m-2">
+                              {{ paymentMethod.name }}
+                           </div>
+
+                           <div class="m-2 px-3">
+                              <button type="button" class="btn btn-primary mx-2 " data-bs-toggle="modal"
+                                 data-bs-target="#editPaymentModal{{ loop.index }}">
+                                 <i class="far fa-edit m-2" title="Edytuj"></i>
+                              </button>
+                              <button type="button" class="btn btn-danger pr-5" data-bs-toggle="modal"
+                                 data-bs-target="#deletePaymentModal{{ loop.index }}">
+                                 <i class="fas fa-trash-alt m-2" title="Usuń"></i>
+                              </button>
+                           </div>
+
+                           <!-- Edit payment method Modal  -->
+
+                           <div class="modal fade" id="editPaymentModal{{ loop.index }}" data-bs-keyboard="false"
+                              tabindex="-1" aria-labelledby="editPaymentModal{{ loop.index }}Label" aria-hidden="true">
+                              <div class="modal-dialog">
+                                 <div class="modal-content">
+
+                                    <form action="/Profile/editCategoryPayment" method="post">
+
+                                       <div class="modal-header">
+                                          <h5 class="modal-title" id="editPaymentModal{{ loop.index }}Label"> <span
+                                                class="dropdown-in-view bold"> Edycja
+                                                sposobu płatności </span> </h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                             aria-label="Close"></button>
+                                       </div>
+
+                                       <div class="modal-body text-start">
+                                          <label class="w-100 p-2" for="newPaymentName{{ loop.index }}"> Podaj nową
+                                             nazwę metody płatności
+                                          </label>
+                                          <input class="w-100 px-2 paymentMethodInput" name="newPaymentName"
+                                             id="newPaymentName{{ loop.index }}" type="text" required>
+                                       </div>
+
+                                       <div class="modal-footer">
+                                          <input type="hidden" name="editedPaymentId" value="{{ paymentMethod.id }}">
+                                          <button type="button" class="btn btn-secondary dropdown-in-view"
+                                             data-bs-dismiss="modal">
+                                             Anuluj </button>
+                                          <button type="submit" class="btn btn-primary dropdown-in-view"> Zastosuj
+                                          </button>
+                                       </div>
+
+                                    </form>
+
+                                 </div>
+                              </div>
+                           </div>
+
+                           <!-- Delete payment method Modal  -->
+
+                           <div class="modal fade" id="deletePaymentModal{{ loop.index }}" tabindex="-1"
+                              aria-labelledby="deletePaymentModal{{ loop.index }}Label" aria-hidden="true">
+                              <div class="modal-dialog">
+                                 <div class="modal-content">
+
+                                    <form action="/Profile/deletePaymentCategory" method="post">
+
+                                       <div class="modal-header">
+                                          <h5 class="modal-title" id="deletePaymentModal{{ loop.index }}Label"> <span
+                                                class="bold dropdown-in-view ">
+                                                Usuń kategorię </span> </h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                             aria-label="Close"></button>
+                                       </div>
+
+                                       <div class="modal-body text-start">
+                                          <p class="w-100 p-2">Czy usunąć <span class="bold">
+                                                {{ paymentMethod.name }} </span> ?</p>
+                                          <input type="hidden" name="deletedPaymentId" value="{{ paymentMethod.id }}">
+                                          <input type="hidden" name="deletedPaymentUserId" value="{{ user.id }}">
+                                       </div>
+
+                                       <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary dropdown-in-view"
+                                             data-bs-dismiss="modal">
+                                             Anuluj </button>
+                                          <button type="submit" class="btn btn-primary dropdown-in-view"> Usuń
+                                          </button>
+                                       </div>
+
+                                    </form>
+                                 </div>
+                              </div>
+                           </div>
+
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% for paymentMethod in paymentMethods %}
+
+                        {% if paymentMethod.name == "Inne" %}
+                        <div
+                           class="d-flex justify-content-between align-items-center m-3 shadow-lg border-bottom border-end border-1 border-secondary rounded-end rounded-3">
+                           <div class="m-2"> <span class="dropdown-in-view"> {{ paymentMethod.name }}
+                              </span>
+                           </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+
+                        <div class="d-flex justify-content-center ">
+                           <button type="button" class="btn btn-secondary m-3 w-50  dropdown-in-view"
+                              data-bs-toggle="modal" data-bs-target="#addNewPaymentCategory"> Dodaj nową
+                              kategorię</button>
+                        </div>
+
+                        <!-- Modal Add payment method Category -->
+
+                        <div class="modal fade" id="addNewPaymentCategory" data-bs-backdrop="static"
+                           data-bs-keyboard="false" tabindex="-1" aria-labelledby="addNewPaymentCategoryLabel"
+                           aria-hidden="true">
+                           <div class="modal-dialog">
+                              <div class="modal-content">
+
+                                 <form action="/Profile/addNewPaymentCategory" method="post">
+                                    <div class="modal-header">
+                                       <h5 class="modal-title" id="addNewPaymentCategoryLabel"> <span class="bold">
+                                             Nowa kategoria </span> </h5>
+                                       <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                          aria-label="Close"></button>
+                                    </div>
+
+                                    <div class="modal-body text-start">
+                                       <label class="w-100 p-2" for="newPaymentCategory"> Podaj nazwę nowej
+                                          kategorii </label>
+                                       <input class="w-100 px-2" name="newPaymentCategory" id="newPaymentCategory"
+                                          type="text" required>
+                                    </div>
+
+                                    <div class="modal-footer m-2">
+                                       <button type="button" class="btn btn-secondary btn-lg"
+                                          data-bs-dismiss="modal">Anuluj</button>
+                                       <button type="submit" class="btn btn-primary">Dodaj</button>
+                                    </div>
+                                 </form>
+
+                              </div>
+                           </div>
+                        </div>
+
+                     </div>
+                  </div>
+
+               </div>
+
+               <!-- END -- Payment method accordion item -->
+
+
+               <!-- Income category accordion item -->
+               <!-- Income category accordion item -->
+
+               <div class="accordion-item p-2 shadow  bg-warning">
+                  <h2 class="accordion-header " id="flush-headingOne">
+                     <button class="accordion-button collapsed dropdown-in-view " type="button"
+                        data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false"
+                        aria-controls="flush-collapseOne">
+                        <div> <span class="bold fw-bold"> Kategorie przychodów</span>
+                        </div>
+                     </button>
+                  </h2>
+
+                  <div id="flush-collapseOne" class="accordion-collapse collapse " aria-labelledby="flush-headingOne"
+                     data-bs-parent="#accordionFlushExample">
+
+                     <div class="accordion-body my-0 p-1 ">
+
+                        {% for incomeCategory in incomeCategories|sort  %}
+                        {% if incomeCategory.name != "Inne" %}
+
+                        <div
+                           class="d-flex justify-content-between align-items-center m-3 shadow-lg border-bottom border-end border-1 border-secondary rounded-end rounded-3">
+
+                           <div class="me-auto p-2">
+                              {{ incomeCategory.name }}
+                           </div>
+
+                           <div class="m-2 px-3">
+                              <button type="button" class="btn btn-primary mx-2 " id="income2" data-bs-toggle="modal"
+                                 data-bs-target="#editIncomeModal{{ loop.index }}">
+                                 <i class="far fa-edit m-2" title="Edytuj"></i>
+                              </button>
+                              <button type="button" class="btn btn-danger pr-5" data-bs-toggle="modal"
+                                 data-bs-target="#deleteIncomeModal{{ loop.index }}">
+                                 <i class="fas fa-trash-alt m-2" title="Usuń"></i>
+                              </button>
+                           </div>
+
+                           <!-- Edit  category income Modal  -->
+
+                           <div class="modal fade" id="editIncomeModal{{ loop.index }}" data-bs-keyboard="false"
+                              tabindex="-1" aria-labelledby="editIncomeModal{{ loop.index }}Label" aria-hidden="true">
+                              <div class="modal-dialog">
+                                 <div class="modal-content">
+
+                                    <form action="/Profile/editCategoryIncome" method="post">
+
+                                       <div class="modal-header">
+                                          <h5 class="modal-title" id="editIncomeModal{{ loop.index }}Label"> <span
+                                                class="dropdown-in-view bold">Edycja
+                                                kategorii przychodu </span> </h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                             aria-label="Close"></button>
+                                       </div>
+
+                                       <div class="modal-body text-start">
+                                          <label class="w-100 p-2" for="newIncomeName{{ loop.index }}"> Podaj nową
+                                             nazwę kategorii przychodu
+                                          </label>
+                                          <input class="w-100 px-2 " name="newIncomeName"
+                                             id="newIncomeName{{ loop.index }}" type="text" required>
+                                       </div>
+
+                                       <div class="modal-footer">
+                                          <input type="hidden" name="editedIncomeId" id="income3"
+                                             value="{{ incomeCategory.id }}">
+                                          <button type="button" class="btn btn-secondary dropdown-in-view"
+                                             data-bs-dismiss="modal">
+                                             Anuluj </button>
+                                          <button type="submit" class="btn btn-primary dropdown-in-view"> Zastosuj
+                                          </button>
+                                       </div>
+
+                                    </form>
+
+                                 </div>
+                              </div>
+                           </div>
+
+                           <!-- Delete category income Modal  -->
+
+                           <div class="modal fade" id="deleteIncomeModal{{ loop.index }}" tabindex="-1"
+                              aria-labelledby="deleteIncomeModal{{ loop.index }}Label" aria-hidden="true">
+                              <div class="modal-dialog">
+                                 <div class="modal-content">
+
+                                    <form action="/Profile/deleteCategoryIncome" method="post">
+
+                                       <div class="modal-header">
+                                          <h5 class="modal-title" id="deleteIncomeModal{{ loop.index }}Label"> <span
+                                                class="bold dropdown-in-view ">
+                                                Usuń kategorię </span> </h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                             aria-label="Close"></button>
+                                       </div>
+
+                                       <div class="modal-body text-start">
+                                          <p class="w-100 p-2">Czy usunąć <span class="bold">
+                                                {{ incomeCategory.name }} </span> ?</p>
+                                          <input type="hidden" name="deletedIncomeCategoryId"
+                                             value="{{ incomeCategory.id }}">
+                                          <input type="hidden" name="deletedIncomeCategoryUserId" value="{{ user.id }}">
+                                       </div>
+
+                                       <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary dropdown-in-view"
+                                             data-bs-dismiss="modal">
+                                             Anuluj </button>
+                                          <button type="submit" class="btn btn-primary dropdown-in-view"> Usuń
+                                          </button>
+                                       </div>
+
+                                    </form>
+                                 </div>
+                              </div>
+                           </div>
+
+                        </div>
+                        {% endif %}
+
+                        {% endfor %}
+
+                        {% for incomeCategory in incomeCategories %}
+                        {% if incomeCategory.name == "Inne" %}
+                        <div
+                           class="d-flex justify-content-between align-items-center m-3 shadow-lg border-bottom border-end border-1 border-secondary rounded-end rounded-3">
+
+                           <div class="me-auto p-2"> <span class="dropdown-in-view">
+                                 {{ incomeCategory.name }}
+                              </span>
+                           </div>
+
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+
+
+                        <div class="d-flex justify-content-center ">
+                           <button type="button" class="btn btn-secondary m-3 w-50  dropdown-in-view"
+                              data-bs-toggle="modal" data-bs-target="#addNewIncomeCategory"> Dodaj nową
+                              kategorię</button>
+                        </div>
+
+                        <!-- Modal Add Income Category -->
+                        <div class="modal fade" id="addNewIncomeCategory" data-bs-backdrop="static"
+                           data-bs-keyboard="false" tabindex="-1" aria-labelledby="addNewIncomeCategoryLabel"
+                           aria-hidden="true">
+                           <div class="modal-dialog">
+                              <div class="modal-content">
+
+                                 <form action="/Profile/addNewIncomeCategory" method="post">
+                                    <div class="modal-header">
+                                       <h5 class="modal-title" id="addNewIncomeCategoryLabel"> <span class="bold">
+                                             Nowa kategoria </span> </h5>
+                                       <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                          aria-label="Close"></button>
+                                    </div>
+
+                                    <div class="modal-body text-start">
+                                       <label class="w-100 p-2" for="newIncomeCategory"> Podaj nazwę nowej
+                                          kategorii </label>
+                                       <input class="w-100 px-2" name="newIncomeCategory" id="newIncomeCategory"
+                                          type="text" required>
+                                    </div>
+
+                                    <div class="modal-footer m-2">
+                                       <button type="button" class="btn btn-secondary btn-lg"
+                                          data-bs-dismiss="modal">Anuluj</button>
+                                       <button type="submit" class="btn btn-primary">Dodaj</button>
+                                    </div>
+                                 </form>
+
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+
+               </div>
+               <!--END -- Income category accordion item -->
+
+               <!-- Expense category accordion item -->
+               <!-- Expense category accordion item -->
+
+               <div class="accordion-item p-2 shadow bg-warning ">
+                  <h2 class="accordion-header " id="flush-headingTwo">
+                     <button class="accordion-button collapsed dropdown-in-view " type="button"
+                        data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false"
+                        aria-controls="flush-collapseTwo">
+                        <div> <span class="bold"> Kategorie wydatków </span> </div>
+                     </button>
+                  </h2>
+
+                  <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
+                     data-bs-parent="#accordionFlushExample">
+
+                     <div class="accordion-body my-0 p-1">
+
+                        {% for expenseCategory in expenseCategories %}
+                        {% if expenseCategory.name != "Inne" %}
+
+                        <div
+                           class="d-flex justify-content-between align-items-center m-3 shadow-lg border-bottom border-end border-1 border-secondary rounded-end rounded-3">
+
+                           <div class="m-0 p-0 text-start">
+
+                              <div class="me-auto bd-highlight m-2"> {{ expenseCategory.name }} </div>
+
+                              {% if expenseCategory.expense_limit != 0 %}
+
+                              <div class="m-2 fs-4"> Limit: {{ expenseCategory.expense_limit }} </div>
+
+                              {% endif %}
+                           </div>
+
+                           <div class="m-2 px-3">
+                              <button type="button" class="btn btn-primary mx-2" data-bs-toggle="modal"
+                                 data-bs-target="#editExpenseModal{{ loop.index }}">
+                                 <i class="far fa-edit m-2" title="Edytuj"></i>
+                              </button>
+                              <button type="button" class="btn btn-danger pr-5" data-bs-toggle="modal"
+                                 data-bs-target="#deleteExpenseModal{{ loop.index }}">
+                                 <i class="fas fa-trash-alt m-2" title="Usuń"></i>
+                              </button>
+                           </div>
+
+                           <!-- Edit  category expense Modal  -->
+
+                           <div class="modal fade" id="editExpenseModal{{ loop.index }}" tabindex="-1"
+                              aria-labelledby="editExpenseModal{{ loop.index }}Label" aria-hidden="true">
+                              <div class="modal-dialog">
+                                 <div class="modal-content">
+
+                                    <form action="/Profile/editCategoryExpense" method="post">
+
+                                       <div class="modal-header">
+                                          <h5 class="modal-title" id="editExpenseModal{{ loop.index }}Label"> <span
+                                                class="dropdown-in-view bold"> Edycja
+                                                kategorii wydatku </span> </h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                             aria-label="Close"></button>
+                                       </div>
+
+                                       <div class="modal-body text-start">
+
+                                          <label class="w-100 p-2" for="newExpenseName{{ loop.index }}"> Podaj nową
+                                             nazwę kategorii wydatku </label>
+                                          <input class="w-100 px-2" name="newExpenseName"
+                                             id="newExpenseName{{ loop.index }}" type="text">
+                                          <input type="hidden" name="editedExpenseId" value="{{ expenseCategory.id }}">
+
+                                          <!-- limit checkbox  -->
+
+                                          <label class="w-100"><input type="checkbox" name="checkbox"
+                                                id="limitCheckBox{{ loop.index }}" for="limitValue{{ loop.index }}">
+                                             &nbsp;
+                                             Ustaw miesięczny limit</label>
+                                          <input type="number" class="w-100 " name="limitValue"
+                                             id="limitValue{{ loop.index }}" min="0" step="1.0" disabled>
+
+                                       </div>
+
+                                       <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary dropdown-in-view"
+                                             data-bs-dismiss="modal">
+                                             Anuluj </button>
+                                          <button type="submit" class="btn btn-primary dropdown-in-view"> Zastosuj
+                                          </button>
+                                       </div>
+
+                                    </form>
+
+                                 </div>
+                              </div>
+                           </div>
+
+                           <!-- Delete category expense Modal  -->
+                           <div class="modal fade" id="deleteExpenseModal{{ loop.index }}" tabindex="-1"
+                              aria-labelledby="deleteExpenseModal{{ loop.index }}Label" aria-hidden="true">
+                              <div class="modal-dialog">
+                                 <div class="modal-content">
+
+                                    <form action="/Profile/deleteCategoryExpense" method="post">
+
+                                       <div class="modal-header">
+                                          <h5 class="modal-title" id="deleteExpenseModal{{ loop.index }}Label"> <span
+                                                class="bold dropdown-in-view ">
+                                                Usuń kategorię </span> </h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                             aria-label="Close"></button>
+                                       </div>
+
+                                       <div class="modal-body text-start">
+                                          <p class="w-100 p-2">Czy usunąć
+                                             {{ expenseCategory.name }} ?</p>
+                                          <input type="hidden" name="deletedExpenseCategoryId"
+                                             value="{{ expenseCategory.id }}">
+                                          <input type="hidden" name="deletedExpenseCategoryUserId"
+                                             value="{{ user.id }}">
+
+                                       </div>
+
+                                       <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary dropdown-in-view"
+                                             data-bs-dismiss="modal">
+                                             Anuluj </button>
+                                          <button type="submit" class="btn btn-primary dropdown-in-view"> Usuń
+                                          </button>
+                                       </div>
+
+                                    </form>
+                                 </div>
+                              </div>
+                           </div>
+
+                           {% endif %}
+
+                        </div>
+
+                        {% endfor %}
+
+                        {% for expenseCategory in expenseCategories %}
+                        {% if expenseCategory.name == "Inne" %}
+                        <div
+                           class="d-flex justify-content-between align-items-center m-3 shadow-lg border-bottom border-end border-1 border-secondary rounded-end rounded-3">
+
+                           <div class="m-2 fs-5 "> <span class="dropdown-in-view"> {{ expenseCategory.name }}
+                              </span>
+                           </div>
+
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+
+                        <div class="d-flex justify-content-center ">
+                           <button type="button" class="btn btn-secondary m-3 w-50  dropdown-in-view"
+                              data-bs-toggle="modal" data-bs-target="#addNewExpenseCategory"> Dodaj nową
+                              kategorię </button>
+                        </div>
+
+                        <!-- Modal Add Expense Category -->
+                        <div class="modal fade" id="addNewExpenseCategory" data-bs-backdrop="static"
+                           data-bs-keyboard="false" tabindex="-1" aria-labelledby="addNewExpenseCategoryLabel"
+                           aria-hidden="true">
+                           <div class="modal-dialog">
+                              <div class="modal-content">
+                                 <form action="/Profile/addNewExpenseCategory" method="post">
+                                    <div class="modal-header">
+                                       <h5 class="modal-title" id="addNewExpenseCategoryLabel"> <span
+                                             class="bold dropdown-in-view ">
+                                             Nowa kategoria </span></h5>
+                                       <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                          aria-label="Close"></button>
+                                    </div>
+
+                                    <div class="modal-body text-start">
+
+                                       <label class="w-100 p-2" for="newExpenseCategory"> Podaj nazwę nowej
+                                          kategorii </label>
+                                       <input class="w-100 px-2" name="newExpenseCategory" id="newExpenseCategory"
+                                          type="text" required>
+                                       <p class="errorMessageBox"> </p>
+
+                                    </div>
+
+                                    <div class="modal-footer m-2">
+                                       <button type="button" class="btn btn-secondary btn-lg"
+                                          data-bs-dismiss="modal">Anuluj</button>
+                                       <button type="submit" class="btn btn-primary">Dodaj</button>
+                                    </div>
+                                 </form>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+
+               </div>
+               <!-- END -- Expense category accordion item -->
+
+
+
+
+
 
 
 

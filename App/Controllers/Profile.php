@@ -234,14 +234,6 @@ class Profile extends Authenticated
 
     }
 
-
-
-
-
-
-
-
-
     public function addNewPaymentCategoryAction()
     {
       $newPaymentCategory = $_POST['newPaymentCategory'];
