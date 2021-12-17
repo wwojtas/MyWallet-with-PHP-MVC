@@ -74,5 +74,14 @@ class AddExpense extends Authenticated
         Expense::getDataPayment($searchTerm);
     }
 
+    public function getSumExpenseCatagoryAction()
+   {
+
+      $sumExpenseCategory = Expense::getSumExpenseCatagory();
+
+      header('Content-Type: application/json');
+      echo json_encode($sumExpenseCategory);
+   }
+
 
 }

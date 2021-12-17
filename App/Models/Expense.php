@@ -387,5 +387,40 @@ class Expense extends \Core\Model
   }
 
 
+  public static function getSumExpenseCatagory()
+	{
+		$user = Auth::getUser();
+		$start_date = date("Y-m-01");
+		$end_date = date("Y-m-d");
+
+		$sql = 'SELECT ecatu.id, ecatu.name, ecatu.expense_limit, SUM(expenses.amount) AS sumCategory
+				FROM expenses
+				INNER JOIN expenses_category_assigned_to_users AS ecatu
+					ON expenses.expense_category_assigned_to_user_id = ecatu.id
+				WHERE expenses.user_id = :user_id
+				AND expenses.date_of_expense >= :startDate AND  expenses.date_of_expense <= :endDate
+				GROUP BY ecatu.name';
+
+		// $sql = 	'SELECT ecatu.id, ecatu.name, ecatu.expense_limit, SUM(expenses.amount) AS sumCategory
+		// 		FROM expenses_category_assigned_to_users AS ecatu, expenses
+		// 		WHERE expenses.expense_category_assigned_to_user_id = ecatu.id
+		// 		AND expenses.user_id = :user_id
+		// 		AND expenses.date_of_expense >= :startDate AND  expenses.date_of_expense <= :endDate
+		// 		GROUP BY ecatu.name';
+
+
+
+		$db = static::getDB();
+		$stmt = $db->prepare($sql);
+		$stmt -> bindValue(':user_id', $user->id, PDO::PARAM_INT);
+		$stmt -> bindValue(':startDate', $start_date, PDO::PARAM_STR);
+		$stmt -> bindValue(':endDate', $end_date, PDO::PARAM_STR);
+		$stmt->execute();
+
+		return ($stmt->fetchAll());
+
+	}
+
+
 
 }

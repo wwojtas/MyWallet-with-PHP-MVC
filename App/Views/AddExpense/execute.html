@@ -5,15 +5,12 @@
 
 {% block footer %}
 
-<!-- remember Date -->
-<script src="/js/rememberDateExpense.js"></script>
-
-<!-- expense limit -->
-<script src="/js/expenseLimit.js"></script>
-
 <!-- select2.org library - choose expense category -->
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<!-- remember Date -->
+<script src="/js/rememberDateExpense.js"></script>
 
 <!-- validate and select2 scripts -->
 <script>
@@ -112,6 +109,47 @@
     });
 </script>
 
+
+<!-- expense limit -->
+<script>
+
+    const url = '/AddExpense/getSumExpenseCatagory';
+    const inputTable = document.getElementById("limitTable");
+    let limit = document.getElementById("limit");
+    let issued = document.getElementById("issued");
+    let difference = document.getElementById("difference");
+    let finaly = document.getElementById("finally");
+    inputTable.style.display = "block";
+    
+    let value = document.getElementById('amount').addEventListener('input', (e) => {
+                     e.target.value;
+                })
+
+    let lastText = "";
+
+    $("#expense_category").select2().on("change", function(e) {
+        lastText = $("#expense_category option:last-child").text();
+    //     alert(lastText);
+    // console.log(lastText);
+    fetch(url).then(res => res.json())
+            .then(res => {
+                console.log(res);
+                for(let i in res) {
+      
+                    // limit.textContent =  `${res[i].expense_limit}`;
+                    limit.textContent =  lastText;
+                    issued.textContent =  `${res[i].sumCategory}`;
+                    difference.textContent = `${res[i].expense_limit}` - `${res[i].sumCategory}`;
+                    finaly.textContent = `${res[i].expense_limit} - ${res[i].sumCategory}` - value;
+                }
+                
+            })
+        
+    });
+    
+    
+    </script>
+
 <!-- footer -->
 <footer class="bg-dark text-light footer fixed-bottom">
     <p class="py-3  mb-0 text-center"> Wszelkie prawa zastrzeżone &copy; 2021 Copyright <i
@@ -148,13 +186,13 @@
                                             <th scope="col"> Ostatecznie </th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="data">
 
                                         <tr>
-                                            <th scope="row"> a </th>
-                                            <td> 1 </td>
-                                            <td> 2 </td>
-                                            <td> 3 </td>
+                                            <td id="limit"> </td>
+                                            <td id="issued">  </td>
+                                            <td id="difference">  </td>
+                                            <td id="finally"> </td>
                                         </tr>
 
                                     </tbody>
@@ -198,7 +236,7 @@
                                 <div class="col-sm-8 offset-sm-2">
                                     <select name="payment_method" id="payment_method" required>
                                         <option value="0" selected> Wybierz sposób płatności
-                                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp </option>
+                                            &nbsp&nbsp&nbsp&nbsp&nbsp </option>
                                     </select>
                                 </div>
                             </div>
@@ -213,7 +251,7 @@
                                 <div class="col-sm-8 offset-sm-2">
                                     <select name="expense_category" id="expense_category" required>
                                         <option value="0" selected> Wybierz kategorię wydatku
-                                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp </option>
+                                            &nbsp&nbsp&nbsp&nbsp&nbsp </option>
                                     </select>
                                 </div>
                             </div>
