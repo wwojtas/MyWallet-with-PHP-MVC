@@ -8,164 +8,7 @@
 <!-- select2.org library - choose expense category -->
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-<!-- remember Date -->
-<script src="/js/rememberDateExpense.js"></script>
-
-<!-- validate and select2 scripts -->
-<script>
-    $(document).ready(function () {
-
-        $('#expenseForm').validate({
-            rules: {
-                amount: 'required',
-                date_of_expense: 'required',
-                expense_category: {
-                    min: 1
-                },
-                payment_method: {
-                    min: 1
-                }
-            },
-            messages: {
-                amount: {
-                    required: 'Podaj wartośc wydatku',
-                    number: "Podaj poprawną liczbę",
-                },
-                date_of_expense: 'Podaj datę',
-                expense_category: 'Wybierz kategorię wydatku',
-                payment_method: 'Wybierz sposób płatności'
-            },
-
-            errorPlacement: function (error, element) {
-                var name = $(element).attr("name");
-                error.appendTo($("#" + name + "_validate"));
-            },
-        });
-
-        $("#expense_category").select2({
-            ajax: {
-                url: "/AddExpense/chooseExpenseCategory",
-                type: "post",
-                dataType: 'json',
-                delay: 250,
-                data: function (params) {
-                    return {
-                        searchTerm: params.term // search term
-                    };
-                },
-                processResults: function (response) {
-                    return {
-                        results: response
-                    };
-                },
-                cache: true
-            }
-        });
-
-
-        $("#payment_method").select2({
-            ajax: {
-                url: "/AddExpense/choosePaymentMethod",
-                type: "post",
-                dataType: 'json',
-                delay: 250,
-                data: function (params) {
-                    return {
-                        searchTerm: params.term // search term
-                    };
-                },
-                processResults: function (response) {
-                    return {
-                        results: response
-                    };
-                },
-                cache: true
-            }
-        });
-    });
-
-    // FETCH instruction
-    // adres URL
-
-    const url = '/AddExpense/getSumExpenseCatagory';
-    const inputTable = document.getElementById("limitTable");
-    let limit = document.getElementById("limit");
-    let issued = document.getElementById("issued");
-    let difference = document.getElementById("difference");
-    let finaly = document.getElementById("finally");
-
-    inputTable.style.display = "none";
-
-    let selectedCategory = "";
-    let inputValue = 0;
-
-
-    $("#amount").on("input", function () {
-
-        selectedCategory = $("#expense_category option:last-child").text();
-        inputValue = $("#amount").val();
-        console.log(inputValue);
-
-        fetch(url).then(res => res.json())
-            .then(res => {
-                console.log(inputValue);
-                console.log(res);
-                res.forEach(el => {
-
-                    if (el['name'] == selectedCategory) {
-
-                        if (el['expense_limit'] == 0) {
-
-                            inputTable.style.display = "none";
-
-                        } else {
-                            limit.textContent = el['expense_limit'];
-                            issued.textContent = el['sumCategory'];
-                            difference.textContent = el['expense_limit'] - el['sumCategory'];
-                            finaly.textContent = difference.textContent - inputValue;
-                            inputTable.style.display = "block";
-                        }
-                    }
-                });
-            })
-    });
-
-
-    $("#expense_category").on("change", function () {
-        selectedCategory = $("#expense_category option:last-child").text();
-        inputValue = $("#amount").val();
-
-        fetch(url).then(res => res.json())
-            .then(res => {
-                console.log(res);
-                res.forEach(el => {
-
-                    console.log(inputValue);
-
-
-                    if (el['name'] == selectedCategory) {
-
-                        if (el['expense_limit'] == 0) {
-
-                            inputTable.style.display = "none";
-
-                        } else {
-                            limit.textContent = el['expense_limit'];
-                            issued.textContent = el['sumCategory'];
-                            difference.textContent = el['expense_limit'] - el['sumCategory'];
-                            finaly.textContent = difference.textContent - inputValue;
-                            inputTable.style.display = "block";
-                        }
-                    }
-
-                });
-            })
-    });
-</script>
-
-
-
+<script src="/js/addExpense.js"></script>
 
 <!-- footer -->
 <footer class="bg-dark text-light footer fixed-bottom">
@@ -174,7 +17,6 @@
 </footer>
 
 {% endblock footer %}
-
 
 {% block body %}
 
@@ -187,14 +29,10 @@
                 <div class="col-8 offset-2 col-lg-6 offset-lg-3  mt-5">
                     <h1 class="text-center"> Dodaj wydatek </h1>
                     <div class="form">
-
-
                         <div class="w-100 table-responsive" id="limitTable">
-
-
                             <table
                                 class="table table-primary table-striped table-bordered caption-top table-hover  text-center m-auto">
-                                <caption> <span class="bold"> Informacja o limicie: </span> </caption>
+                                <caption> <span class="fw-bold"> Informacja o limicie: </span> </caption>
                                 <thead class="table-dark ">
                                     <tr>
                                         <th scope="col"> Limit </th>
@@ -203,27 +41,23 @@
                                         <th scope="col"> Ostatecznie </th>
                                     </tr>
                                 </thead>
-                                <tbody id="data">
-
+                                <tbody>
                                     <tr>
                                         <td id="limit"> </td>
                                         <td id="issued"> </td>
                                         <td id="difference"> </td>
                                         <td id="finally"> </td>
                                     </tr>
-
                                 </tbody>
                             </table>
-
-
                         </div>
-
 
                         <!-- value -->
                         <form method="post" action="/AddExpense/new" id="expenseForm">
 
                             <div class="row my-4">
-                                <label for="amount" class="col-sm-2 col-form-label"> <span class="bold"> Wartość:</span>
+                                <label for="amount" class="col-sm-2 col-form-label"> <span class="fw-bold">
+                                        Wartość:</span>
                                 </label>
                                 <div class="col-sm-8 offset-sm-2 text-right">
                                     <input type="number" class="form-control" id="amount" name="amount" step="0.01"
@@ -234,7 +68,8 @@
 
                             <!-- date  -->
                             <div class="row my-4">
-                                <label for="date_of_expense" class="col-sm-2 col-form-label"> <span class="bold"> Data:
+                                <label for="date_of_expense" class="col-sm-2 col-form-label"> <span class="fw-bold">
+                                        Data:
                                     </span>
                                 </label>
                                 <div class="col-sm-8 offset-sm-2">
@@ -247,7 +82,7 @@
                             <!-- method -->
 
                             <div class="row my-4">
-                                <label for="payment_method" class="col-sm-2 col-form-label"> <span class="bold">
+                                <label for="payment_method" class="col-sm-2 col-form-label"> <span class="fw-bold">
                                         Metoda:</span>
                                 </label>
                                 <div class="col-sm-8 offset-sm-2">
@@ -262,7 +97,7 @@
                             <!-- category   -->
 
                             <div class="row my-4">
-                                <label for="expense_category" class="col-sm-2 col-form-label"> <span class="bold">
+                                <label for="expense_category" class="col-sm-2 col-form-label"> <span class="fw-bold">
                                         Kategoria:</span>
                                 </label>
                                 <div class="col-sm-8 offset-sm-2">
@@ -278,7 +113,7 @@
 
                             <div class="row my-4">
                                 <label for="floatingTextarea" class="col-sm-2 col-form-label">
-                                    <span class="bold"> Komentarz: </span>
+                                    <span class="fw-bold"> Komentarz: </span>
                                 </label>
                                 <div class="col-sm-8 offset-sm-2">
                                     <textarea class="form-control dropdown-in-view" id="floatingTextarea"

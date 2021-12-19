@@ -35,10 +35,10 @@
 
 <div class="container">
    <div class="row  m-5 pt-5">
-      <div class="col-8 offset-2 col-lg-6 offset-lg-3 mt-5">
+      <div class="col-10 offset-1 col-lg-8 offset-lg-2 mt-5">
          <h1 class="text-center"> Ustawienia </h1>
          <div class="form">
-            <div class="accordion accordion-flush" id="accordionFlushExample">
+            <div class="accordion accordion-flush " id="accordionFlushExample">
 
 
                <!-- START  USER accordion item -->
@@ -46,8 +46,9 @@
 
                <div class="accordion-item p-2 shadow  bg-warning">
                   <h2 class="accordion-header" id="flush-headingFour">
-                     <button class="accordion-button collapsed dropdown-in-view" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+                     <button class="accordion-button collapsed dropdown-in-view bg-warning shadow-lg" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false"
+                        aria-controls="flush-collapseFour">
                         <div> <span class="fw-bold"> Użytkownik </span> </div>
                      </button>
                   </h2>
@@ -67,7 +68,7 @@
                            <div class="m-2 px-3">
                               <button type="button" class="btn btn-primary mx-2" data-bs-toggle="modal"
                                  data-bs-target="#editUserNameModal">
-                                 <i class="far fa-edit p-1 fs-4" title="Edytuj"></i>
+                                 <i class="far fa-edit m-2" title="Edytuj"></i>
                               </button>
                            </div>
 
@@ -82,7 +83,7 @@
 
                                        <div class="modal-header">
                                           <h5 class="modal-title" id="editUserNameModalLabel"> <span
-                                                class="dropdown-in-view bold"> Edycja
+                                                class="dropdown-in-view fw-bold"> Edycja
                                                 nazwy użytkownika </span> </h5>
                                           <button type="button" class="btn-close" data-bs-dismiss="modal"
                                              aria-label="Close"></button>
@@ -137,7 +138,7 @@
 
                                        <div class="modal-header">
                                           <h5 class="modal-title" id="editUserEmailModalLabel"> <span
-                                                class="dropdown-in-view bold"> Edycja
+                                                class="dropdown-in-view fw-bold"> Edycja
                                                 adresu email użytkownika </span> </h5>
                                           <button type="button" class="btn-close" data-bs-dismiss="modal"
                                              aria-label="Close"></button>
@@ -172,7 +173,7 @@
 
                      <div class="d-flex justify-content-center ">
 
-                        <button type="submit" class="btn btn-secondary m-3 w-50  dropdown-in-view"
+                        <button type="submit" class="btn btn-secondary m-3 w-50  dropdown-in-view "
                            data-bs-toggle="modal" data-bs-target="#changePassword"> Zmień hasło
                         </button>
 
@@ -186,7 +187,7 @@
                                     <div class="modal-header">
 
                                        <h5 class="modal-title" id="changePasswordLabel"> <span
-                                             class="dropdown-in-view bold"> Zmień hasło </span>
+                                             class="dropdown-in-view fw-bold"> Zmień hasło </span>
                                        </h5>
                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
                                           aria-label="Close"></button>
@@ -220,9 +221,6 @@
 
                      <!-- REMOVE all expenses and incomes -->
 
-
-
-
                      <div class="d-flex justify-content-center ">
 
                         <button type="submit" class="btn btn-secondary m-3 w-50  dropdown-in-view"
@@ -240,7 +238,8 @@
                                     <div class="modal-header">
 
                                        <h5 class="modal-title" id="deleteAllBalanceSheetLabel"> <span
-                                             class="dropdown-in-view bold"> Usuń wszystkie przychody i wydatki </span>
+                                             class="dropdown-in-view fw-bold"> Usuń wszystkie przychody i wydatki
+                                          </span>
                                        </h5>
                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
                                           aria-label="Close"></button>
@@ -288,7 +287,7 @@
                                     <div class="modal-header">
 
                                        <h5 class="modal-title" id="deleteUserAccountLabel"> <span
-                                             class="dropdown-in-view bold"> Usuń konto użytkownika </span> </h5>
+                                             class="dropdown-in-view fw-bold"> Usuń konto użytkownika </span> </h5>
                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
                                           aria-label="Close"></button>
 
@@ -331,10 +330,10 @@
 
                <div class="accordion-item p-2 shadow bg-warning ">
                   <h2 class="accordion-header " id="flush-headingThree">
-                     <button class="accordion-button collapsed dropdown-in-view " type="button"
+                     <button class="accordion-button collapsed dropdown-in-view bg-warning shadow-lg" type="button"
                         data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false"
                         aria-controls="flush-collapseThree">
-                        <div> <span class="bold"> Sposoby płatności </span>
+                        <div> <span class="fw-bold"> Sposoby płatności </span>
                         </div>
                      </button>
                   </h2>
@@ -353,7 +352,7 @@
                               {{ paymentMethod.name }}
                            </div>
 
-                           <div class="m-2 px-3">
+                           <div class="m-2 px-3 d-flex">
                               <button type="button" class="btn btn-primary mx-2 " data-bs-toggle="modal"
                                  data-bs-target="#editPaymentModal{{ loop.index }}">
                                  <i class="far fa-edit m-2" title="Edytuj"></i>
@@ -375,7 +374,7 @@
 
                                        <div class="modal-header">
                                           <h5 class="modal-title" id="editPaymentModal{{ loop.index }}Label"> <span
-                                                class="dropdown-in-view bold"> Edycja
+                                                class="dropdown-in-view fw-bold"> Edycja
                                                 sposobu płatności </span> </h5>
                                           <button type="button" class="btn-close" data-bs-dismiss="modal"
                                              aria-label="Close"></button>
@@ -415,14 +414,14 @@
 
                                        <div class="modal-header">
                                           <h5 class="modal-title" id="deletePaymentModal{{ loop.index }}Label"> <span
-                                                class="bold dropdown-in-view ">
+                                                class="fw-bold dropdown-in-view ">
                                                 Usuń kategorię </span> </h5>
                                           <button type="button" class="btn-close" data-bs-dismiss="modal"
                                              aria-label="Close"></button>
                                        </div>
 
                                        <div class="modal-body text-start">
-                                          <p class="w-100 p-2">Czy usunąć <span class="bold">
+                                          <p class="w-100 p-2">Czy usunąć <span class="fw-bold">
                                                 {{ paymentMethod.name }} </span> ?</p>
                                           <input type="hidden" name="deletedPaymentId" value="{{ paymentMethod.id }}">
                                           <input type="hidden" name="deletedPaymentUserId" value="{{ user.id }}">
@@ -473,7 +472,7 @@
 
                                  <form action="/Profile/addNewPaymentCategory" method="post">
                                     <div class="modal-header">
-                                       <h5 class="modal-title" id="addNewPaymentCategoryLabel"> <span class="bold">
+                                       <h5 class="modal-title" id="addNewPaymentCategoryLabel"> <span class="fw-bold">
                                              Nowa kategoria </span> </h5>
                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
                                           aria-label="Close"></button>
@@ -510,10 +509,10 @@
 
                <div class="accordion-item p-2 shadow  bg-warning">
                   <h2 class="accordion-header " id="flush-headingOne">
-                     <button class="accordion-button collapsed dropdown-in-view " type="button"
+                     <button class="accordion-button collapsed dropdown-in-view bg-warning shadow-lg" type="button"
                         data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false"
                         aria-controls="flush-collapseOne">
-                        <div> <span class="bold fw-bold"> Kategorie przychodów</span>
+                        <div> <span class="fw-bold"> Kategorie przychodów</span>
                         </div>
                      </button>
                   </h2>
@@ -533,7 +532,7 @@
                               {{ incomeCategory.name }}
                            </div>
 
-                           <div class="m-2 px-3">
+                           <div class="m-2 px-3 d-flex">
                               <button type="button" class="btn btn-primary mx-2 " id="income2" data-bs-toggle="modal"
                                  data-bs-target="#editIncomeModal{{ loop.index }}">
                                  <i class="far fa-edit m-2" title="Edytuj"></i>
@@ -555,7 +554,7 @@
 
                                        <div class="modal-header">
                                           <h5 class="modal-title" id="editIncomeModal{{ loop.index }}Label"> <span
-                                                class="dropdown-in-view bold">Edycja
+                                                class="dropdown-in-view fw-bold">Edycja
                                                 kategorii przychodu </span> </h5>
                                           <button type="button" class="btn-close" data-bs-dismiss="modal"
                                              aria-label="Close"></button>
@@ -596,14 +595,14 @@
 
                                        <div class="modal-header">
                                           <h5 class="modal-title" id="deleteIncomeModal{{ loop.index }}Label"> <span
-                                                class="bold dropdown-in-view ">
+                                                class="fw-bold dropdown-in-view ">
                                                 Usuń kategorię </span> </h5>
                                           <button type="button" class="btn-close" data-bs-dismiss="modal"
                                              aria-label="Close"></button>
                                        </div>
 
                                        <div class="modal-body text-start">
-                                          <p class="w-100 p-2">Czy usunąć <span class="bold">
+                                          <p class="w-100 p-2">Czy usunąć <span class="fw-bold">
                                                 {{ incomeCategory.name }} </span> ?</p>
                                           <input type="hidden" name="deletedIncomeCategoryId"
                                              value="{{ incomeCategory.id }}">
@@ -658,7 +657,7 @@
 
                                  <form action="/Profile/addNewIncomeCategory" method="post">
                                     <div class="modal-header">
-                                       <h5 class="modal-title" id="addNewIncomeCategoryLabel"> <span class="bold">
+                                       <h5 class="modal-title" id="addNewIncomeCategoryLabel"> <span class="fw-bold">
                                              Nowa kategoria </span> </h5>
                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
                                           aria-label="Close"></button>
@@ -692,10 +691,10 @@
 
                <div class="accordion-item p-2 shadow bg-warning ">
                   <h2 class="accordion-header " id="flush-headingTwo">
-                     <button class="accordion-button collapsed dropdown-in-view " type="button"
+                     <button class="accordion-button collapsed dropdown-in-view bg-warning shadow-lg" type="button"
                         data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false"
                         aria-controls="flush-collapseTwo">
-                        <div> <span class="bold"> Kategorie wydatków </span> </div>
+                        <div> <span class="fw-bold"> Kategorie wydatków </span> </div>
                      </button>
                   </h2>
 
@@ -721,7 +720,7 @@
                               {% endif %}
                            </div>
 
-                           <div class="m-2 px-3">
+                           <div class="m-2 px-3 d-flex">
                               <button type="button" class="btn btn-primary mx-2" data-bs-toggle="modal"
                                  data-bs-target="#editExpenseModal{{ loop.index }}">
                                  <i class="far fa-edit m-2" title="Edytuj"></i>
@@ -743,7 +742,7 @@
 
                                        <div class="modal-header">
                                           <h5 class="modal-title" id="editExpenseModal{{ loop.index }}Label"> <span
-                                                class="dropdown-in-view bold"> Edycja
+                                                class="dropdown-in-view fw-bold"> Edycja
                                                 kategorii wydatku </span> </h5>
                                           <button type="button" class="btn-close" data-bs-dismiss="modal"
                                              aria-label="Close"></button>
@@ -792,7 +791,7 @@
 
                                        <div class="modal-header">
                                           <h5 class="modal-title" id="deleteExpenseModal{{ loop.index }}Label"> <span
-                                                class="bold dropdown-in-view ">
+                                                class="fw-bold dropdown-in-view ">
                                                 Usuń kategorię </span> </h5>
                                           <button type="button" class="btn-close" data-bs-dismiss="modal"
                                              aria-label="Close"></button>
@@ -855,7 +854,7 @@
                                  <form action="/Profile/addNewExpenseCategory" method="post">
                                     <div class="modal-header">
                                        <h5 class="modal-title" id="addNewExpenseCategoryLabel"> <span
-                                             class="bold dropdown-in-view ">
+                                             class="fw-bold dropdown-in-view ">
                                              Nowa kategoria </span></h5>
                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
                                           aria-label="Close"></button>
@@ -885,13 +884,6 @@
 
                </div>
                <!-- END -- Expense category accordion item -->
-
-
-
-
-
-
-
 
             </div>
          </div>

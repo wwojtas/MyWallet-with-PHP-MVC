@@ -4,64 +4,11 @@
 
 
 {% block footer %}
-
-<!-- remember Date -->
-<script src="/js/rememberDateIncome.js"></script>
-
 <!-- select2.org - choose income category -->
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-<script>
-    $(document).ready(function () {
-
-        $('#incomeForm').validate({
-
-            rules: {
-                amount: 'required',
-                date_of_income: 'required',
-                income_category: {
-                    min: 1
-                }
-            },
-
-            messages: {
-                amount: {
-                    required: 'Podaj wartość przychodu',
-                    number: "Podaj poprawną liczbę"
-                },
-                date_of_income: 'Podaj datę',
-                income_category: 'Podaj kategorię'
-            },
-            errorPlacement: function (error, element) {
-                var name = $(element).attr("name");
-                error.appendTo($("#" + name + "_validate"));
-            },
-        });
-
-        $("#income_category").select2({
-            ajax: {
-                url: "/AddIncome/chooseIncome",
-                type: "post",
-                dataType: 'json',
-                delay: 250,
-                data: function (params) {
-                    return {
-                        searchTerm: params.term // search term
-                    };
-                },
-                processResults: function (response) {
-                    return {
-                        results: response
-                    };
-                },
-                cache: true
-            }
-        });
-
-
-    });
-</script>
+<script src="/js/addIncome.js"></script>
 
 <!-- footer -->
 <footer class="bg-dark text-light footer fixed-bottom">
@@ -86,7 +33,7 @@
                         <!-- amount -->
                         <div class="row my-4">
                             <label for="amount" class="col-sm-2 col-form-label">
-                                <span class="bold"> Wartość: </span>
+                                <span class="fw-bold"> Wartość: </span>
                             </label>
                             <div class="col-sm-8 offset-sm-2">
                                 <input type="number" name="amount" class="form-control" id="amount" step="0.01"
@@ -97,7 +44,7 @@
 
                         <!-- date_of_income -->
                         <div class="row my-4">
-                            <label for="date_of_income" class="col-sm-2 col-form-label"> <span class="bold">
+                            <label for="date_of_income" class="col-sm-2 col-form-label"> <span class="fw-bold">
                                     Data:</span>
                             </label>
                             <div class="col-sm-8 offset-sm-2">
@@ -109,7 +56,7 @@
 
                         <!-- category of income-->
                         <div class="row my-4">
-                            <label for="income_category" class="col-sm-2 col-form-label"> <span class="bold">
+                            <label for="income_category" class="col-sm-2 col-form-label"> <span class="fw-bold">
                                     Kategoria:</span>
                             </label>
                             <div class="col-sm-8 offset-sm-2">
@@ -127,7 +74,7 @@
                         <!-- comment -->
                         <div class="row my-4">
                             <label for="floatingTextarea" class="col-sm-2 col-form-label">
-                                <span class="bold"> Komentarz: </span>
+                                <span class="fw-bold"> Komentarz: </span>
                             </label>
                             <div class="col-sm-8 offset-sm-2">
                                 <textarea class="form-control dropdown-in-view" id="floatingTextarea"
