@@ -751,7 +751,7 @@
                                        <div class="modal-body text-start">
 
                                           <label class="w-100 p-2" for="newExpenseName{{ loop.index }}"> Podaj nową
-                                             nazwę kategorii wydatku </label>
+                                             nazwę kategorii wydatku: {{ expenseCategory.name }} </label>
                                           <input class="w-100 px-2" name="newExpenseName"
                                              id="newExpenseName{{ loop.index }}" type="text">
                                           <input type="hidden" name="editedExpenseId" value="{{ expenseCategory.id }}">

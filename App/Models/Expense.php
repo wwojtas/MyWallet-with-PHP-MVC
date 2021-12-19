@@ -161,34 +161,48 @@ class Expense extends \Core\Model
   public static function editExpense($newExpenseName, $editedExpenseId, $limitValue, $checkbox)
   {
 
-    if($newExpenseName == "" && $checkbox != 0)
-    {
-      $sql = 'UPDATE expenses_category_assigned_to_users
-              SET expense_limit	= :expense_limit
-              WHERE id = :editedExpenseId';
-    }
-    else if($limitValue == "" && $checkbox == 0)
+    if($newExpenseName != "" && $checkbox = 0 )
     {
       $sql = 'UPDATE expenses_category_assigned_to_users
               SET name = :name
               WHERE id = :editedExpenseId';
+
+      $db = static::getDB();
+      $stmt = $db->prepare($sql);
+
+      $stmt->bindValue(':editedExpenseId', $editedExpenseId, PDO::PARAM_INT);
+      $stmt->bindValue(':name', $newExpenseName, PDO::PARAM_STR);
+      return $stmt->execute();
+
+    }
+    else if($newExpenseName == "" && $checkbox != 0 && $limitValue != "")
+    {
+      $sql = 'UPDATE expenses_category_assigned_to_users
+              SET  expense_limit	= :expense_limit
+              WHERE id = :editedExpenseId';
+
+      $db = static::getDB();
+      $stmt = $db->prepare($sql);
+
+      $stmt->bindValue(':editedExpenseId', $editedExpenseId, PDO::PARAM_INT);
+      $stmt->bindValue(':expense_limit', $limitValue, PDO::PARAM_INT);
+      return $stmt->execute();
+
     }
     else
     {
       $sql = 'UPDATE expenses_category_assigned_to_users
               SET name = :name, expense_limit	= :expense_limit
               WHERE id = :editedExpenseId';
-    }
-  
-    $db = static::getDB();
-    $stmt = $db->prepare($sql);
-    
-    $stmt->bindValue(':editedExpenseId', $editedExpenseId, PDO::PARAM_INT);
-    if($newExpenseName != "") $stmt->bindValue(':name', $newExpenseName, PDO::PARAM_STR);
-    if($limitValue != "") $stmt->bindValue(':expense_limit', $limitValue, PDO::PARAM_INT);
 
-    return $stmt->execute();
-   
+      $db = static::getDB();
+      $stmt = $db->prepare($sql);
+
+      $stmt->bindValue(':editedExpenseId', $editedExpenseId, PDO::PARAM_INT);
+      $stmt->bindValue(':name', $newExpenseName, PDO::PARAM_STR);
+      $stmt->bindValue(':expense_limit', $limitValue, PDO::PARAM_INT);
+      return $stmt->execute();
+    }
   }
 
 

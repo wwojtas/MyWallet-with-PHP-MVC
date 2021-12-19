@@ -137,43 +137,54 @@ class Profile extends Authenticated
 
     public function editCategoryExpenseAction() 
     {
-      $newExpenseName = strtolower($_POST['newExpenseName']);
-      $newExpenseName = ucfirst($newExpenseName);
-
-      $editedExpenseId = $_POST['editedExpenseId'];
-      $limitValue = $_POST['limitValue'];
-
-      if(isset($_POST['checkbox'])) 
-      {
-        $checkbox = $_POST['checkbox'];
-      }
-      else if (!isset($_POST['newExpenseName']) && !isset($_POST['checkbox']) && ( is_numeric(isset($_POST['limitValue'])))) 
-      {
-        View::renderTemplate('Settings/errorPage.html');
-        return;
+      if(isset($_POST['newExpenseName'])) {
+        $newExpenseName = strtolower($_POST['newExpenseName']);
+        $newExpenseName = ucfirst($newExpenseName);
       } 
-      else 
+      $editedExpenseId = $_POST['editedExpenseId'];
+
+      if(isset($_POST['checkbox'])) $checkbox = $_POST['checkbox'];
+      else  $checkbox = 0;
+
+      if(isset($_POST['limitValue'])){
+        $limitValue = $_POST['limitValue'];
+      } else $limitValue = "";
+
+      if (($newExpenseName = "" && $checkbox = 0) || ($newExpenseName = "" && $checkbox != 0 && $limitValue = "" )) 
       {
         View::renderTemplate('Settings/errorPage.html');
         return;
       }
 
-      if(Expense::checkCategoryExpenseName($newExpenseName))
+      if(($newExpenseName != "" && $checkbox = 0) || ($newExpenseName != "" && $checkbox != 0 && $limitValue = "")) 
       {
-        if(isset($_POST['checkbox'])) Expense::editExpense($newExpenseName, $editedExpenseId, $limitValue, $checkbox);
-        else Expense::editExpense($newExpenseName, $editedExpenseId, $limitValue, $checkbox = 0);
+        if(Expense::checkCategoryExpenseName($newExpenseName)){
+          Expense::editExpense($newExpenseName, $editedExpenseId, $limitValue = "", $checkbox = 0);
+          View::renderTemplate('Settings/successEditExpense.html');
+        } 
+        else {
+          Flash::addMessage('Podana kategoria wydatku już istnieje. Podaj inną', Flash::WARNING);
+          $this->redirect('/profile');
+        }
+      }
+      else if (($newExpenseName == "" && $checkbox != 0 && $limitValue != ""))
+      {
+        Expense::editExpense($newExpenseName = "", $editedExpenseId, $limitValue, $checkbox);
         View::renderTemplate('Settings/successEditExpense.html');
       }
-      else if (!Expense::checkCategoryExpenseName($newExpenseName)) 
+      else if (($newExpenseName != "" && $checkbox != 0 && $limitValue != ""))
       {
-        Flash::addMessage('Podana kategoria wydatku już istnieje. Podaj inną', Flash::WARNING);
-        $this->redirect('/profile');
-      } 
-      else
-      {
-        Flash::addMessage('Nieprawidłowa edycja', Flash::WARNING);
-        $this->redirect('/profile');
-      } 
+        if(Expense::checkCategoryExpenseName($newExpenseName)){
+          Expense::editExpense($newExpenseName, $editedExpenseId, $limitValue, $checkbox);
+          View::renderTemplate('Settings/successEditExpense.html');
+        } 
+        else {
+          Flash::addMessage('Podana kategoria wydatku już istnieje. Podaj inną', Flash::WARNING);
+          $this->redirect('/profile');
+        }
+
+      }
+     
 
     }
 
