@@ -85,33 +85,8 @@
         });
     });
 
-    $(document).ready(function () {
-        $("#payment_method").select2({
-            ajax: {
-                url: "/AddExpense/choosePaymentMethod",
-                type: "post",
-                dataType: 'json',
-                delay: 250,
-                data: function (params) {
-                    return {
-                        searchTerm: params.term // search term
-                    };
-                },
-                processResults: function (response) {
-                    return {
-                        results: response
-                    };
-                },
-                cache: true
-            }
-        });
-
-    });
-</script>
-
-
-<!-- expense limit -->
-<script>
+    // FETCH instruction
+    // adres URL
 
     const url = '/AddExpense/getSumExpenseCatagory';
     const inputTable = document.getElementById("limitTable");
@@ -119,36 +94,78 @@
     let issued = document.getElementById("issued");
     let difference = document.getElementById("difference");
     let finaly = document.getElementById("finally");
-    inputTable.style.display = "block";
-    
-    let value = document.getElementById('amount').addEventListener('input', (e) => {
-                     e.target.value;
-                })
 
-    let lastText = "";
+    inputTable.style.display = "none";
 
-    $("#expense_category").select2().on("change", function(e) {
-        lastText = $("#expense_category option:last-child").text();
-    //     alert(lastText);
-    // console.log(lastText);
-    fetch(url).then(res => res.json())
+    let selectedCategory = "";
+    let inputValue = 0;
+
+
+    $("#amount").on("input", function () {
+
+        selectedCategory = $("#expense_category option:last-child").text();
+        inputValue = $("#amount").val();
+        console.log(inputValue);
+
+        fetch(url).then(res => res.json())
+            .then(res => {
+                console.log(inputValue);
+                console.log(res);
+                res.forEach(el => {
+
+                    if (el['name'] == selectedCategory) {
+
+                        if (el['expense_limit'] == 0) {
+
+                            inputTable.style.display = "none";
+
+                        } else {
+                            limit.textContent = el['expense_limit'];
+                            issued.textContent = el['sumCategory'];
+                            difference.textContent = el['expense_limit'] - el['sumCategory'];
+                            finaly.textContent = difference.textContent - inputValue;
+                            inputTable.style.display = "block";
+                        }
+                    }
+                });
+            })
+    });
+
+
+    $("#expense_category").on("change", function () {
+        selectedCategory = $("#expense_category option:last-child").text();
+        inputValue = $("#amount").val();
+
+        fetch(url).then(res => res.json())
             .then(res => {
                 console.log(res);
-                for(let i in res) {
-      
-                    // limit.textContent =  `${res[i].expense_limit}`;
-                    limit.textContent =  lastText;
-                    issued.textContent =  `${res[i].sumCategory}`;
-                    difference.textContent = `${res[i].expense_limit}` - `${res[i].sumCategory}`;
-                    finaly.textContent = `${res[i].expense_limit} - ${res[i].sumCategory}` - value;
-                }
-                
+                res.forEach(el => {
+
+                    console.log(inputValue);
+
+
+                    if (el['name'] == selectedCategory) {
+
+                        if (el['expense_limit'] == 0) {
+
+                            inputTable.style.display = "none";
+
+                        } else {
+                            limit.textContent = el['expense_limit'];
+                            issued.textContent = el['sumCategory'];
+                            difference.textContent = el['expense_limit'] - el['sumCategory'];
+                            finaly.textContent = difference.textContent - inputValue;
+                            inputTable.style.display = "block";
+                        }
+                    }
+
+                });
             })
-        
     });
-    
-    
-    </script>
+</script>
+
+
+
 
 <!-- footer -->
 <footer class="bg-dark text-light footer fixed-bottom">
@@ -173,32 +190,32 @@
 
 
                         <div class="w-100 table-responsive" id="limitTable">
-                           
 
-                                <table
-                                    class="table table-primary table-striped table-bordered caption-top table-hover  text-center m-auto">
-                                    <caption> <span class="bold"> Informacja o limicie: </span> </caption>
-                                    <thead class="table-dark ">
-                                        <tr>
-                                            <th scope="col"> Limit </th>
-                                            <th scope="col"> Dotychczas wydano </th>
-                                            <th scope="col"> Różnica </th>
-                                            <th scope="col"> Ostatecznie </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="data">
 
-                                        <tr>
-                                            <td id="limit"> </td>
-                                            <td id="issued">  </td>
-                                            <td id="difference">  </td>
-                                            <td id="finally"> </td>
-                                        </tr>
+                            <table
+                                class="table table-primary table-striped table-bordered caption-top table-hover  text-center m-auto">
+                                <caption> <span class="bold"> Informacja o limicie: </span> </caption>
+                                <thead class="table-dark ">
+                                    <tr>
+                                        <th scope="col"> Limit </th>
+                                        <th scope="col"> Dotychczas wydano </th>
+                                        <th scope="col"> Różnica </th>
+                                        <th scope="col"> Ostatecznie </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="data">
 
-                                    </tbody>
-                                </table>
-                                
-                            
+                                    <tr>
+                                        <td id="limit"> </td>
+                                        <td id="issued"> </td>
+                                        <td id="difference"> </td>
+                                        <td id="finally"> </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+
                         </div>
 
 
