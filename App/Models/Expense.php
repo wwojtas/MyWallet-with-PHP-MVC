@@ -161,7 +161,7 @@ class Expense extends \Core\Model
   public static function editExpense($newExpenseName, $editedExpenseId, $limitValue, $checkbox)
   {
 
-    if($newExpenseName != "" && $checkbox = 0 )
+    if($newExpenseName != "" && $checkbox == 0 )
     {
       $sql = 'UPDATE expenses_category_assigned_to_users
               SET name = :name

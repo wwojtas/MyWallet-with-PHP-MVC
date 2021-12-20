@@ -150,29 +150,14 @@ class Profile extends Authenticated
         $limitValue = $_POST['limitValue'];
       } else $limitValue = "";
 
-      if (($newExpenseName = "" && $checkbox = 0) || ($newExpenseName = "" && $checkbox != 0 && $limitValue = "" )) 
+      if (($newExpenseName == "" && $checkbox == 0) || ($newExpenseName == "" && $checkbox != 0 && $limitValue == "" ) || ($newExpenseName != "" && $checkbox != 0 && $limitValue == "")) 
       {
         View::renderTemplate('Settings/errorPage.html');
         return;
       }
 
-      if(($newExpenseName != "" && $checkbox = 0) || ($newExpenseName != "" && $checkbox != 0 && $limitValue = "")) 
-      {
-        if(Expense::checkCategoryExpenseName($newExpenseName)){
-          Expense::editExpense($newExpenseName, $editedExpenseId, $limitValue = "", $checkbox = 0);
-          View::renderTemplate('Settings/successEditExpense.html');
-        } 
-        else {
-          Flash::addMessage('Podana kategoria wydatku już istnieje. Podaj inną', Flash::WARNING);
-          $this->redirect('/profile');
-        }
-      }
-      else if (($newExpenseName == "" && $checkbox != 0 && $limitValue != ""))
-      {
-        Expense::editExpense($newExpenseName = "", $editedExpenseId, $limitValue, $checkbox);
-        View::renderTemplate('Settings/successEditExpense.html');
-      }
-      else if (($newExpenseName != "" && $checkbox != 0 && $limitValue != ""))
+     
+      if( ($newExpenseName != "" && $checkbox != 0 && $limitValue != "") || ($newExpenseName != "" && $checkbox == 0) ) 
       {
         if(Expense::checkCategoryExpenseName($newExpenseName)){
           Expense::editExpense($newExpenseName, $editedExpenseId, $limitValue, $checkbox);
@@ -182,9 +167,11 @@ class Profile extends Authenticated
           Flash::addMessage('Podana kategoria wydatku już istnieje. Podaj inną', Flash::WARNING);
           $this->redirect('/profile');
         }
-
+      } else {
+        Expense::editExpense($newExpenseName, $editedExpenseId, $limitValue, $checkbox);
+        View::renderTemplate('Settings/successEditExpense.html');
       }
-     
+      
 
     }
 
