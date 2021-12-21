@@ -98,8 +98,8 @@ $(document).ready(function () {
 
     fetch(url).then(res => res.json())
       .then(res => {
-        // console.log(inputValue);
-        // console.log(res);
+        console.log(inputValue);
+        console.log(res);
         res.forEach(el => {
 
           if (el['name'] == selectedCategory) {
@@ -109,11 +109,9 @@ $(document).ready(function () {
               inputTable.style.display = "none";
 
             } else {
-              limit.textContent = el['name'] + ":  " + el[
-                'expense_limit'];
+              limit.textContent = el['name'] + ":  " + el['expense_limit'];
               issued.textContent = el['sumCategory'];
-              difference.textContent = el['expense_limit'] - el[
-                'sumCategory'];
+              difference.textContent = el['expense_limit'] - el['sumCategory'];
               finaly.textContent = difference.textContent - inputValue;
               inputTable.style.display = "block";
             }
@@ -129,18 +127,16 @@ $(document).ready(function () {
 
     fetch(url).then(res => res.json())
       .then(res => {
-        // console.log(res);
+        console.log(res);
         res.forEach(el => {
           // console.log(inputValue);
           if (el['name'] == selectedCategory) {
             if (el['expense_limit'] == 0) {
               inputTable.style.display = "none";
             } else {
-              limit.textContent = el['name'] + ":  " + el[
-                'expense_limit'];
+              limit.textContent = el['name'] + ":  " + el['expense_limit'];
               issued.textContent = el['sumCategory'];
-              difference.textContent = el['expense_limit'] - el[
-                'sumCategory'];
+              difference.textContent = el['expense_limit'] - el['sumCategory'];
               finaly.textContent = difference.textContent - inputValue;
               inputTable.style.display = "block";
             }
