@@ -84,65 +84,100 @@ $(document).ready(function () {
   let issued = document.getElementById("issued");
   let difference = document.getElementById("difference");
   let finaly = document.getElementById("finally");
-
   inputTable.style.display = "none";
-
   let selectedCategory = "";
   let inputValue = 0;
+  let date = new Date();
+  let firstDayOfCurrentMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+  let firstDayOfCurrentMonthCompare = firstDayOfCurrentMonth.getTime();
 
-  $("#amount").on("input", function () {
-
+  $("#date_of_expense").on("click", function () {
     selectedCategory = $("#expense_category option:last-child").text();
     inputValue = $("#amount").val();
-    // console.log(inputValue);
 
-    fetch(url).then(res => res.json())
-      .then(res => {
-        console.log(inputValue);
-        console.log(res);
-        res.forEach(el => {
+    let dateInInput = new Date(document.getElementById('date_of_expense').value);
+    let dateInInputCompare = dateInInput.getTime();
 
-          if (el['name'] == selectedCategory) {
-
-            if (el['expense_limit'] == 0) {
-
-              inputTable.style.display = "none";
-
-            } else {
-              limit.textContent = el['name'] + ":  " + el['expense_limit'];
-              issued.textContent = el['sumCategory'];
-              difference.textContent = el['expense_limit'] - el['sumCategory'];
-              finaly.textContent = difference.textContent - inputValue;
-              inputTable.style.display = "block";
+    if (dateInInputCompare < firstDayOfCurrentMonthCompare) {
+      inputTable.style.display = "none";
+    } else {
+      fetch(url).then(res => res.json())
+        .then(res => {
+          res.forEach(el => {
+            if (el['name'] == selectedCategory) {
+              if (el['expense_limit'] == 0) {
+                inputTable.style.display = "none";
+              } else {
+                limit.textContent = el['name'] + ":  " + el['expense_limit'];
+                issued.textContent = el['sumCategory'];
+                difference.textContent = el['expense_limit'] - el['sumCategory'];
+                finaly.textContent = difference.textContent - inputValue;
+                inputTable.style.display = "block";
+              }
             }
-          }
-        });
-      })
+          });
+        })
+    }
   });
 
+
+  $("#amount").on("input", function () {
+    selectedCategory = $("#expense_category option:last-child").text();
+    inputValue = $("#amount").val();
+
+    let dateInInput = new Date(document.getElementById('date_of_expense').value);
+    let dateInInputCompare = dateInInput.getTime();
+
+    if (dateInInputCompare < firstDayOfCurrentMonthCompare) {
+      inputTable.style.display = "none";
+    } else {
+      fetch(url).then(res => res.json())
+        .then(res => {
+          res.forEach(el => {
+            if (el['name'] == selectedCategory) {
+              if (el['expense_limit'] == 0) {
+                inputTable.style.display = "none";
+              } else {
+                limit.textContent = el['name'] + ":  " + el['expense_limit'];
+                issued.textContent = el['sumCategory'];
+                difference.textContent = el['expense_limit'] - el['sumCategory'];
+                finaly.textContent = difference.textContent - inputValue;
+                inputTable.style.display = "block";
+              }
+            }
+          });
+        })
+    }
+  });
 
   $("#expense_category").on("change", function () {
     selectedCategory = $("#expense_category option:last-child").text();
     inputValue = $("#amount").val();
 
-    fetch(url).then(res => res.json())
-      .then(res => {
-        console.log(res);
-        res.forEach(el => {
-          // console.log(inputValue);
-          if (el['name'] == selectedCategory) {
-            if (el['expense_limit'] == 0) {
-              inputTable.style.display = "none";
-            } else {
-              limit.textContent = el['name'] + ":  " + el['expense_limit'];
-              issued.textContent = el['sumCategory'];
-              difference.textContent = el['expense_limit'] - el['sumCategory'];
-              finaly.textContent = difference.textContent - inputValue;
-              inputTable.style.display = "block";
+    let dateInInput = new Date(document.getElementById('date_of_expense').value);
+    let dateInInputCompare = dateInInput.getTime();
+
+    if (dateInInputCompare < firstDayOfCurrentMonthCompare) {
+      inputTable.style.display = "none";
+    } else {
+      fetch(url).then(res => res.json())
+        .then(res => {
+          res.forEach(el => {
+            if (el['name'] == selectedCategory) {
+              if (el['expense_limit'] == 0) {
+                inputTable.style.display = "none";
+              } else {
+                limit.textContent = el['name'] + ":  " + el['expense_limit'];
+                issued.textContent = el['sumCategory'];
+                difference.textContent = el['expense_limit'] - el['sumCategory'];
+                finaly.textContent = difference.textContent - inputValue;
+                inputTable.style.display = "block";
+              }
             }
-          }
-        });
-      })
+          });
+        })
+    }
   });
+
 
 });
